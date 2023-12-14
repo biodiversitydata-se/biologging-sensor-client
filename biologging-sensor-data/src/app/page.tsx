@@ -1,12 +1,12 @@
 'use client'
-import Overview from './components/overview/Overview'
+import Detail from './pages/Detail'
+import Overview from './pages/Overview'
+import './index.css'
 
 export default function Home() {
   return (
     <main>
-      <div>
-        <Overview></Overview>
-      </div>
+      <Detail/>
     </main>
   )
 }

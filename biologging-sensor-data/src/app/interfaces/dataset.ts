@@ -1,3 +1,4 @@
+// TODO: see if dataset and dataset detail are the same
 export interface Dataset {
     _id: string;
     datasetID: string;
@@ -15,7 +16,7 @@ export interface Dataset {
     onlineUrl: string;
     bibliographicCitation: any[];
     sensorTypes: string[];
-    taxonomicCoverage: Taxonomy[];
+    taxonomicCoverage: Taxon[];
     embargoEndDate: string;
     isPublic: boolean;
     updateFrequency: string;
@@ -31,6 +32,29 @@ export interface Dataset {
     dateUpdated: string;
 }
 
+export interface DatasetDetail {
+    datasetTitle: string;
+    datasetDescription: string;
+    institutionCode: string;
+    geographicalDescription: string;
+    taxonomicCoverage: Taxon[];
+    sensorTypes: string;
+    curator: Person[];
+    creator: Person[];
+    contact: Person[];
+    geographicalCoverage: { [key: string]: string };
+    license: string;
+    Version: string;
+    bibliographicCitation: { [key: string]: string };
+    updateFrequency: string;
+    animalCount: number;
+  
+    temporalCoverage?: {
+      startDate: string;
+      endDate: string;
+    };
+  }
+
 export interface Person {
     firstName: string;
     lastName: string;
@@ -38,7 +62,7 @@ export interface Person {
     ORCID: string;
 }
 
-export interface Taxonomy {
+export interface Taxon {
     guid: string;
     scientificName: string;
     commonName: string;

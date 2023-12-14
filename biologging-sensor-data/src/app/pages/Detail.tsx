@@ -1,44 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './App.css';
-import logo from './logo.svg';
+import { DatasetDetail } from '../interfaces/dataset';
 
-interface Taxon {
-  guid: string;
-  scientificName: string;
-  commonName: string;
-}
-
-interface Person {
-  firstName: string;
-  lastName: string;
-}
-
-interface ApiData {
-  datasetTitle: string;
-  datasetDescription: string;
-  institutionCode: string;
-  geographicalDescription: string;
-  taxonomicCoverage: Taxon[];
-  sensorTypes: string;
-  curator: Person[];
-  creator: Person[];
-  contact: Person[];
-  geographicalCoverage: { [key: string]: string };
-  license: string;
-  Version: string;
-  bibliographicCitation: { [key: string]: string };
-  updateFrequency: string;
-  animalCount: number;
-
-  temporalCoverage?: {
-    startDate: string;
-    endDate: string;
-  };
-}
-
-function App() {
-  const [apiData, setApiData] = useState<ApiData | null>(null);
+function Detail() {
+  const [apiData, setApiData] = useState<DatasetDetail | null>(null);
   const apiUrl = 'http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/dataset/LU_trackingradar_Lundfixed_2006-13';
 
   useEffect(() => {
@@ -259,4 +224,4 @@ function App() {
   );
 }
 
-export default App;
+export default Detail;
