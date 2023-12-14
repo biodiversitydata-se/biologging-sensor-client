@@ -4,7 +4,7 @@ export interface Dataset {
     projectID: string;
     datasetTitle: string;
     datasetDescription: string;
-    individualCount: number;
+    animalCount: number;
     creator: Person[];
     contact: Person[];
     curator: Person[];

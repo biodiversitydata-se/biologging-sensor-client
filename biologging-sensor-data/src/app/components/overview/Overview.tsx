@@ -21,35 +21,35 @@ export default function Overview() {
 
     return (
         <div>
-          {/* {data.map(i => <div>{i.datasetTitle}</div>)} */}
           <table>
             <thead>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Owner</th>
-              <th>Animal count</th>
-              <th>Taxon</th>
-              <th>Institution</th>
-              <th>Start Date</th>
-              <th>End Date</th>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Owner</th>
+                <th>Animal count</th>
+                <th>Taxon</th>
+                <th>Institution</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+              </tr>
             </thead>
+
+            <tbody>
+            {data.map((item, i) => (
+              <tr key={i}>
+                <td>{item.datasetTitle}</td>
+                <td>{item.datasetDescription}</td>
+                <td>{item.owner[0].firstName}</td>
+                <td>{item.animalCount}</td>
+                <td>{item.taxonomicCoverage[0].commonName}</td>
+                <td>{item.institutionCode}</td>
+                <td>{item.dateCreated.slice(0, 10)}</td>
+                <td>{item.embargoEndDate?.slice(0, 10)}</td>
+              </tr>
+            ))}
+            </tbody>
           </table>
-
-          <tbody>
-          {data.map((item, i) => (
-            <tr key={i}>
-              <td>{item.datasetTitle}</td>
-              <td>{item.datasetDescription}</td>
-              <td>{item.owner[0].firstName}</td>
-              <td>{item.individualCount}</td>
-              <td>{item.taxonomicCoverage[0].commonName}</td>
-              <td>{item.institutionCode}</td>
-              <td>{item.dateCreated}</td>
-              <td>{item.embargoEndDate}</td>
-            </tr>
-          ))}
-          </tbody>
-
         </div>
     )
 
