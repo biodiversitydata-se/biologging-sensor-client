@@ -1,8 +1,11 @@
 import { Dataset } from "@/app/interfaces/dataset";
 import { useEffect, useState } from "react";
+import OverviewTable from "../components/overview/Table";
+import OverviewSnippet from "../components/overview/Snippet";
 
 export default function Overview() {
     const [data, setData] = useState<Dataset[]>([]);
+    const [selected, setSelected] = useState<Dataset>();
 
     useEffect(() => {
         const dataFetch = async () => {
@@ -21,35 +24,8 @@ export default function Overview() {
 
     return (
         <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Owner</th>
-                <th>Animal count</th>
-                <th>Taxon</th>
-                <th>Institution</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-              </tr>
-            </thead>
-
-            <tbody>
-            {data.map((item, i) => (
-              <tr key={i}>
-                <td>{item.datasetTitle}</td>
-                <td>{item.datasetDescription}</td>
-                <td>{item.owner[0].firstName}</td>
-                <td>{item.animalCount}</td>
-                <td>{item.taxonomicCoverage[0].commonName}</td>
-                <td>{item.institutionCode}</td>
-                <td>{item.dateCreated.slice(0, 10)}</td>
-                <td>{item.embargoEndDate?.slice(0, 10)}</td>
-              </tr>
-            ))}
-            </tbody>
-          </table>
+          <OverviewTable data={data} onSelect={(itm) => setSelected(itm)}/>
+          {selected && <OverviewSnippet data={selected}/>}      
         </div>
     )
 
