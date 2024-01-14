@@ -1,4 +1,4 @@
-import { Dataset } from "@/app/interfaces/dataset";
+import { Dataset } from "@/interfaces/dataset";
 
 export default function OverviewSnippet({data}: {data: Dataset|null}) {
     return(

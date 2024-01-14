@@ -1,8 +1,7 @@
-import { Dataset } from "@/app/interfaces/dataset";
+import { Dataset } from "@/interfaces/dataset";
+import Link from "next/link";
 
 export default function OverviewTable({data, onSelect}: {data: Dataset[], onSelect: (item: Dataset) => void}) {
-
-
     return (
         <div>
           <table>
@@ -16,6 +15,7 @@ export default function OverviewTable({data, onSelect}: {data: Dataset[], onSele
                 <th>Institution</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
 
@@ -30,6 +30,12 @@ export default function OverviewTable({data, onSelect}: {data: Dataset[], onSele
                 <td>{item.institutionCode}</td>
                 <td>{item.dateCreated.slice(0, 10)}</td>
                 <td>{item.embargoEndDate?.slice(0, 10)}</td>
+                <td>
+                  <div>
+                    <Link href="/detail">D</Link>
+                  </div>
+
+                </td>
               </tr>
             ))}
             </tbody>

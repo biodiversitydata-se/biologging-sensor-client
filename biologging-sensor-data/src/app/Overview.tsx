@@ -1,4 +1,4 @@
-import { Dataset } from "@/app/interfaces/dataset";
+import { Dataset } from "@/interfaces/dataset";
 import { useEffect, useState } from "react";
 import OverviewTable from "../components/overview/Table";
 import OverviewSnippet from "../components/overview/Snippet";

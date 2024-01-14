@@ -1,6 +1,5 @@
 'use client'
-import Detail from './pages/Detail'
-import Overview from './pages/Overview'
+import Overview from './Overview'
 import './index.css'
 
 export default function Home() {
