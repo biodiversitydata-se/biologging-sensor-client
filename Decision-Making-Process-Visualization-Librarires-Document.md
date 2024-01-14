@@ -15,6 +15,7 @@ A[Researched] -->B(Tested each filtered library with dummy data in the local mac
 - Mathieu suggested `Chart.js` ( because of  1) Community Support 2) Well documentation 3) Easy to apply )
 - Whui-Mei suggested `GNUPLOT`. Khosiyat's objection to GNUPLOT and alternative suggestion is: `Chart.js` surpasses `Gnuplot` in several aspects, including a large community, extensive documentation, a library with a quick setup, and more straightforward integration.
 - The tech team, Yuliia, Zuzanna, and Khosiyat agreed to use `Chart.js`.
+  [agreed]()https://lu-ekologidata.slack.com/archives/C068FG49MM0/p1705062488732749
 
 - # Researched Libraries
 | Library            | Pros                                                         | Cons                                       | GitHub Repository I researched                                         |
