@@ -32,7 +32,13 @@ export default function OverviewTable({data, onSelect}: {data: Dataset[], onSele
                 <td>{item.embargoEndDate?.slice(0, 10)}</td>
                 <td>
                   <div>
-                    <Link href="/detail">D</Link>
+                    <Link href="/detail">
+                      D
+                    </Link>
+
+                    <Link href="/visual">
+                      V
+                    </Link>
                   </div>
 
                 </td>
