@@ -30,6 +30,7 @@ export interface Dataset {
     sensitiveData: boolean;
     dateCreated: string;
     dateUpdated: string;
+    instrumentTypes: string[];
 }
 
 export interface DatasetDetail {

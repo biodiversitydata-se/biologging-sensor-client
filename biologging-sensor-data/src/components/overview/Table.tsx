@@ -1,24 +1,7 @@
-import { Dataset } from "@/app/interfaces/dataset";
-import { useEffect, useState } from "react";
+import { Dataset } from "@/interfaces/dataset";
+import Link from "next/link";
 
-export default function Overview() {
-    const [data, setData] = useState<Dataset[]>([]);
-
-    useEffect(() => {
-        const dataFetch = async () => {
-            const data = await (
-              await fetch(
-                'http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/datasets',
-              )
-            ).json();
-      
-            // set state when the data received
-            setData(data);
-          };
-      
-          dataFetch();
-    }, [])
-
+export default function OverviewTable({data, onSelect}: {data: Dataset[], onSelect: (item: Dataset) => void}) {
     return (
         <div>
           <table>
@@ -32,12 +15,13 @@ export default function Overview() {
                 <th>Institution</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
 
             <tbody>
             {data.map((item, i) => (
-              <tr key={i}>
+              <tr key={i} onClick={() => {onSelect(item)}}>
                 <td>{item.datasetTitle}</td>
                 <td>{item.datasetDescription}</td>
                 <td>{item.owner[0].firstName}</td>
@@ -46,6 +30,18 @@ export default function Overview() {
                 <td>{item.institutionCode}</td>
                 <td>{item.dateCreated.slice(0, 10)}</td>
                 <td>{item.embargoEndDate?.slice(0, 10)}</td>
+                <td>
+                  <div>
+                    <Link href="/detail">
+                      D
+                    </Link>
+
+                    <Link href="/visual">
+                      V
+                    </Link>
+                  </div>
+
+                </td>
               </tr>
             ))}
             </tbody>

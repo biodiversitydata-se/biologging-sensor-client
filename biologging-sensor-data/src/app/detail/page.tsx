@@ -1,6 +1,7 @@
+'use client'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { DatasetDetail } from '../interfaces/dataset';
+import { DatasetDetail } from '../../interfaces/dataset';
 
 function Detail() {
   const [apiData, setApiData] = useState<DatasetDetail | null>(null);

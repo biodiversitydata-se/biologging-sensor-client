@@ -1,6 +1,5 @@
 'use client'
-import Detail from './pages/Detail'
-import Overview from './pages/Overview'
+import Overview from './Overview'
 import './index.css'
 import Banner from './components/Banner';
 import Footer from './components/Footer';
@@ -10,7 +9,7 @@ export default function Home() {
     <>
     <Banner/>
     <main>
-      <Detail/>
+      <Overview/>
     </main>
     <Footer/>
     </>
