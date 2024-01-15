@@ -15,7 +15,7 @@ const Banner = () => {
                 data-push-left="">
                 <div className="item--inner builder-item--logo" data-section="title_tagline" data-item-id="logo">
                   <div className="site-branding logo-bottom">
-                    <a href="https://static.biodiversitydata.se" className="logo-link" rel="home" itemProp="url">
+                    <a href="/" className="logo-link" rel="home" itemProp="url">
                       <img className="site-img-logo" src="https://static.biodiversitydata.se/images/sbdi-logo-orginal-large.png"
                         alt="Swedish Biodiversity Data Infrastructure"/>
                     </a>
@@ -35,9 +35,15 @@ const Banner = () => {
                     <form method="get" action="https://species.biodiversitydata.se/search"
                       className="search-form navbar-form navbar-right">
                       {/* <!-- Hide instead of delete to avoid js error --> */}
-                      <div className="form-group hide-on-mobile hide-on-tablet hide-on-desktop">
+                      <div className="form-group hide-on-mobile hide-on-tablet ">
                         <input name="q" id="autocompleteHeader" type="text" className="form-control"
                           data-i18n="[placeholder]nav.searchbox"/>
+                          <button id="header-search-button" type="submit" className="search-submit" data-toggle="tooltip" data-i18n="[title]nav.searchbox" data-original-title="" title="Search species, datasets, and more...">
+                      <svg aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21">
+                        <path fill="currentColor" fill-rule="evenodd" d="M12.514 14.906a8.264 8.264 0 0 1-4.322 1.21C3.668 16.116 0 12.513 0 8.07 0 3.626 3.668.023 8.192.023c4.525 0 8.193 3.603 8.193 8.047 0 2.033-.769 3.89-2.035 5.307l4.999 5.552-1.775 1.597-5.06-5.62zm-4.322-.843c3.37 0 6.102-2.684 6.102-5.993 0-3.31-2.732-5.994-6.102-5.994S2.09 4.76 2.09 8.07c0 3.31 2.732 5.993 6.102 5.993z">
+                        </path>
+                      </svg>
+                    </button>
                       </div>
                     </form>
                   </div>
@@ -47,10 +53,10 @@ const Banner = () => {
                   data-section="header_button" data-item-id="button">
                   <a target="_new" href="https://biodiversitydata.se"
                     className="item--button customify-btn customify-builder-btn is-icon-before">
-                    <i className="fas fa-external-link-alt"></i>&nbsp; <span data-i18n="nav.link-to-sbdi"></span></a>
+                    <i className="fas fa-external-link-alt"></i>&nbsp; <span data-i18n="nav.link-to-sbdi">Login</span></a>
                   <a target="_new" href="https://docs.biodiversitydata.se/support"
                     className="item--button customify-btn customify-builder-btn is-icon-before">
-                    <i className="fas fa-external-link-alt"></i>&nbsp; <span data-i18n="nav.link-to-support"></span></a>
+                    <i className="fas fa-external-link-alt"></i>&nbsp; <span data-i18n="nav.link-to-support">Sign up</span></a>
                 </div>
               </div>
             </div>
