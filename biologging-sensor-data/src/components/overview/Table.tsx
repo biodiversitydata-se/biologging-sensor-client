@@ -1,9 +1,10 @@
 import { Dataset } from "@/interfaces/dataset";
 import Link from "next/link";
+import './Table.css'
 
 export default function OverviewTable({data, onSelect}: {data: Dataset[], onSelect: (item: Dataset) => void}) {
     return (
-        <div>
+        <div className="container overview"> 
           <table>
             <thead>
               <tr>
