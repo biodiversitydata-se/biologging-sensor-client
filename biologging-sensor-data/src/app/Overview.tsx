@@ -23,9 +23,12 @@ export default function Overview() {
     }, [])
 
     return (
-        <div>
-          <OverviewTable data={data} onSelect={(itm) => setSelected(itm)}/>
-          {selected && <OverviewSnippet data={selected}/>}      
+        <div className="container">
+            <OverviewTable data={data} onSelect={(itm) => setSelected(itm)}/>
+
+            <div>
+              {selected && <OverviewSnippet data={selected}/>}
+            </div>
         </div>
     )
 

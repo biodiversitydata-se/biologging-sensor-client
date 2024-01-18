@@ -3,14 +3,14 @@ import Link from "next/link";
 
 export default function OverviewSnippet({data}: {data: Dataset|null}) {
     return(
-        <div className="container mt-4">
+        <div className="container">
             {/* HEADER */}
             <div className="row">
-                <div className="col-md-4">
-                    Dataset record:
+                <div className="col-md-6">
+                    Dataset record: {data?.datasetID}
                 </div>
 
-                <div className="col-md-5">
+                <div className="col-md-3">
                     <Link href="/detail"> Show all information about this dataset</Link>                    
                 </div>
 
