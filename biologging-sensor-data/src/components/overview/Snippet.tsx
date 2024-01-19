@@ -11,7 +11,13 @@ export default function OverviewSnippet({data}: {data: Dataset|null}) {
                 </div>
 
                 <div className="col-md-3">
-                    <Link href="/detail"> Show all information about this dataset</Link>                    
+                    <Link href={{
+                          pathname: `/detail/[id]`,
+                          query: {
+                            id: data?.datasetID,
+                          },
+                        }}
+                        as={`/detail/${data?.datasetID}`}> Show all information about this dataset</Link>                    
                 </div>
 
                 <div className="col-md-3 ml-auto">

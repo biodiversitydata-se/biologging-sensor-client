@@ -15,7 +15,6 @@ export default function Overview() {
               )
             ).json();
       
-            // set state when the data received
             setData(data);
           };
       
