@@ -1,9 +1,12 @@
 import { Dataset } from "@/interfaces/dataset";
 import Link from "next/link";
+import './Table.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfo, faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 export default function OverviewTable({data, onSelect}: {data: Dataset[], onSelect: (item: Dataset) => void}) {
     return (
-        <div>
+        <div className="container overview"> 
           <table>
             <thead>
               <tr>
@@ -31,14 +34,26 @@ export default function OverviewTable({data, onSelect}: {data: Dataset[], onSele
                 <td>{item.dateCreated.slice(0, 10)}</td>
                 <td>{item.embargoEndDate?.slice(0, 10)}</td>
                 <td>
-                  <div>
-                    <Link href="/detail">
-                      D
-                    </Link>
+                  <div className="row " onClick={(e) => e.stopPropagation()}>
+                    <div className="col-xs-1">
+                      <Link 
+                        href={{
+                          pathname: `/detail/[id]`,
+                          query: {
+                            id: item.datasetID,
+                          },
+                        }}
+                        as={`/detail/${item.datasetID}`}
+                      >
+                        <FontAwesomeIcon icon={faInfo} />
+                      </Link>
+                    </div>
 
-                    <Link href="/visual">
-                      V
-                    </Link>
+                    <div className="col-xs-auto">
+                      <Link href="/visual">
+                        <FontAwesomeIcon icon={faMapLocationDot} />
+                      </Link>
+                    </div>
                   </div>
 
                 </td>
