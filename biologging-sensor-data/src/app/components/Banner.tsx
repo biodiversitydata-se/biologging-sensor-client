@@ -26,9 +26,16 @@ const Banner = () => {
                 </div>
                 <div className="item--inner builder-item--html " data-section="header_html" data-item-id="html">
                   <div className="builder-header-html-item item--html">
-                    <p data-i18n="general.orgfullname"></p>
+                    <p data-i18n="general.orgfullname">Swedish Biodiversity Data Infrastructure</p>
                   </div>
                 </div>
+              </div>
+              <div id="auth-header-buttons"
+                className="item--inner builder-item--button hide-on-mobile hide-on-tablet ::loginStatus::"
+                data-section="header_button" data-item-id="button">
+                <a target="_new" href="https://biodiversitydata.se"
+                  className="item--button customify-btn customify-builder-btn is-icon-before">
+                  <i className="fas fa-external-link-alt"></i>&nbsp; <span data-i18n="nav.link-to-sbdi">SBDI Home</span></a>
               </div>
             </div>
           </div>

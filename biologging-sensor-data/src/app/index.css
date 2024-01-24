@@ -75,3 +75,7 @@ body {
   }
   
   /* temporary styling ending line */
+
+  .customify-grid {
+    justify-content: space-between;
+  }
