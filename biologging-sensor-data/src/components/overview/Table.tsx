@@ -34,7 +34,7 @@ export default function OverviewTable({data, onSelect}: {data: Dataset[], onSele
                 <td>{item.dateCreated.slice(0, 10)}</td>
                 <td>{item.embargoEndDate?.slice(0, 10)}</td>
                 <td>
-                  <div className="row ">
+                  <div className="row " onClick={(e) => e.stopPropagation()}>
                     <div className="col-xs-1">
                       <Link 
                         href={{
