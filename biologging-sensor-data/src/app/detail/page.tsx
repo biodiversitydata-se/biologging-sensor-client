@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DatasetDetail } from '../../interfaces/dataset';
+import '../index.css';
 
 function Detail() {
   const [apiData, setApiData] = useState<DatasetDetail | null>(null);
@@ -31,60 +32,123 @@ function Detail() {
         <div className="additional-box">
           {apiData ? (
             <div>
-              <div className="fetched-data-container">
-                <h6>DETAILS</h6>
+              <div className="fetched-data-container container-fluid">
+                <div className='container-header border-style'>DETAILS</div>
 
-                <div className="fetched-data-row">
-                  <p>
-                    <h2 className="title">Dataset Title</h2>
-                    <h2 className="api_data">{apiData.datasetTitle}</h2>
-                  </p>
+                <div className="fetched-data-row col-md-12 border-style">
+                    <div className="title col-md-6">Dataset Title: </div>
+                    <div className="api_data col-md-6">{apiData.datasetTitle}</div>
                 </div>
 
-                <div className="fetched-data-row">
-                  <h2 className="title">Dataset description</h2>
-                  <h2 className="api_data">{apiData.datasetDescription}</h2>
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">Dataset description: </div>
+                  <div className="api_data col-md-6">{apiData.datasetDescription}</div>
                 </div>
 
-                <div className="fetched-data-row">
-                  <p>
-                    <h2 className="title">Institution</h2>
-                    <h2 className="api_data">{apiData.institutionCode}</h2>
-                  </p>
+                <div className="fetched-data-row col-md-12 border-style">
+                    <div className="title col-md-6">Geographical Description: </div>
+                    <div className="api_data col-md-6">
+                      {apiData.geographicalDescription || 'No geographical description available.'}
+                    </div>
                 </div>
 
-                <div className="fetched-data-row">
-                  <p>
-                    <h2 className="title">Animal Count</h2>
-                    <h2 className="api_data">{apiData.animalCount}</h2>
-                  </p>
-                </div>
-
-                <div className="fetched-data-row">
-                  <h2 className="title">Start date - End Date</h2>
-                  <p>
-                    <h2 className="api_data">
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">Start date - End Date: </div>
+                    <div className="api_data col-md-6">
                       {apiData.temporalCoverage ? (
                         `Start Date: ${apiData.temporalCoverage.startDate} - End Date: ${apiData.temporalCoverage.endDate}`
                       ) : (
                         'Temporal coverage information is not available.'
                       )}
-                    </h2>
-                  </p>
+                    </div>
                 </div>
 
-                <div className="fetched-data-row">
-                  <p>
-                    <h2 className="title">Geographical Description</h2>
-                    <h2 className="api_data">
-                      {apiData.geographicalDescription || 'No geographical description available.'}
-                    </h2>
-                  </p>
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">Dataset References: </div>
+                  <div className="api_data col-md-6">
+                    {Object.entries(apiData.bibliographicCitation).map(([key, value], index) => (
+                      <div key={index}>
+                        <span>{key}: </span>
+                        {key === 'URL' ? (
+                          <a href={value} target="_blank" rel="noopener noreferrer">
+                            {value}
+                          </a>
+                        ) : (
+                          <span>{value}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="fetched-data-row">
-                  <h2 className="title">Taxon | commonName</h2>
-                  <h2 className="api_data">
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">Bibliographic Citation: </div>
+                  <div className="api_data col-md-6">
+                    {Object.entries(apiData.bibliographicCitation).map(([key, value], index) => (
+                      <div key={index}>
+                        <span>{key}: </span>
+                        {key === 'URL' ? (
+                          <a href={value} target="_blank" rel="noopener noreferrer">
+                            {value}
+                          </a>
+                        ) : (
+                          <span>{value}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">ContactCuratorOwner | Firstname & LastName: </div>
+                  <div className="api_data col-md-6">
+                    {apiData.curator.map((person, index) => (
+                      <div key={index}>
+                        <span>First Name: {person.firstName + ', '}</span>
+                        <span>Last Name: {person.lastName}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">ContactCreator | Firstname & LastName: </div>
+                  <div className="api_data col-md-6">
+                    {apiData.creator.map((person, index) => (
+                      <div key={index}>
+                        <span>First Name: {person.firstName + ', '}</span>
+                        <span>Last Name: {person.lastName}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">ContactQuestions | Firstname & LastName</div>
+                  <div className="api_data col-md-6">
+                    {apiData.contact.map((person, index) => (
+                      <div key={index}>
+                        <span>First Name: {person.firstName + ', '}</span>
+                        <span>Last Name: {person.lastName}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className='col-md-6 del-padding'>
+                <div className="fetched-data-row col-md-12 border-style">
+                    <div className="title col-md-6">Institution: </div>
+                    <div className="api_data col-md-6">{apiData.institutionCode}</div>
+                </div>
+
+                <div className="fetched-data-row col-md-12 border-style">
+                    <div className="title col-md-6">Animal Count: </div>
+                    <div className="api_data col-md-6">{apiData.animalCount}</div>
+                </div>
+
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">Taxon | commonName: </div>
+                  <div className="api_data col-md-6">
                     {apiData.taxonomicCoverage.map((taxon, index) => (
                       <div key={index}>
                         <p>Guid: {taxon.guid}</p>
@@ -92,125 +156,48 @@ function Detail() {
                         <p>Common Name: {taxon.commonName}</p>
                       </div>
                     ))}
-                  </h2>
+                  </div>
                 </div>
 
-                <div className="fetched-data-row">
-                  <p>
-                    <h2 className="title">SensorType</h2>
-                    <h2 className="api_data">{apiData.sensorTypes}</h2>
-                  </p>
+                <div className="fetched-data-row col-md-12 border-style">
+                    <div className="title col-md-6">Sensor Type: </div>
+                    <div className="api_data col-md-6">{apiData.sensorTypes}</div>
+                </div>
                 </div>
 
-                <div className="fetched-data-row">
-                  <h2 className="title">contactCuratorOwner | Firstname & LastName</h2>
-                  <h2 className="api_data">
-                    {apiData.curator.map((person, index) => (
-                      <div key={index}>
-                        <span>First Name: {person.firstName}</span>
-                        <span>Last Name: {person.lastName}</span>
-                      </div>
-                    ))}
-                  </h2>
-                </div>
-
-                <div className="fetched-data-row">
-                  <h2 className="title">contactCreator | Firstname & LastName</h2>
-                  <h2 className="api_data">
-                    {apiData.creator.map((person, index) => (
-                      <div key={index}>
-                        <span>First Name: {person.firstName}</span>
-                        <span>Last Name: {person.lastName}</span>
-                      </div>
-                    ))}
-                  </h2>
-                </div>
-
-                <div className="fetched-data-row">
-                  <h2 className="title">contactQuestions | Firstname & LastName</h2>
-                  <h2 className="api_data">
-                    {apiData.contact.map((person, index) => (
-                      <div key={index}>
-                        <span>First Name: {person.firstName}</span>
-                        <span>Last Name: {person.lastName}</span>
-                      </div>
-                    ))}
-                  </h2>
-                </div>
-
-                <div className="fetched-data-row">
-                  <h2 className="title">Geographical coverage</h2>
-                  <h2 className="api_data">
+                <div className="col-md-6 del-padding">
+                <div className="fetched-data-row col-md-12 border-style">
+                  <div className="title col-md-6">Geographical coverage: </div>
+                  <div className="api_data col-md-6">
                     {Object.keys(apiData.geographicalCoverage).map((key, index) => (
                       <div key={index}>
                         <span>{key}: {apiData.geographicalCoverage[key]}</span>
                       </div>
                     ))}
-                  </h2>
-                </div>
-
-                <div className="fetched-data-row">
-                  <p>
-                    <h2 className="title">Dataset License</h2>
-                    <h2 className="api_data">{apiData.sensorTypes}</h2>
-                  </p>
-                </div>
-
-                <div className="fetched-data-row">
-                  <p>
-                    <h2 className="title">Institution codes</h2>
-                    <h2 className="api_data">{apiData.institutionCode}</h2>
-                  </p>
-                </div>
-
-                <div className="fetched-data-row">
-                  <h2 className="title">Dataset References</h2>
-                  <div className="api_data">
-                    {Object.entries(apiData.bibliographicCitation).map(([key, value], index) => (
-                      <div key={index}>
-                        <span>{key}: </span>
-                        {key === 'URL' ? (
-                          <a href={value} target="_blank" rel="noopener noreferrer">
-                            {value}
-                          </a>
-                        ) : (
-                          <span>{value}</span>
-                        )}
-                      </div>
-                    ))}
                   </div>
                 </div>
 
-                <div className="fetched-data-row">
+                <div className="fetched-data-row col-md-12 border-style">
                   <p>
-                    <h2 className="title">Update frequency</h2>
-                    <h2 className="api_data">{apiData.updateFrequency}</h2>
+                    <div className="title col-md-6">Dataset License: </div>
+                    <div className="api_data col-md-6">{apiData.sensorTypes}</div>
                   </p>
                 </div>
 
-                <div className="fetched-data-row">
-                  <p>
-                    <h2 className="title">Version</h2>
-                    <h2 className="api_data">{apiData.Version || 'No Version available.'}</h2>
-                  </p>
+                <div className="fetched-data-row col-md-12 border-style">
+                    <div className="title col-md-6">Institution codes: </div>
+                    <div className="api_data col-md-6">{apiData.institutionCode}</div>
                 </div>
 
-                <div className="fetched-data-row">
-                  <h2 className="title">Bibliographic Citation</h2>
-                  <div className="api_data">
-                    {Object.entries(apiData.bibliographicCitation).map(([key, value], index) => (
-                      <div key={index}>
-                        <span>{key}: </span>
-                        {key === 'URL' ? (
-                          <a href={value} target="_blank" rel="noopener noreferrer">
-                            {value}
-                          </a>
-                        ) : (
-                          <span>{value}</span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                <div className="fetched-data-row col-md-12 border-style">
+                    <div className="title col-md-6">Update frequency: </div>
+                    <div className="api_data col-md-6">{apiData.updateFrequency}</div>
+                </div>
+
+                <div className="fetched-data-row col-md-12 border-style">
+                    <div className="title col-md-6">Version: </div>
+                    <div className="api_data col-md-6">{apiData.Version || 'No Version available.'}</div>
+                </div>
                 </div>
 
                 {/* <pre>{JSON.stringify(apiData, null, 2)}</pre> */}
