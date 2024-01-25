@@ -21,7 +21,7 @@ export interface Dataset {
     isPublic: boolean;
     updateFrequency: string;
     geographicalCoverage: any;
-    temporalCoverage: string[];
+    temporalCoverage: any;
     samplingDescription: string;
     qualityControl: string;
     relatedIdentifier: string;

@@ -31,8 +31,8 @@ export default function OverviewTable({data, onSelect}: {data: Dataset[], onSele
                 <td>{item.animalCount}</td>
                 <td>{item.taxonomicCoverage[0].commonName}</td>
                 <td>{item.institutionCode}</td>
-                <td>{item.dateCreated.slice(0, 10)}</td>
-                <td>{item.embargoEndDate?.slice(0, 10)}</td>
+                <td>{item.temporalCoverage?.startDatetime?.slice(0, 10)}</td>
+                <td>{item.temporalCoverage?.endDatetime?.slice(0, 10)}</td>
                 <td>
                   <div className="row " onClick={(e) => e.stopPropagation()}>
                     <div className="col-xs-1">
