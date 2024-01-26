@@ -1,12 +1,9 @@
 import { Dataset } from "@/interfaces/dataset";
 import Link from "next/link";
-import './Table.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfo, faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
 
 export default function OverviewTable({data, onSelect}: {data: Dataset[], onSelect: (item: Dataset) => void}) {
     return (
-        <div className="container overview"> 
+        <div>
           <table>
             <thead>
               <tr>
@@ -31,29 +28,17 @@ export default function OverviewTable({data, onSelect}: {data: Dataset[], onSele
                 <td>{item.animalCount}</td>
                 <td>{item.taxonomicCoverage[0].commonName}</td>
                 <td>{item.institutionCode}</td>
-                <td>{item.temporalCoverage?.startDatetime?.slice(0, 10)}</td>
-                <td>{item.temporalCoverage?.endDatetime?.slice(0, 10)}</td>
+                <td>{item.dateCreated.toString().slice(0, 10)}</td>
+                <td>{item.embargoEndDate?.slice(0, 10)}</td>
                 <td>
-                  <div className="row " onClick={(e) => e.stopPropagation()}>
-                    <div className="col-xs-1">
-                      <Link 
-                        href={{
-                          pathname: `/detail/[id]`,
-                          query: {
-                            id: item.datasetID,
-                          },
-                        }}
-                        as={`/detail/${item.datasetID}`}
-                      >
-                        <FontAwesomeIcon icon={faInfo} />
-                      </Link>
-                    </div>
+                  <div>
+                    <Link href="/detail">
+                      D
+                    </Link>
 
-                    <div className="col-xs-auto">
-                      <Link href="/visual">
-                        <FontAwesomeIcon icon={faMapLocationDot} />
-                      </Link>
-                    </div>
+                    <Link href="/visual">
+                      V
+                    </Link>
                   </div>
 
                 </td>

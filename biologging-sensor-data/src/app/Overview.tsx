@@ -15,6 +15,7 @@ export default function Overview() {
               )
             ).json();
       
+            // set state when the data received
             setData(data);
           };
       
@@ -22,12 +23,9 @@ export default function Overview() {
     }, [])
 
     return (
-        <div className="container">
-            <OverviewTable data={data} onSelect={(itm) => setSelected(itm)}/>
-
-            <div className="container" style={{height: "120px", marginTop: "20px", paddingLeft: "15px", paddingRight: "15px"}}>
-              {selected && <OverviewSnippet data={selected}/>}
-            </div>
+        <div>
+          <OverviewTable data={data} onSelect={(itm) => setSelected(itm)}/>
+          {selected && <OverviewSnippet data={selected}/>}      
         </div>
     )
 
