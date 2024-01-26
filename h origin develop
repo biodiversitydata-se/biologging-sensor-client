@@ -1,0 +1,223 @@
+[33mcommit 7faefda70936bd10df7888b247e90ea32509bf9c[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Fri Jan 26 00:54:14 2024 +0100
+
+    BIOSENSOR-28: fixed dates issues in the overview
+
+[33mcommit 75164ec73627b2578989d71183f3c6b65199e8fb[m
+Merge: 969ff28e 0bc8f331
+Author: Zuzana Roháčová <55729541+zrohacova@users.noreply.github.com>
+Date:   Wed Jan 24 22:23:27 2024 +0100
+
+    Merge pull request #3 from biodiversitydata-se/dataset_listing
+    
+    Dataset listing
+
+[33mcommit 969ff28e3cdedfc536f519bf18183e95b3c8a64b[m
+Author: Khosiyat <hosiyatsabirova@gmail.com>
+Date:   Wed Jan 24 18:25:04 2024 +0100
+
+    Your descriptive commit message here
+
+[33mcommit 4ef4c836934c22dc5026ceb0d0c7b9de3a314103[m
+Author: Yuliia Mustafina <71671138+Mustafina1990@users.noreply.github.com>
+Date:   Wed Jan 24 15:18:55 2024 +0100
+
+    update Banner component and index.css
+
+[33mcommit 0bc8f331e13f64ce58a177cef31692aa345b50bc[m[33m ([m[1;31morigin/dataset_listing[m[33m)[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Wed Jan 24 11:45:30 2024 +0100
+
+    added styling
+
+[33mcommit 2b319a5a9f856eeb5e4806f913f363c8cbfe72e4[m
+Author: Yuliia Mustafina <71671138+Mustafina1990@users.noreply.github.com>
+Date:   Mon Jan 22 17:43:02 2024 +0100
+
+    remove unused components and add banner and footer
+
+[33mcommit 9529c2ec0b81007e8015f04e633c0b0f3e391da1[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Fri Jan 19 19:23:30 2024 +0100
+
+    BIOSENSOR-28: added shortcut for detail
+
+[33mcommit 655225ccd8af323285803cd3a2b026c8575b6d8d[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Thu Jan 18 21:47:56 2024 +0100
+
+    BIOSENSOR-19: added icons for shortcuts
+
+[33mcommit b73d92af812bb72b7347d0b8933ad956548a8f99[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Thu Jan 18 17:39:11 2024 +0100
+
+    BIOSENSOR-19: fixed loading data for detail
+
+[33mcommit 61d5d190470fbf33ce6ee0cdc741678b51804d45[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Wed Jan 17 19:22:27 2024 +0100
+
+    INT: removed file
+
+[33mcommit 8c89cd8e917a27306afcff9532eb8b12b8f7b189[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Wed Jan 17 16:59:10 2024 +0100
+
+    BIOSENSOR-18: applied some styling
+
+[33mcommit 5d1d8e198fc29cdb468aef30d9268903e57513da[m
+Author: Yuliia Mustafina <71671138+Mustafina1990@users.noreply.github.com>
+Date:   Tue Jan 16 21:06:39 2024 +0100
+
+    Add bootstrap dependency
+
+[33mcommit 9c25a2540027d3bff45bb39ccef10bd4368654d4[m
+Author: Yuliia Mustafina <71671138+Mustafina1990@users.noreply.github.com>
+Date:   Tue Jan 16 21:04:02 2024 +0100
+
+    Remove Tailwind CSS dependency
+
+[33mcommit 4501bd04a743a8a02109d3cb9b9a4068e136647c[m
+Merge: a0ee9d46 08d4cb0b
+Author: Zuzana Roháčová <55729541+zrohacova@users.noreply.github.com>
+Date:   Mon Jan 15 22:50:12 2024 +0100
+
+    Merge pull request #2 from biodiversitydata-se/overview_changes
+    
+    Overview changes
+
+[33mcommit 08d4cb0bdd5c1277a6ac69b688c6cb1b93ecb3cd[m
+Merge: 2e7044cd a0ee9d46
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Mon Jan 15 19:21:53 2024 +0100
+
+    Merge branch 'develop' into overview_changes
+
+[33mcommit a0ee9d466e9436a96f5432b57a024ded2768f18b[m
+Author: Yuliia Mustafina <71671138+Mustafina1990@users.noreply.github.com>
+Date:   Mon Jan 15 10:40:01 2024 +0100
+
+    Update logo link and search form
+
+[33mcommit b007232a02f4cbe5dfd24158ed2fd6b86cf9d924[m
+Author: Yuliia Mustafina <71671138+Mustafina1990@users.noreply.github.com>
+Date:   Mon Jan 15 09:41:58 2024 +0100
+
+    Add Footer component to Home page
+
+[33mcommit 2ef1e98b54efe1ece9662f9a4ff629cdbce2ccb0[m
+Author: Khosiyat Sabirova <hosiyatsabirova@gmail.com>
+Date:   Sun Jan 14 22:35:53 2024 +0100
+
+    Update Decision-Making-Process-Visualization-Librarires-Document.md
+
+[33mcommit d5f616f8abc2f21a99b7301a0f952bd434081c7c[m
+Author: Khosiyat Sabirova <hosiyatsabirova@gmail.com>
+Date:   Sun Jan 14 22:33:46 2024 +0100
+
+    Update Decision-Making-Process-Visualization-Librarires-Document.md
+
+[33mcommit b1be04ad771d7fce5ad37004b494c3c764965c9f[m
+Author: Khosiyat Sabirova <hosiyatsabirova@gmail.com>
+Date:   Sun Jan 14 22:33:28 2024 +0100
+
+    Update Decision-Making-Process-Visualization-Librarires-Document.md
+
+[33mcommit 1e979c5ce3a5e24b83460ba676b1c85e76ba2a81[m
+Author: Khosiyat Sabirova <hosiyatsabirova@gmail.com>
+Date:   Sun Jan 14 22:33:14 2024 +0100
+
+    Update Decision-Making-Process-Visualization-Librarires-Document.md
+
+[33mcommit 90a51f349f98be5cd104153365c0399b9abfcc1f[m
+Author: Khosiyat Sabirova <hosiyatsabirova@gmail.com>
+Date:   Sun Jan 14 22:21:00 2024 +0100
+
+    Decision-Making-Process-Visualization-Librarires-Document.md
+
+[33mcommit 2e7044cd7977c765d44fa8a4194c65fdb2b4c163[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Sun Jan 14 16:34:01 2024 +0100
+
+    BIOSENSOR-18: changed snippet, added navigation
+
+[33mcommit 90aaf61ed82477625ded180ea84cebaa4ae11e6c[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Sun Jan 14 15:22:30 2024 +0100
+
+    BIOSENSOR-19: added navigation to the dataset detail
+
+[33mcommit 998b78355b4e57903e9cc4eca3c5b49596de32f1[m
+Author: Yuliia Mustafina <71671138+Mustafina1990@users.noreply.github.com>
+Date:   Sat Jan 13 01:21:50 2024 +0100
+
+    Add dependencies and update code
+
+[33mcommit 47c4473b416109197bc57c54df603c0b5f1dbb74[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Fri Jan 12 15:33:45 2024 +0100
+
+    BIOSENSOR-28: added snippet functionality
+
+[33mcommit bb0e7e91a15d54334326cf44a0992f126fdfb245[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Thu Dec 14 17:59:50 2023 +0100
+
+    merged overview and detail
+
+[33mcommit c0032b4c5e27e1177fb3ca92c7fd2347a2a2d8dd[m
+Merge: d9e3fded 0f838ced
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Thu Dec 14 17:22:00 2023 +0100
+
+    Merge branch 'overview' into develop
+
+[33mcommit 0f838ced452583d2ac2b0add194c957930fa0fad[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Thu Dec 14 15:52:26 2023 +0100
+
+    fixes some visuals
+
+[33mcommit d9e3fdedafdccf8e4b05c0ef6f0ca8b12ae67aa6[m
+Author: Khosiyat <hosiyatsabirova@gmail.com>
+Date:   Wed Dec 13 16:52:42 2023 +0100
+
+    Details Page
+
+[33mcommit 03b2c0444ef21f32ba0820f46bbdd23b063b0e2b[m
+Author: Khosiyat <hosiyatsabirova@gmail.com>
+Date:   Wed Dec 13 14:50:24 2023 +0100
+
+    Revert the previous commit
+
+[33mcommit acb22af9b344da4d6bbe8ba59cec0c6c3210c529[m
+Author: Khosiyat <hosiyatsabirova@gmail.com>
+Date:   Wed Dec 13 14:21:29 2023 +0100
+
+    Your commit message
+
+[33mcommit 9fe63671c39c7257364a166101ec070fe0350512[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Tue Dec 12 09:56:34 2023 +0100
+
+    basic table view
+
+[33mcommit 7ebceb4e904e829e538fa2f99d8c3f768ac5e24a[m
+Author: Zuzana <zuzana.roh@gmail.com>
+Date:   Tue Dec 12 08:59:10 2023 +0100
+
+    added basics for overview page
+
+[33mcommit d6a64e757434874ea976c3e3abe55ddae5db392b[m
+Author: Yuliia Mustafina <71671138+Mustafina1990@users.noreply.github.com>
+Date:   Wed Dec 6 18:54:02 2023 +0100
+
+    set up project structure
+
+[33mcommit 1115783a595208c7a91b859f7082878716d25fb1[m
+Author: mathieuLU <50901365+mathieuLU@users.noreply.github.com>
+Date:   Mon Nov 27 17:09:36 2023 +0100
+
+    Initial commit
