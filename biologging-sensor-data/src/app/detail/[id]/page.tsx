@@ -1,12 +1,11 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { DatasetDetail } from '../../interfaces/dataset';
-import '../index.css';
+import { DatasetDetail } from '../../../interfaces/dataset';
 
-function Detail() {
+function Detail({params}: {params: {id: string}}) {
   const [apiData, setApiData] = useState<DatasetDetail | null>(null);
-  const apiUrl = 'http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/dataset/LU_trackingradar_Lundfixed_2006-13';
+  const apiUrl = `http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/dataset/${params.id}`;
 
   useEffect(() => {
     const fetchData = async () => {
