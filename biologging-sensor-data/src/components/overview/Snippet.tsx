@@ -1,4 +1,4 @@
-import { Dataset } from "@/interfaces/dataset";
+import { Dataset } from "@/api/dataset/dataset.interface";
 import Link from "next/link";
 
 // #f2f2f2 - table header

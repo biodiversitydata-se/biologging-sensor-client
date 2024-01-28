@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DatasetDetail } from '../../../interfaces/dataset';
 import '../../index.css';
+import { Dataset } from '@/api/dataset/dataset.interface';
 
 function Detail({params}: {params: {id: string}}) {
-  const [apiData, setApiData] = useState<DatasetDetail | null>(null);
+  const [apiData, setApiData] = useState<Dataset | null>(null);
   const apiUrl = `http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/dataset/${params.id}`;
 
   useEffect(() => {
@@ -45,18 +46,18 @@ function Detail({params}: {params: {id: string}}) {
                   <div className="api_data col-md-6">{apiData.datasetDescription}</div>
                 </div>
 
-                <div className="fetched-data-row col-md-12 border-style">
+                {/* <div className="fetched-data-row col-md-12 border-style">
                     <div className="title col-md-6">Geographical Description: </div>
                     <div className="api_data col-md-6">
                       {apiData.geographicalDescription || 'No geographical description available.'}
                     </div>
-                </div>
+                </div> */}
 
                 <div className="fetched-data-row col-md-12 border-style">
                   <div className="title col-md-6">Start date - End Date: </div>
                     <div className="api_data col-md-6">
                       {apiData.temporalCoverage ? (
-                        `Start Date: ${apiData.temporalCoverage.startDate} - End Date: ${apiData.temporalCoverage.endDate}`
+                        `Start Date: ${apiData.temporalCoverage.startDatetime} - End Date: ${apiData.temporalCoverage.endDatetime}`
                       ) : (
                         'Temporal coverage information is not available.'
                       )}
@@ -64,38 +65,10 @@ function Detail({params}: {params: {id: string}}) {
                 </div>
 
                 <div className="fetched-data-row col-md-12 border-style">
-                  <div className="title col-md-6">Dataset References: </div>
-                  <div className="api_data col-md-6">
-                    {Object.entries(apiData.bibliographicCitation).map(([key, value], index) => (
-                      <div key={index}>
-                        <span>{key}: </span>
-                        {key === 'URL' ? (
-                          <a href={value} target="_blank" rel="noopener noreferrer">
-                            {value}
-                          </a>
-                        ) : (
-                          <span>{value}</span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="fetched-data-row col-md-12 border-style">
                   <div className="title col-md-6">Bibliographic Citation: </div>
                   <div className="api_data col-md-6">
-                    {Object.entries(apiData.bibliographicCitation).map(([key, value], index) => (
-                      <div key={index}>
-                        <span>{key}: </span>
-                        {key === 'URL' ? (
-                          <a href={value} target="_blank" rel="noopener noreferrer">
-                            {value}
-                          </a>
-                        ) : (
-                          <span>{value}</span>
-                        )}
-                      </div>
-                    ))}
+                    {apiData.bibliographicCitation.DOI && <div>DOI: {apiData.bibliographicCitation.DOI}</div>}
+                    {apiData.bibliographicCitation.URL && <div>URL: <a>{apiData.bibliographicCitation.URL}</a></div>}
                   </div>
                 </div>
 
@@ -169,11 +142,11 @@ function Detail({params}: {params: {id: string}}) {
                 <div className="fetched-data-row col-md-12 border-style">
                   <div className="title col-md-6">Geographical coverage: </div>
                   <div className="api_data col-md-6">
-                    {Object.keys(apiData.geographicalCoverage).map((key, index) => (
-                      <div key={index}>
-                        <span>{key}: {apiData.geographicalCoverage[key]}</span>
-                      </div>
-                    ))}
+                    {apiData.geographicalCoverage?.westBoundCoordinate && <div>West Bound Coordinate: {apiData.geographicalCoverage.westBoundCoordinate}</div>}
+                    {apiData.geographicalCoverage?.eastBoundCoordinate && <div>East Bound Coordinate: {apiData.geographicalCoverage.eastBoundCoordinate}</div>}
+                    {apiData.geographicalCoverage?.northBoundCoordinate && <div>North Bound Coordinate: {apiData.geographicalCoverage.northBoundCoordinate}</div>}
+                    {apiData.geographicalCoverage?.southBoundCoordinate && <div>South Bound Coordinate: {apiData.geographicalCoverage.southBoundCoordinate}</div>}
+                    {apiData.geographicalCoverage?.geographicalDescription && <div>Description: {apiData.geographicalCoverage.geographicalDescription}</div>}
                   </div>
                 </div>
 
@@ -196,11 +169,9 @@ function Detail({params}: {params: {id: string}}) {
 
                 <div className="fetched-data-row col-md-12 border-style">
                     <div className="title col-md-6">Version: </div>
-                    <div className="api_data col-md-6">{apiData.Version || 'No Version available.'}</div>
+                    <div className="api_data col-md-6">{apiData.version || 'No Version available.'}</div>
                 </div>
                 </div>
-
-                {/* <pre>{JSON.stringify(apiData, null, 2)}</pre> */}
               </div>
             </div>
           ) : (
