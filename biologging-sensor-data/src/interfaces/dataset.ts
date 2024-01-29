@@ -3,6 +3,7 @@ export interface Dataset {
     _id: string;
     datasetID: string;
     projectID: string;
+    recordID: string;
     datasetTitle: string;
     datasetDescription: string;
     animalCount: number;
@@ -68,3 +69,11 @@ export interface Taxon {
     scientificName: string;
     commonName: string;
 }
+
+
+// Define types for selected data VISUALIZATION
+export interface SelectedData {
+  dataset: Dataset;
+  sensor: Dataset | null; // Allow sensor to be null when no sensor data is available
+}
+
