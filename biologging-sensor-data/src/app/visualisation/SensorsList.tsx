@@ -8,8 +8,8 @@ interface Args {
 }
 
 
-export default function SensorsList({events}: Args) {
-   const {sensors, updateSensors} = handleSensorSelection();
+export default function SensorsList({ events }: Args) {
+    const { sensors, updateSensors } = handleSensorSelection();
 
     useEffect(() => {
         // identify sensors
@@ -28,7 +28,7 @@ export default function SensorsList({events}: Args) {
             selected: false,
         }));
 
-        updateSensors(values);         
+        updateSensors(values);
     }, [events])
 
     function _selectSensor(i: number) {
@@ -37,13 +37,13 @@ export default function SensorsList({events}: Args) {
         updateSensors(s);
     }
 
-    return(
+    return (
         <div>
             <h5>Select sensor</h5>
             {sensors.map((item, index) => {
-                return <div key={index} onClick={() => _selectSensor(index)}>{item.sensor}</div>
-              })}
+                return <div style={item.selected ? { backgroundColor: "lightblue" } : undefined} key={index} onClick={() => _selectSensor(index)}>{item.sensor}</div>
+            })}
         </div>
     )
-    
+
 }
