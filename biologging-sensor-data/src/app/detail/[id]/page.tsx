@@ -7,7 +7,7 @@ import Detail from './Detail';
 
 function DetailPage({ params }: { params: { id: string } }) {
   const [detail, setDetailData] = useState<Dataset | null>(null);
-  const apiUrl = `http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/dataset/${params.id}`;
+  const apiUrl = `http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/dataset/${params.id}`;
 
   useEffect(() => {
     const fetchData = async () => {
