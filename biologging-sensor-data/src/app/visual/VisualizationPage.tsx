@@ -1,59 +1,11 @@
+import { Dataset, SelectedData } from "@/interfaces/dataset";
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Import statements for SensorCheckbox and DatasetCheckbox
 import SensorCheckbox from './SensorCheckbox';
 import DatasetCheckbox from './DatasetCheckbox';
-
-
-// Define types for API data
-interface ApiData {
-  _id: string;
-  recordID: string;
-  projectID: string;
-  eventID: string;
-  datasetID: string;
-  sensorID: string;
-  recordValues: {
-    activity: {
-      [key: string]: string;
-    };
-    pressure: string;
-    temperature: string;
-    altitude: string;
-  };
-  recordTime: string;
-  dateCreated: string;
-  dateUpdated: string;
-}
-
-// Define types for dataset
-interface Dataset {
-  datasetID: string;
-  datasetTitle: string;
-  recordID: string | undefined;
-  projectID: string | undefined;
-}
-
-// Define types for selected data
-interface SelectedData {
-  dataset: Dataset;
-  sensor: ApiData | null; // Allow sensor to be null when no sensor data is available
-}
-
-// Define props for SensorCheckbox
-interface SensorCheckboxProps {
-  sensorID: string;
-  isChecked: boolean;
-  onChange: (sensorID: string, isChecked: boolean) => void;
-}
-
-// Define props for DatasetCheckbox
-interface DatasetCheckboxProps {
-  dataset: Dataset;
-  isChecked: boolean;
-  onChange: (selected: string[], isChecked: boolean) => void;
-}
 
 // Main SensorApp component
 const SensorApp: React.FC = () => {
@@ -130,8 +82,8 @@ const SensorApp: React.FC = () => {
 
         if (isChecked) {
           // If checkbox is checked, fetch sensor data and update state
-          const sensorResponse = await axios.get<ApiData>(
-            `http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/record/${selectedDataset.projectID}`
+          const sensorResponse = await axios.get<Dataset>(
+            `http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/record/${selectedDataset.recordID}`
           );
 
           console.log('Sensor API Response:', sensorResponse.data);

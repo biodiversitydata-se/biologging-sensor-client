@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const BASE_URL = 'http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/';
+const BASE_URL = 'http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/';
 
 type ApiResponse<T> = T | AxiosError;
 
