@@ -34,3 +34,36 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+
+
+## TEST server
+
+you can ssh with your account blggext
+several commands are available :
+```
+git pull
+npm install
+npm run dev
+```
+for security reasons, several commands are disabled (cd for instance)
+
+if you want to see the logs in the terminal, you can run the app by using 
+```
+npm run dev
+```
+if you want to make it run permanently (background), please run :
+```
+pm2 --name biologging-client start npm -- run dev
+```
+you can see the process running here :
+```
+pm2 ps
+```
+to delete the process, please use 
+```
+pm2 delete ID
+```
+ID being the id of the app launched (most of the time : 0 )
