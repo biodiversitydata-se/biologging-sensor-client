@@ -13,6 +13,7 @@ function DetailPage({ params }: { params: { id: string } }) {
     const fetchData = async () => {
       try {
         const response = await getDataset(params.id);
+        console.log(response)
         setDetailData(response);
       } catch (error) {
         if (error instanceof Error) {
