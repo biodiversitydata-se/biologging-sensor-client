@@ -11,16 +11,3 @@ export default function Home() {
     </>
   )
 }
-
-
-
-
-
-
-// export default function Visualize() {
-//     return (
-//         <div>
-//             Todo
-//         </div>
-//     )
-// }

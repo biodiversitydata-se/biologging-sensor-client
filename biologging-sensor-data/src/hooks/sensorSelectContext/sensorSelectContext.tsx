@@ -12,7 +12,7 @@ export const SensorSelectionContext = createContext<SensorSelection>({
     updateSensors: ([]) =>{},
 });
 
-export function handleSensorSelection() {
+export function HandleSensorSelection() {
     return useContext(SensorSelectionContext);
 }
 

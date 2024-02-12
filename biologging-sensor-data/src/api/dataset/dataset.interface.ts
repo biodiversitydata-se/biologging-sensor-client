@@ -1,6 +1,9 @@
 export interface Dataset {
+    _id: string;
+    citation: string;
     datasetID: string;
     projectID: string;
+    recordID: string;
     datasetTitle: string;
     datasetDescription: string;
     animalCount: number;
@@ -36,7 +39,12 @@ export interface Contact {
     lastName: string;
     emailAddress: string;
     userId: string;
+
+    name: string;
+    email: string;
+    ORCID: string;
 }
+
 
 export interface Taxon {
     guid: string;	
