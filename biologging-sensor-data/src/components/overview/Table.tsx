@@ -1,8 +1,8 @@
-import { Dataset } from "@/interfaces/dataset";
 import Link from "next/link";
 import './Table.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { Dataset } from "@/api/dataset/dataset.interface";
 
 export default function OverviewTable({data, onSelect}: {data: Dataset[], onSelect: (item: Dataset) => void}) {
     return (
@@ -50,7 +50,7 @@ export default function OverviewTable({data, onSelect}: {data: Dataset[], onSele
                     </div>
 
                     <div className="col-xs-auto">
-                      <Link href="/visual">
+                      <Link href="/visualisation">
                         <FontAwesomeIcon icon={faMapLocationDot} />
                       </Link>
                     </div>

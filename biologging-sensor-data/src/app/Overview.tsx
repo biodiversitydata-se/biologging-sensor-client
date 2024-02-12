@@ -1,25 +1,24 @@
-import { Dataset } from "@/interfaces/dataset";
 import { useEffect, useState } from "react";
 import OverviewTable from "../components/overview/Table";
 import OverviewSnippet from "../components/overview/Snippet";
+import { Dataset } from "@/api/dataset/dataset.interface";
+import { getDatasets } from "@/api/dataset/api";
 
 export default function Overview() {
     const [data, setData] = useState<Dataset[]>([]);
     const [selected, setSelected] = useState<Dataset>();
 
     useEffect(() => {
+
         const dataFetch = async () => {
-            const data = await (
-              await fetch(
-                'http://canmove-dev.ekol.lu.se:8080/sensorAPI/v1/datasets',
-              )
-            ).json();
+          const data = await getDatasets();
+          setData(data);
+        };
       
-            setData(data);
-          };
-      
-          dataFetch();
-    }, [])
+        dataFetch();
+        
+    }, []);
+
 
     return (
         <div className="container">
@@ -32,3 +31,4 @@ export default function Overview() {
     )
 
 }
+
