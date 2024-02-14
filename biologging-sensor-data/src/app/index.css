@@ -106,4 +106,5 @@ code {
 
 .main-content {
   padding: 15px 15px;
+  height: calc(100vh - 100px);
 }
