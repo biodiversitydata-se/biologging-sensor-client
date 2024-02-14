@@ -5,35 +5,32 @@ import { useEffect, useState } from 'react';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
 
+type Coordinates = [number, number][];
+
 export default function MapGraph({ events }: { events: Event[] }) {
-    const [coordinates, setCoordinates] = useState<[number, number][]>([])
-    const redOptions = { color: 'red' }
-    const center: [number, number] = [64, 17];
-
-    const c: [number, number][] = [
-        [64.1611872, 17.2607195],
-        [64.1615473, 20.2616377],
-        [64.1618952, 30.2627271]
-
-    ]
+    const [data, setData] = useState<Coordinates[]>([]);
+    const center: [number, number] = [62.3875, 16.325556];
 
     useEffect(() => {
-        const c: [number, number][] = [];
 
         const dataFetch = async () => {
-            const ids = [events[0].eventID];
-            const result = await filterRecords({ eventIds: ids, datasetIds: ["dataset_wram_moose_2003"] });
-            const records: Record[] = result.results;
+            const items = [];
 
-            records.filter(itm => itm.recordValues.latitude && itm.recordValues.longitude)
-                .map(itm => {
-                    const coor: [number, number] = [+itm.recordValues.latitude, +itm.recordValues.longitude];
-                    c.push(coor);
-                })
+            for (let i = 0; i < 3; i++) {
+                const c: Coordinates = [];
 
-            setCoordinates(c)
+                const ids = [events[i].eventID];
+                const result = await filterRecords({ eventIds: ids, datasetIds: ["dataset_wram_moose_2003"] });
+                const records: Record[] = result.results;
+                records.slice(0, 100).filter(itm => itm.recordValues.latitude && itm.recordValues.longitude)
+                    .map(itm => {
+                        const coor: [number, number] = [+itm.recordValues.latitude, +itm.recordValues.longitude];
+                        c.push(coor);
+                    })
+                items.push(c);
+            }
 
-
+            setData(items);
         };
 
         dataFetch();
@@ -41,13 +38,16 @@ export default function MapGraph({ events }: { events: Event[] }) {
     }, [events])
 
     return (
-        <div style={{ height: "300px", }}>
-            <MapContainer center={center} zoom={2} scrollWheelZoom={true} style={{ height: "100vh" }}>
+        <div>
+            <MapContainer center={center} zoom={5} scrollWheelZoom={true} className='map'>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Polyline pathOptions={redOptions} positions={coordinates} />
+                {data.map((itm, index) => {
+                    return <Polyline key={index} positions={itm} />
+                })
+                }
             </MapContainer>
         </div>
     )
