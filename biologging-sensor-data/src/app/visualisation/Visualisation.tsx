@@ -11,7 +11,7 @@ export default function Visualisation({ events }: { events: Event[] }) {
 
     return (
         <div>
-            {isMap ? <MapGraph /> : <LineGraph />}
+            {isMap ? <MapGraph /> : <LineGraph dataAPI={events} />}
 
         </div>
     )
