@@ -1,13 +1,11 @@
 import { Dataset, SelectedData } from "@/interfaces/dataset";
-import { Record } from "@/api/record/record.interface";
-import React, { useEffect, useRef, useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {Chart, registerables} from 'chart.js/auto'; // Import Chart.js library
+import Chart from 'chart.js/auto'; // Import Chart.js library
 
 // Main SensorApp component
-export default function LineGraph({dataAPI}: {dataAPI: any[]}) {
-  const chartRef = useRef<Chart | null>(null);
-
+const SensorApp: React.FC = () => {
   const [selectedDatasets, setSelectedDatasets] = useState<SelectedData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   
@@ -47,10 +45,7 @@ export default function LineGraph({dataAPI}: {dataAPI: any[]}) {
     // Render the line chart using Chart.js
     const ctx = document.getElementById('line-chart') as HTMLCanvasElement;
     if (ctx) {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-      chartRef.current = new Chart(ctx, {
+      new Chart(ctx, {
         type: 'line',
         data: {
           labels: timeData, // Using timeData for x-axis labels
@@ -80,12 +75,6 @@ export default function LineGraph({dataAPI}: {dataAPI: any[]}) {
         }
       });
     }
-
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
   }, []);
 
   return (
@@ -117,3 +106,5 @@ export default function LineGraph({dataAPI}: {dataAPI: any[]}) {
     </div>
   );
 };
+
+export default SensorApp;
