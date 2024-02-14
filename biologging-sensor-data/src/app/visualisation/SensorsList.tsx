@@ -1,7 +1,7 @@
 import { Event } from "@/api/event/event.typscript";
 import { useEffect, useState } from "react";
 import { SensorList } from "./interface";
-import { HandleSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
+import { handleSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
 
 interface Args {
     events: Event[];
@@ -9,7 +9,7 @@ interface Args {
 
 
 export default function SensorsList({ events }: Args) {
-    const { sensors, updateSensors } = HandleSensorSelection();
+    const { sensors, updateSensors } = handleSensorSelection();
 
     useEffect(() => {
         // identify sensors
