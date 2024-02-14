@@ -62,7 +62,7 @@ export interface GeographicWENS {
 
 export interface RangeDateTime {
     startDatetime: string;
-    endDateTime: string;
+    endDatetime: string;
 }
 
 export interface Reference {
