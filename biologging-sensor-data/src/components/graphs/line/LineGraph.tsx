@@ -4,54 +4,35 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Chart from 'chart.js/auto'; // Import Chart.js library
 
+// Import statements for SensorCheckbox and DatasetCheckbox
+import SensorCheckbox from '@/app/visual/SensorCheckbox';
+import DatasetCheckbox from '@/app/visual/DatasetCheckbox';
+
 // Main SensorApp component
 const SensorApp: React.FC = () => {
   const [selectedDatasets, setSelectedDatasets] = useState<SelectedData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  
-//   // Time data for x-axis
-//   const timeData = [
-//     "2006-03-21 17:51:01",
-//     "2006-03-21 17:53:15",
-//     "2006-03-21 18:04:12",
-//     "2006-03-21 18:16:57",
-//     "2006-03-21 20:30:25",
-//     "2006-03-21 18:43:25",
-//     "2006-03-21 18:21:15",
-//     "2006-03-21 22:01:17",
-//     "2006-03-22 0:01:00",
-//     "2006-03-22 4:00:56",
-//     "2006-03-22 2:00:45",
-//     "2006-03-22 6:01:15",
-//     "2006-03-22 10:01:01",
-//     "2006-03-22 12:01:21",
-//     "2006-03-22 18:01:09"
-//   ];
 
-  // Time data for x-axis in minutes
-  const timeData = [
-    0, // 12:00 AM
-    120, // 2:00 AM
-    240, // 4:00 AM
-    360, // 6:00 AM
-    600, // 10:00 AM
-    720, // 12:00 PM
-    1080, // 6:00 PM
-    1200 // 8:00 PM
-  ];
+  
 
   // Render the UI with only unique datasets
   useEffect(() => {
+    // Create dummy data for the line chart
+    const dummyData = Array.from({ length: 12 }, (_, i) => ({
+      x: i,
+      y: Math.random() * 100 // Generate random y values
+    }));
+
     // Render the line chart using Chart.js
     const ctx = document.getElementById('line-chart') as HTMLCanvasElement;
     if (ctx) {
       new Chart(ctx, {
         type: 'line',
         data: {
-          labels: timeData, // Using timeData for x-axis labels
+          labels: Array.from({ length: 12 }, (_, i) => `Time ${i}`), // Generate labels for x-axis
           datasets: [{
             label: 'Altitude',
-            data: Array.from({ length: timeData.length }, (_, i) => Math.random() * 100), // Generate random y values
+            data: dummyData,
             borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderWidth: 1
@@ -79,6 +60,8 @@ const SensorApp: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
+
+  
       <div style={{ flex: 0.9, height: '100%', overflowY: 'auto' }}>
         {/* Set flex to 0.9 for 90% width */}
         <div>
