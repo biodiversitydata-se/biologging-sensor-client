@@ -19,6 +19,9 @@ export const post = async <T>(endpoint: string, body: any): Promise<ApiResponse<
             headers: {
                 'Content-Type': 'application/json',
               },
+              params: {
+                take: 100,
+              },
         });
         return response.data;
     } catch (error) {

@@ -25,7 +25,7 @@ export default function Visualize() {
     <div className="container-fluid">
       <SensorSelectionProvider>
         <div className="row">
-          <div className="col-md-5">
+          <div className="col-md-3">
             <div className="vis-list">
               <DatasetsList onSelect={(itm: Dataset) => _updateEvents(itm)} />
             </div>

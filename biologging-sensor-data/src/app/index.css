@@ -103,3 +103,8 @@ code {
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+
+.main-content {
+  padding: 15px 15px;
+  height: calc(100vh - 100px);
+}
