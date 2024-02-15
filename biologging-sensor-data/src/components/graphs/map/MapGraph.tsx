@@ -16,7 +16,7 @@ export default function MapGraph({ events }: { events: Event[] }) {
         const dataFetch = async () => {
             const items = [];
 
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 10; i++) {
                 const c: Coordinates = [];
 
                 const ids = [events[i].eventID];
