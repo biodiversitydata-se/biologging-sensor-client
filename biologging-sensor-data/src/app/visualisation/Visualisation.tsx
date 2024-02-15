@@ -11,7 +11,7 @@ export default function Visualisation({ events }: { events: Event[] }) {
 
     return (
         <div>
-            {isMap ? <MapGraph events={events} /> : <LineGraph />}
+            {isMap ? <MapGraph events={events} /> : <LineGraph events={events} />}
 
         </div>
     )
