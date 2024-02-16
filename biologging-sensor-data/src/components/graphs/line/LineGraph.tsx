@@ -67,33 +67,31 @@ export default function LineGraph({ events }: { events: Event[] }) {
     setDataValues([]);
 
     const dataFetch = async () => {
-
       for (let i = 0; i < 3; i++) {
         const ids = [events[i].eventID];
         const ids2 = [events[i].datasetID];
         const result = await filterRecords({ eventIds: ids, datasetIds: ids2 });
         const records: Record[] = result.results;
 
-        const newLabels = [...labels];
-        const newDataValues = [...dataValues];
-
         if (selectedSensor?.sensor) {
           const sensor = selectedSensor.sensor;
           records.slice(0, 30).filter(itm => itm.recordValues[sensor])
                 .map(itm => {
-                  if(!(newLabels.includes(itm.recordStart))) {
+                  setLabels(oldLabels => {
                     let date = new Date(itm.recordStart);
                     let hours = String(date.getUTCHours()).padStart(2, '0');
                     let minutes = String(date.getUTCMinutes()).padStart(2, '0');
                     let seconds = String(date.getUTCSeconds()).padStart(2, '0');
-                    newLabels.push(`${hours}:${minutes}:${seconds}`);
-                  }
-                  newDataValues.push(itm.recordValues[sensor]);
+                    let newLabel = `${hours}:${minutes}:${seconds}`;
+                    if(!oldLabels.includes(newLabel)) {
+                      return [...oldLabels, newLabel];
+                    } else {
+                      return oldLabels;
+                    }
+                  });
+                  setDataValues(oldDataValues => [...oldDataValues, itm.recordValues[sensor]]);
                 });
-                
-                setLabels(newLabels);
         }
-              setDataValues(newDataValues);
       }
     };
     dataFetch();
@@ -103,5 +101,5 @@ export default function LineGraph({ events }: { events: Event[] }) {
     <div>
       <Line options={options} data={data} />
     </div>
-  ) : null;
+  ): null;
 }
