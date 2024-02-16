@@ -20,11 +20,11 @@ export default function LineGraph({ events }: { events: Event[] }) {
     responsive: true,
     plugins: {
       legend: {
-        position: 'center' as const,
+        position: 'top' as const,
       },
       title: {
         display: true,
-        text: 'Altitude of the Selected Dataset',
+        text: 'Altitude, Temperature, and Pressure of the Selected Dataset',
         font: {
           size: 16,
         },
@@ -33,7 +33,7 @@ export default function LineGraph({ events }: { events: Event[] }) {
   });
 
   const [labels, setLabels] = useState<string[]>([]);
-  const [altitudes, setAltitudes] = useState<number[]>([]);
+  const [datasets, setDatasets] = useState<any[]>([]);
   
   ChartJS.register(
     CategoryScale,
@@ -45,52 +45,73 @@ export default function LineGraph({ events }: { events: Event[] }) {
     Legend
   );
   
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Altitude',
-        data: altitudes,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      }
-    ],
-  };
-
   useEffect(() => {
     const dataFetch = async () => {
+      let newDatasets = [...datasets];
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < events.length; i++) {
         const ids = [events[i].eventID];
         const ids2 = [events[i].datasetID];
         const result = await filterRecords({ eventIds: ids, datasetIds: ids2 });
         const records: Record[] = result.results;
 
         const newLabels = [...labels];
-        const newAltitudes = [...altitudes];
+        const newAltitudes = [];
+        const newTemperatures = [];
+        const newPressures = [];
 
-        records.slice(0, 30).filter(itm => itm.recordValues.altitude)
-              .map(itm => {
-                if(!(newLabels.includes(itm.recordStart))) {
-                  let date = new Date(itm.recordStart);
-                  let hours = String(date.getUTCHours()).padStart(2, '0');
-                  let minutes = String(date.getUTCMinutes()).padStart(2, '0');
-                  let seconds = String(date.getUTCSeconds()).padStart(2, '0');
-                  newLabels.push(`${hours}:${minutes}:${seconds}`);
-                }
-                newAltitudes.push(itm.recordValues.altitude);
-              });
-              
-              setLabels(newLabels);
-              setAltitudes(newAltitudes);
+        records.slice(0, 30).map(itm => {
+          if(!(newLabels.includes(itm.recordStart))) {
+            let date = new Date(itm.recordStart);
+            let hours = String(date.getUTCHours()).padStart(2, '0');
+            let minutes = String(date.getUTCMinutes()).padStart(2, '0');
+            let seconds = String(date.getUTCSeconds()).padStart(2, '0');
+            newLabels.push(`${hours}:${minutes}:${seconds}`);
+          }
+          newAltitudes.push(itm.recordValues.altitude);
+          newTemperatures.push(itm.recordValues.temperature);
+          newPressures.push(itm.recordValues.pressure);
+        });
+
+        newDatasets.push(
+          {
+            label: `Altitude`,
+            data: newAltitudes,
+            borderColor: `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            fill: false,
+          },
+          {
+            label: `Temperature`,
+            data: newTemperatures,
+            borderColor: `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            fill: false,
+          },
+          {
+            label: `Pressure`,
+            data: newPressures,
+            borderColor: `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            fill: false,
+          }
+        );
+
+        setLabels(newLabels);
+        setDatasets(newDatasets);
       }
     };
     dataFetch();
   }, [events]);
 
-    return (
-        <div>
-             <Line options={options} data={data} />
-        </div>
-    )
+  const data = {
+    labels,
+    datasets,
+  };
+
+  return (
+    <div>
+      <Line options={options} data={data} />
+    </div>
+  )
 }
