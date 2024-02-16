@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import '../../index.css';
 import { Dataset } from '@/api/dataset/dataset.interface';
 import Detail from './Detail';
@@ -13,7 +12,6 @@ function DetailPage({ params }: { params: { id: string } }) {
     const fetchData = async () => {
       try {
         const response = await getDataset(params.id);
-        console.log(response)
         setDetailData(response);
       } catch (error) {
         if (error instanceof Error) {

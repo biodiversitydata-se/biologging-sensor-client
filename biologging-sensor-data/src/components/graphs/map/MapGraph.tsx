@@ -20,7 +20,7 @@ export default function MapGraph({ events }: { events: Event[] }) {
                 const c: Coordinates = [];
 
                 const ids = [events[i].eventID];
-                const result = await filterRecords({ eventIds: ids, datasetIds: ["dataset_wram_moose_2003"] });
+                const result = await filterRecords({ eventIds: ids, datasetIds: [events[i].datasetID] });
                 const records: Record[] = result.results;
                 records.slice(0, 100).filter(itm => itm.recordValues.latitude && itm.recordValues.longitude)
                     .map(itm => {

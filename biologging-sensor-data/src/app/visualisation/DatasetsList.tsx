@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 
 
 interface Args {
+  initDataset: string | null;
   onSelect: (itm: Dataset) => void;
 }
 
 
-export default function DatasetsList({ onSelect }: Args) {
+export default function DatasetsList({ initDataset, onSelect }: Args) {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [selected, setSelected] = useState<Dataset>();
 
@@ -21,6 +22,10 @@ export default function DatasetsList({ onSelect }: Args) {
       );
 
       setDatasets(sorted);
+
+      if (initDataset) {
+        _selectDataset(datasets.findIndex(itm => itm.datasetID === initDataset));
+      }
     }
 
     fetchDataset();
