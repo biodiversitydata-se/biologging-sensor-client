@@ -14,6 +14,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/react-leaflet": "^3.0.0",
     "axios": "^1.6.2",
     "bootstrap": "^3.4.1",
     "chart.js": "^4.4.1",
