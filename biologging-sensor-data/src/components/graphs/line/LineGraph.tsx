@@ -14,6 +14,7 @@ import {
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
+import { handleSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
 
 export default function LineGraph({ events }: { events: Event[] }) {
   const [options, setOptions] = useState<ChartOptions>({
@@ -33,7 +34,7 @@ export default function LineGraph({ events }: { events: Event[] }) {
   });
 
   const [labels, setLabels] = useState<string[]>([]);
-  const [altitudes, setAltitudes] = useState<number[]>([]);
+  const [dataValues, setDataValues] = useState<number[]>([]);
   
   ChartJS.register(
     CategoryScale,
@@ -44,13 +45,16 @@ export default function LineGraph({ events }: { events: Event[] }) {
     Tooltip,
     Legend
   );
-  
+
+  const { sensors } = handleSensorSelection();
+  const selectedSensor = sensors.find(sensor => sensor.selected);
+
   const data = {
     labels,
     datasets: [
       {
-        label: 'Altitude',
-        data: altitudes,
+        label: selectedSensor?.sensor || '',
+        data: dataValues,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       }
@@ -58,6 +62,10 @@ export default function LineGraph({ events }: { events: Event[] }) {
   };
 
   useEffect(() => {
+    // Reset labels and dataValues
+    setLabels([]);
+    setDataValues([]);
+
     const dataFetch = async () => {
 
       for (let i = 0; i < 3; i++) {
@@ -67,30 +75,33 @@ export default function LineGraph({ events }: { events: Event[] }) {
         const records: Record[] = result.results;
 
         const newLabels = [...labels];
-        const newAltitudes = [...altitudes];
+        const newDataValues = [...dataValues];
 
-        records.slice(0, 30).filter(itm => itm.recordValues.altitude)
-              .map(itm => {
-                if(!(newLabels.includes(itm.recordStart))) {
-                  let date = new Date(itm.recordStart);
-                  let hours = String(date.getUTCHours()).padStart(2, '0');
-                  let minutes = String(date.getUTCMinutes()).padStart(2, '0');
-                  let seconds = String(date.getUTCSeconds()).padStart(2, '0');
-                  newLabels.push(`${hours}:${minutes}:${seconds}`);
-                }
-                newAltitudes.push(itm.recordValues.altitude);
-              });
-              
-              setLabels(newLabels);
-              setAltitudes(newAltitudes);
+        if (selectedSensor?.sensor) {
+          const sensor = selectedSensor.sensor;
+          records.slice(0, 30).filter(itm => itm.recordValues[sensor])
+                .map(itm => {
+                  if(!(newLabels.includes(itm.recordStart))) {
+                    let date = new Date(itm.recordStart);
+                    let hours = String(date.getUTCHours()).padStart(2, '0');
+                    let minutes = String(date.getUTCMinutes()).padStart(2, '0');
+                    let seconds = String(date.getUTCSeconds()).padStart(2, '0');
+                    newLabels.push(`${hours}:${minutes}:${seconds}`);
+                  }
+                  newDataValues.push(itm.recordValues[sensor]);
+                });
+                
+                setLabels(newLabels);
+        }
+              setDataValues(newDataValues);
       }
     };
     dataFetch();
-  }, [events]);
+  }, [events, selectedSensor]);
 
-    return (
-        <div>
-             <Line options={options} data={data} />
-        </div>
-    )
+  return selectedSensor?.sensor === 'altitude' ? (
+    <div>
+      <Line options={options} data={data} />
+    </div>
+  ) : null;
 }
