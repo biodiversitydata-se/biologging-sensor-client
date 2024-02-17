@@ -5,7 +5,7 @@ export interface Record{
     datasetID: string;		
     recordStart: string;	
     recordEnd: string;
-    recordValues: KeyValue[];
+    recordValues: any;
     dateCreated: string;
     dateUpdated: string;
 }
