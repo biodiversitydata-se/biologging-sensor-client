@@ -16,7 +16,7 @@ export default function SensorsList({ events }: Args) {
         const sensorSet = new Set<string>();
 
         for (const e of events) {
-            e.sensorTypes.map((itm) => {
+            e.valuesMeasured.map((itm) => {
                 sensorSet.add(itm);
             })
         }
