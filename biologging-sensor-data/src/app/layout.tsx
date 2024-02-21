@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* ALA dependencies */}
-        <base href="/" />
+        <base href="/biologging-client-dev/" />
         <link rel="stylesheet" type="text/css" href="https://static.biodiversitydata.se/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="https://static.biodiversitydata.se/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="https://static.biodiversitydata.se/css/ala-styles.min.css" />
