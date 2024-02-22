@@ -13,7 +13,6 @@ So from my pov there should be three different types of rows in this config tabl
 2- If no specific settings for this dataset, settings for the sensorType.
 3- If no specific settings for this sensorType, default settings
 
-
 Req = requirement: R = required, r = recommended, o = optional.
 
 
