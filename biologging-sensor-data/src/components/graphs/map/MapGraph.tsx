@@ -1,6 +1,6 @@
 import { Event } from '@/api/event/event.typscript';
 import './MapGraph.css';
-import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
+import { CircleMarker, MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
 import { useEffect, useState } from 'react';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
@@ -9,7 +9,7 @@ type Coordinates = [number, number][];
 
 export default function MapGraph({ events }: { events: Event[] }) {
     const [data, setData] = useState<Coordinates[]>([]);
-    const center: [number, number] = [62.3875, 16.325556];
+    const [center, setCenter] = useState<[number, number]>([62.3875, 16.325556]);
 
     useEffect(() => {
 
@@ -34,8 +34,13 @@ export default function MapGraph({ events }: { events: Event[] }) {
         };
 
         dataFetch();
-
     }, [events])
+
+    useEffect(() => {
+        if (data.length > 0) {
+            setCenter(data[0][0]);
+        }
+    }, [data])
 
     function _getColor(): string {
         const colors: string[] = [
@@ -72,7 +77,17 @@ export default function MapGraph({ events }: { events: Event[] }) {
                     return <Polyline key={index} color={_getColor()} positions={itm} />
                 })
                 }
+
+                {data.map(e => {
+                    const markers: JSX.Element[] = [];
+                    e.map((x, i) => {
+                        markers.push(<CircleMarker key={i} center={x} ></CircleMarker>);
+                    })
+                    return markers;
+                })}
+
+
             </MapContainer>
-        </div>
+        </div >
     )
 }
