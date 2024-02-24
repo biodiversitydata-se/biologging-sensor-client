@@ -1,11 +1,12 @@
 import { Event } from '@/api/event/event.typscript';
 import './MapGraph.css';
-import { CircleMarker, MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
-import { useEffect, useState } from 'react';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
+import MapComponent from './MapComponent';
+import { useState, useEffect } from 'react';
+import { MapContainer } from 'react-leaflet';
 
-type Coordinates = [number, number][];
+export type Coordinates = [number, number][];
 
 export default function MapGraph({ events }: { events: Event[] }) {
     const [data, setData] = useState<Coordinates[]>([]);
@@ -16,7 +17,7 @@ export default function MapGraph({ events }: { events: Event[] }) {
         const dataFetch = async () => {
             const items = [];
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 5; i++) {
                 const c: Coordinates = [];
 
                 const ids = [events[i].eventID];
@@ -36,57 +37,10 @@ export default function MapGraph({ events }: { events: Event[] }) {
         dataFetch();
     }, [events])
 
-    useEffect(() => {
-        if (data.length > 0) {
-            setCenter(data[0][0]);
-        }
-    }, [data])
-
-    function _getColor(): string {
-        const colors: string[] = [
-            "#FF5733",
-            "#33FF57",
-            "#3366FF",
-            "#FF33FF",
-            "#FFFF33",
-            "#33FFFF",
-            "#FF3333",
-            "#33FF33",
-            "#3333FF",
-            "#FF6633",
-            "#33FF66",
-            "#6633FF",
-            "#FF33CC",
-            "#33CCFF",
-            "#CC33FF",
-            "#CCFF33",
-        ]
-
-        const i = Math.floor(Math.random() * colors.length);
-        return colors[i];
-    }
-
     return (
         <div>
             <MapContainer center={center} zoom={5} scrollWheelZoom={true} className='map'>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {data.map((itm, index) => {
-                    return <Polyline key={index} color={_getColor()} positions={itm} />
-                })
-                }
-
-                {data.map(e => {
-                    const markers: JSX.Element[] = [];
-                    e.map((x, i) => {
-                        markers.push(<CircleMarker key={i} center={x} ></CircleMarker>);
-                    })
-                    return markers;
-                })}
-
-
+                <MapComponent data={data} />
             </MapContainer>
         </div >
     )
