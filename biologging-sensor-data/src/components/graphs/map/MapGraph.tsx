@@ -1,22 +1,23 @@
 import { Event } from '@/api/event/event.typscript';
 import './MapGraph.css';
-import { MapContainer, Polyline, TileLayer } from 'react-leaflet';
-import { useEffect, useState } from 'react';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
+import MapComponent from './MapComponent';
+import { useState, useEffect } from 'react';
+import { MapContainer } from 'react-leaflet';
 
-type Coordinates = [number, number][];
+export type Coordinates = [number, number][];
 
 export default function MapGraph({ events }: { events: Event[] }) {
     const [data, setData] = useState<Coordinates[]>([]);
-    const center: [number, number] = [62.3875, 16.325556];
+    const [center, setCenter] = useState<[number, number]>([62.3875, 16.325556]);
 
     useEffect(() => {
 
         const dataFetch = async () => {
             const items = [];
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 5; i++) {
                 const c: Coordinates = [];
 
                 const ids = [events[i].eventID];
@@ -34,21 +35,13 @@ export default function MapGraph({ events }: { events: Event[] }) {
         };
 
         dataFetch();
-
     }, [events])
 
     return (
         <div>
             <MapContainer center={center} zoom={5} scrollWheelZoom={true} className='map'>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {data.map((itm, index) => {
-                    return <Polyline key={index} positions={itm} />
-                })
-                }
+                <MapComponent data={data} />
             </MapContainer>
-        </div>
+        </div >
     )
 }
