@@ -1,3 +1,5 @@
+// NEW CODE WITH HOURLY TIME SCALE
+
 import React, { useEffect, useState } from 'react';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
