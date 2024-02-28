@@ -13,7 +13,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
             {/* HEADER */}
             <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div>
-                    Dataset record: <span style={bold}>{data?.datasetID}</span>
+                    Dataset record: 
                 </div>
 
                 <div>
