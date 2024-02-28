@@ -70,7 +70,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       const datasets: LineDataset[] = [];
       const colors: string[] = [];
 
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 5; i++) {
         const eventIds = [events[i].eventID];
         const datasetids = [events[i].datasetID];
         const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetids });
@@ -116,7 +116,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   }  
 
   return (
-    <div>
+    <div style={{ marginBottom: '20px' }}>
       <Line options={options} data={lineData} />
     </div>
   );
