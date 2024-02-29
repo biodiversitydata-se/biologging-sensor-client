@@ -36,22 +36,22 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
             <div style={{ backgroundColor: "#fafafa", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div className="row">
                     <div className="col-md-2" style={bold}>Title:</div>
-                    <div>{data?.datasetTitle}</div>
+                    <div className="col-md-10">{data?.datasetTitle}</div>
                 </div>
 
                 <div className="row">
                     <div className="col-md-2" style={bold}>Description:</div>
-                    <div>{data?.datasetDescription}</div>
+                    <div className="col-md-10">{data?.datasetDescription}</div>
                 </div>
 
                 <div className="row">
                     <div className="col-md-2" style={bold}>Instruments:</div>
-                    <div>{data?.instrumentTypes?.join(", ")}</div>
+                    <div className="col-md-10">{data?.instrumentTypes?.join(", ")}</div>
                 </div>
 
                 <div className="row">
                     <div className="col-md-2" style={bold}>Sensors:</div>
-                    <div>{data?.sensorTypes?.join(", ")}</div>
+                    <div className="col-md-10">{data?.sensorTypes?.join(", ")}</div>
                 </div>
             </div>
         </div>
