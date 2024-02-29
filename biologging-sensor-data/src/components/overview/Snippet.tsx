@@ -1,16 +1,13 @@
 import { Dataset } from "@/api/dataset/dataset.interface";
 import Link from "next/link";
 
-// #f2f2f2 - table header
-// #fafafa table content
-
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
+    console.log(data);
     const bold = {
         fontWeight: "bold",
     }
     return (
         <div>
-            {/* HEADER */}
             <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div>
                     Dataset record: 
@@ -27,12 +24,13 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                 </div>
 
                 <div>
-                    <Link href="/visualisation">Visualisation</Link>
+                    {data?.numberOfRecords && data?.numberOfRecords > 0 && (
+                        <Link href="/visualisation">Visualisation</Link>
+                    )}
                 </div>
 
             </div>
 
-            {/* CONTENT */}
             <div style={{ backgroundColor: "#fafafa", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div className="row">
                     <div className="col-md-2" style={bold}>Title:</div>
