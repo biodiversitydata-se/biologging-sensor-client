@@ -23,11 +23,11 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                             id: data?.datasetID,
                         },
                     }}
-                        as={`/detail/${data?.datasetID}`}> Show all information about this dataset</Link>
+                        as={`/detail/${data?.datasetID}`}>More information</Link>
                 </div>
 
                 <div>
-                    <Link href="/visualisation">Data visualisation tool</Link>
+                    <Link href="/visualisation">Visualisation</Link>
                 </div>
 
             </div>
