@@ -43,7 +43,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
 
                         <div className="col-md-12">
-                            <strong className="col-md-6">Contact Curator Owner | Firstname & Lastname: </strong>
+                            <strong className="col-md-6">Contact Curator Owner: </strong>
                             <div className="col-md-6">
                                 {detail?.curator.map((person, index) => (
                                     <div key={index}>
@@ -56,7 +56,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
 
                         <div className="col-md-12">
-                            <strong className="col-md-6">Contact Creator | Firstname & Lastname: </strong>
+                            <strong className="col-md-6">Contact Creator: </strong>
                             <div className="col-md-6">
                                 {detail?.creator.map((person, index) => (
                                     <div key={index}>
@@ -69,7 +69,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
 
                         <div className="col-md-12">
-                            <strong className="col-md-6">ContactQuestions | Firstname & Lastname</strong>
+                            <strong className="col-md-6">ContactQuestions:</strong>
                             <div className="col-md-6">
                                 {detail?.contact.map((person, index) => (
                                     <div key={index}>
