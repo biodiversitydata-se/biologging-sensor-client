@@ -96,7 +96,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                         <div className="col-md-12">
                             <div>
-                                <strong className="col-md-3">Taxon | commonName: </strong>
+                                <strong className="col-md-3">Taxon: </strong>
                                 <div className="col-md-3">
                                     {detail?.taxonomicCoverage.map((taxon, index) => (
                                         <div key={index}>
