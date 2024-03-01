@@ -28,6 +28,13 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
 
                         <div className="col-md-12">
+                            <strong className="col-md-6">Total records: </strong>
+                            <div className="col-md-6">
+                                {detail?.numberOfRecords}
+                            </div>
+                        </div>
+
+                        <div className="col-md-12">
                             <strong className="col-md-6">Bibliographic Citation: </strong>
                             <div className="col-md-6">
                                 {detail?.bibliographicCitation.DOI && <div>DOI: {detail?.bibliographicCitation.DOI}</div>}
