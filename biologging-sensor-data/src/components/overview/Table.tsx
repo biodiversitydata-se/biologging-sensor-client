@@ -43,7 +43,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
                           id: item.datasetID,
                         },
                       }}
-                      as={`/detail/${item.datasetID}`}
+                      as={`detail/${item.datasetID}`}
                     >
                       <FontAwesomeIcon icon={faInfo} />
                     </Link>
