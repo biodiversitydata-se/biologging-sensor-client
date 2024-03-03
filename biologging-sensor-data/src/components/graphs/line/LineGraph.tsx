@@ -1,3 +1,5 @@
+// NEW CODE WITH HOURLY TIME SCALE
+
 import React, { useEffect, useState } from 'react';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
@@ -72,8 +74,8 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
       for (let i = 0; i < 5; i++) {
         const eventIds = [events[i].eventID];
-        const datasetids = [events[i].datasetID];
-        const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetids });
+        const datasetIds = [events[i].datasetID];
+        const result = await filterRecords({ eventIds: , datasetIds: datasetIds });
         const records: Record[] = result.results;
 
         const values: number[] = [];
@@ -84,8 +86,8 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           if (value) {
             values.push(value);
           }
-        })
-
+        });
+        
         colors.push(getRandomColor());
         datasets.push({ label: events[i].eventID, data: values, backgroundColor: colors[i]});
       }
@@ -113,7 +115,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }  
+  }
 
   return (
     <div style={{ marginBottom: '20px' }}>
