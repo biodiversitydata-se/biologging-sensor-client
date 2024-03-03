@@ -2,7 +2,6 @@ import { Dataset } from "@/api/dataset/dataset.interface";
 import Link from "next/link";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
-    console.log(data);
     const bold = {
         fontWeight: "bold",
     }
