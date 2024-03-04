@@ -75,7 +75,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       for (let i = 0; i < 5; i++) {
         const eventIds = [events[i].eventID];
         const datasetIds = [events[i].datasetID];
-        const result = await filterRecords({ eventIds: , datasetIds: datasetIds });
+        const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds });
         const records: Record[] = result.results;
 
         const values: number[] = [];
