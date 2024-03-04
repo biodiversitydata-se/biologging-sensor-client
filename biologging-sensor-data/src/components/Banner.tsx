@@ -65,8 +65,26 @@ const Banner = () => {
                     <nav id="site-navigation-bottom-desktop"
                       className="site-navigation primary-menu primary-menu-bottom nav-menu-desktop primary-menu-desktop style-plain">
                       <ul id="menu-nested-pages-main-menu" className="primary-menu-ul menu nav-menu">
-                        <li><Link href="/">Dataset Listing</Link> </li>
-                        <li><Link href="/visualisation">Dataset Visualisation</Link></li>
+                        <li>
+                          <Link href={{
+                            pathname: `/`,
+                          }}
+                            as={''}
+                          >
+                            Dataset Listing
+                          </Link>
+                        </li>
+
+                        <li>
+                          <Link href={{
+                            pathname: `/visualisation`,
+                          }}
+                            as={'visualisation'}
+                          >
+                            Dataset Visualisation
+                          </Link>
+
+                        </li>
                       </ul>
                     </nav>
                   </div>
@@ -95,8 +113,26 @@ const Banner = () => {
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav navbar-right">
                 {/* ...your links... */}
-                <li><Link href="/">Dataset Listing</Link></li>
-                <li><Link href="/visual">Dataset Visualisation</Link></li>
+                <li>
+                  <Link href={{
+                    pathname: `/`,
+                  }}
+                    as={''}
+                  >
+                    Dataset Listing
+                  </Link>
+                </li>
+
+                <li>
+                  <Link href={{
+                    pathname: `/visualisation`,
+                  }}
+                    as={'visualisation'}
+                  >
+                    Dataset Visualisation
+                  </Link>
+
+                </li>
               </ul>
             </div>
           )}
