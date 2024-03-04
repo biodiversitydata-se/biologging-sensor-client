@@ -29,6 +29,7 @@ export interface Dataset {
     sensitiveData: boolean;
     dateCreated: string;
     dateUpdated: string;
+    numberOfRecords: number;
 }
 
 export interface Contact {
