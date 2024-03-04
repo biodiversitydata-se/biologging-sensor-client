@@ -26,6 +26,8 @@ ChartJS.register(
   Legend
 );
 
+
+
 export const options = {
   responsive: true,
   plugins: {
@@ -37,13 +39,15 @@ export const options = {
     x: {
       type: 'linear',
       min: 0, // Minimum value on x-axis
-      max: 24, // Maximum value on x-axis (24 hours)
+      max: 48, // Maximum value on x-axis (24 hours)
       ticks: {
         stepSize: 4, // Interval of 4 hours
+        callback: (value) => `${value}:00`, // Custom tick format to display hour
       },
     },
   },
 };
+
 
 interface LineDataset {
   label: string;
@@ -58,6 +62,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   const [lineData, setLineData] = useState<LineData>({ datasets: [] });
 
   useEffect(() => {
+    
     const dataFetch = async () => {
       const datasets: LineDataset[] = [];
 
@@ -85,6 +90,9 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
     dataFetch();
   }, [events, sensor]);
+
+
+  
 
   return (
     <div>
