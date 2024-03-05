@@ -3,6 +3,7 @@ import './Table.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Dataset } from "@/api/dataset/dataset.interface";
+import { TEST_URL_BASE } from "@/constants";
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
   const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';

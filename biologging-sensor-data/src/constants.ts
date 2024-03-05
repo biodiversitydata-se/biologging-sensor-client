@@ -1,1 +1,1 @@
-const TEST_URL_BASE = "/biologging-client-dev/";
+export const TEST_URL_BASE = "/biologging-client-dev/";
