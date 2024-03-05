@@ -56,6 +56,12 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           display: true,
           text: 'Time',
         },
+        ticks: {
+          // stepSize: 4, // Interval of 4 hours
+          callback: function(value, index, values) {
+            return `${value}:00`; // Format time as hours
+          }
+        }
       },
       y: {
         title: {
@@ -64,7 +70,9 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
         },
       },
     },
+    
   });
+  
 
   useEffect(() => {
     const dataFetch = async () => {
