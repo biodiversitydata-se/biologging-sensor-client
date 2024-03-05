@@ -2,6 +2,8 @@ import { Dataset } from "@/api/dataset/dataset.interface";
 import Link from "next/link";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
+    const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
+
     const bold = {
         fontWeight: "bold",
     }
@@ -9,7 +11,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
         <div>
             <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div>
-                    Dataset record: 
+                    Dataset record:
                 </div>
 
                 <div>
@@ -19,12 +21,18 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                             id: data?.datasetID,
                         },
                     }}
-                        as={`/detail/${data?.datasetID}`}>More information</Link>
+                        as={`${baseUrl}detail/${data?.datasetID}`}>More information</Link>
                 </div>
 
                 <div>
                     {data?.numberOfRecords && data?.numberOfRecords > 0 && (
-                        <Link href="/visualisation">Visualisation</Link>
+                        <Link href={{
+                            pathname: `/visualisation`,
+                            query: {
+                                id: data?.datasetID,
+                            },
+                        }}
+                            as={`${baseUrl}visualisation`}>Visualisation</Link>
                     )}
                 </div>
 

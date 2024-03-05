@@ -5,6 +5,8 @@ import { useState } from "react";
 const Banner = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
+
   return (
     <>
       <header id="masthead" className="site-header header-v1">
@@ -69,7 +71,7 @@ const Banner = () => {
                           <Link href={{
                             pathname: `/`,
                           }}
-                            as={''}
+                            as={baseUrl}
                           >
                             Dataset Listing
                           </Link>
@@ -79,7 +81,7 @@ const Banner = () => {
                           <Link href={{
                             pathname: `/visualisation`,
                           }}
-                            as={'visualisation'}
+                            as={`${baseUrl}visualisation`}
                           >
                             Dataset Visualisation
                           </Link>
@@ -117,7 +119,7 @@ const Banner = () => {
                   <Link href={{
                     pathname: `/`,
                   }}
-                    as={''}
+                    as={baseUrl}
                   >
                     Dataset Listing
                   </Link>
@@ -127,7 +129,7 @@ const Banner = () => {
                   <Link href={{
                     pathname: `/visualisation`,
                   }}
-                    as={'visualisation'}
+                    as={`${baseUrl}visualisation`}
                   >
                     Dataset Visualisation
                   </Link>
