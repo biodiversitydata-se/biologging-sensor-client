@@ -1,5 +1,3 @@
-// NEW CODE WITH HOURLY TIME SCALE
-
 import React, { useEffect, useState } from 'react';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
@@ -56,6 +54,12 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           display: true,
           text: 'Time',
         },
+        ticks: {
+          // stepSize: 4, // Interval of 4 hours
+          callback: function(value, index, values) {
+            return value; // Format time as hours
+          }
+        }
       },
       y: {
         title: {
