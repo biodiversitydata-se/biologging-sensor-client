@@ -1,5 +1,3 @@
-// NEW CODE WITH HOURLY TIME SCALE
-
 import React, { useEffect, useState } from 'react';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
@@ -70,24 +68,22 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
         },
       },
     },
-    
   });
-  
 
   useEffect(() => {
     const dataFetch = async () => {
       const labels = new Set<string>();
       const datasets: LineDataset[] = [];
       const colors: string[] = [];
-
+  
       for (let i = 0; i < 5; i++) {
         const eventIds = [events[i].eventID];
         const datasetIds = [events[i].datasetID];
         const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds });
         const records: Record[] = result.results;
-
+  
         const values: number[] = [];
-
+  
         records.map(itm => {
           labels.add(_setLabel(itm));
           const value = itm.recordValues[sensor];
@@ -99,13 +95,17 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
         colors.push(getRandomColor());
         datasets.push({ label: events[i].eventID, data: values, backgroundColor: colors[i]});
       }
-
-      setLineData({ ...lineData, labels: Array.from(labels), datasets: datasets})
+  
+      // Convert set to array and filter to include only every 4th label
+      const filteredLabels = Array.from(labels).filter((_, index) => index % 4 === 0);
+  
+      setLineData({ ...lineData, labels: filteredLabels, datasets: datasets})
     }
-
+  
     dataFetch();
-
+  
   }, [events])
+  
 
   function _setLabel(itm: Record): string {
     const date = new Date(itm.recordStart);
