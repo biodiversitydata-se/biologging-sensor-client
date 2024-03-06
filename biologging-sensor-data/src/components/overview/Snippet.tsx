@@ -2,7 +2,7 @@ import { Dataset } from "@/api/dataset/dataset.interface";
 import Link from "next/link";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
-    const bold = {
+        const bold = {
         fontWeight: "bold",
     }
     return (
@@ -48,7 +48,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
                 <div className="row">
                     <div className="col-md-2" style={bold}>Sensors:</div>
-                    <div className="col-md-10">{data?.sensorTypes?.join(", ")}</div>
+                    <div className="col-md-10">{data?.valuesMeasured?.join(", ")}</div>
                 </div>
             </div>
         </div>
