@@ -1,5 +1,3 @@
-// NEW CODE WITH HOURLY TIME SCALE
-
 import React, { useEffect, useState } from 'react';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
@@ -30,6 +28,7 @@ interface LineDataset {
   label: string;
   data: number[];
   backgroundColor: string;
+  borderColor: string;
 }
 
 interface LineData {
@@ -39,6 +38,7 @@ interface LineData {
 
 export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
   const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: []});
+  const [colors, setColors] = useState<string[]>([]);
   const [options, setOptions] = useState({
     responsive: true,
     plugins: {
@@ -67,10 +67,42 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   });
 
   useEffect(() => {
+    if (colors.length !== events.length) {
+      setColors(events.map(() => getRandomColor()));
+    }
+  }, [events]);
+
+  useEffect(() => {
+    setOptions({
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom' as const,
+        },
+        title: {
+          display: true,
+          text: sensor.toUpperCase(),
+        },
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Time',
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: sensor,
+          },
+        },
+      },
+    });
+
     const dataFetch = async () => {
       const labels = new Set<string>();
       const datasets: LineDataset[] = [];
-      const colors: string[] = [];
 
       for (let i = 0; i < 5; i++) {
         const eventIds = [events[i].eventID];
@@ -88,16 +120,15 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           }
         });
         
-        colors.push(getRandomColor());
-        datasets.push({ label: events[i].eventID, data: values, backgroundColor: colors[i]});
+        datasets.push({ label: events[i].eventID, data: values, backgroundColor: colors[i], borderColor: colors[i]});
       }
 
-      setLineData({ ...lineData, labels: Array.from(labels), datasets: datasets})
+      setLineData({ labels: Array.from(labels), datasets: datasets})
     }
 
     dataFetch();
 
-  }, [events])
+  }, [events, sensor, lineData, colors]);
 
   function _setLabel(itm: Record): string {
     const date = new Date(itm.recordStart);
