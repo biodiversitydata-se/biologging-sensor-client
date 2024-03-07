@@ -56,9 +56,14 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             <div className="col-md-6">
                                 {detail?.curator.map((person, index) => (
                                     <div key={index}>
-                                        <span>{person.firstName + ', '}</span>
-                                        <span>{person.lastName}</span>
-                                        <span>{person.emailAddress ? ' , ' + person.emailAddress : null}</span>
+                                        <div>
+                                            <a href={person.webpage}>
+                                               <span>{person.firstName + ', '}</span>
+                                               <span>{person.lastName}</span>
+                                            </a>
+                                        </div>
+                                        <div>{person.email ? person.email : null}</div>
+                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
@@ -69,9 +74,14 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             <div className="col-md-6">
                                 {detail?.creator.map((person, index) => (
                                     <div key={index}>
-                                        <span>{person.firstName + ', '}</span>
-                                        <span>{person.lastName}</span>
-                                        <span>{person.emailAddress ? ' , ' + person.emailAddress : null}</span>
+                                         <div>
+                                            <a href={person.webpage}>
+                                               <span>{person.firstName + ', '}</span>
+                                               <span>{person.lastName}</span>
+                                            </a>
+                                        </div>
+                                        <div>{person.email ? person.email : null}</div>
+                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
@@ -82,9 +92,14 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             <div className="col-md-6">
                                 {detail?.contact.map((person, index) => (
                                     <div key={index}>
-                                        <span>{person.firstName + ', '}</span>
-                                        <span>{person.lastName}</span>
-                                        <span>{person.emailAddress ? ' , ' + person.emailAddress : null}</span>
+                                        <div>
+                                            <a href={person.webpage}>
+                                               <span>{person.firstName + ', '}</span>
+                                               <span>{person.lastName}</span>
+                                            </a>
+                                        </div>
+                                        <div>{person.email ? person.email : null}</div>
+                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
@@ -96,7 +111,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 <div className="col-md-6">
                                     {detail?.taxonomicCoverage.map((taxon, index) => (
                                         <div key={index}>
-                                            <div>Guid: {`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}</div>
+                                            <div>Guid: <a href={`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}>{`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}</a></div>
                                             <div>Scientific Name: {taxon.scientificName}</div>
                                             <div>Common Name: {taxon.commonName}</div>
                                         </div>

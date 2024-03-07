@@ -37,8 +37,9 @@ export interface Dataset {
 export interface Contact {
     firstName: string;	
     lastName: string;
-    emailAddress: string;
-    userId: string;
+    email: string;
+    userid: string;
+    webpage: string;
 }
 
 export interface Taxon {
