@@ -23,7 +23,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <div className="col-md-12">
                             <strong className="col-md-6">Start date - End Date: </strong>
                             <div className="col-md-6">
-                                {detail?.temporalCoverage?.startDatetime?.slice(0, 10)} - {detail?.temporalCoverage?.endDateTime?.slice(0, 10)}
+                                {detail?.temporalCoverage?.startDatetime?.slice(0, 10)} - {detail?.temporalCoverage?.endDateTime ? detail.temporalCoverage.endDateTime.slice(0, 10) : "ongoing"}
                             </div>
                         </div>
 
