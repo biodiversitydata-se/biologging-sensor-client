@@ -31,6 +31,7 @@ export interface Dataset {
     dateUpdated: string;
     numberOfRecords: number;
     isFinalized: boolean;
+    valuesMeasured: string[];
 }
 
 export interface Contact {
