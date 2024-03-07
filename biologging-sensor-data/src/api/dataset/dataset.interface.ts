@@ -31,6 +31,7 @@ export interface Dataset {
     dateUpdated: string;
     numberOfRecords: number;
     valuesMeasured: string[];
+    isFinalized: boolean;
 }
 
 export interface Contact {
@@ -57,7 +58,7 @@ export interface GeographicWENS {
 export interface RangeDateTime {
     startDatetime: string;
     endDateTime: string;
-}
+    }
 
 export interface Reference {
     DOI: string;
