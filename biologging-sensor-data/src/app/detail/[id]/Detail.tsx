@@ -88,6 +88,28 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                         <div className="col-md-12">
                             <div>
+                                <strong className="col-md-6">Taxon: </strong>
+                                <div className="col-md-6">
+                                    {detail?.taxonomicCoverage.map((taxon, index) => (
+                                        <div key={index}>
+                                            <div>Guid: {`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}</div>
+                                            <div>Scientific Name: {taxon.scientificName}</div>
+                                            <div>Common Name: {taxon.commonName}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-12">
+                            <div>
+                                <strong className="col-md-6">Sensor Type:  </strong>
+                                <div className="col-md-6">{detail?.valuesMeasured?.join(', ')}</div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-12">
+                            <div>
                                 <strong className="col-md-3">Institution: </strong>
                                 <div className="col-md-3">{detail?.institutionCode}</div>
                             </div>
@@ -95,27 +117,6 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             <div>
                                 <strong className="col-md-3">Animal Count: </strong>
                                 <div className="col-md-3">{detail?.animalCount}</div>
-                            </div>
-                        </div>
-
-
-                        <div className="col-md-12">
-                            <div>
-                                <strong className="col-md-3">Taxon: </strong>
-                                <div className="col-md-3">
-                                    {detail?.taxonomicCoverage.map((taxon, index) => (
-                                        <div key={index}>
-                                            <div>Guid: {taxon.guid}</div>
-                                            <div>Scientific Name: {taxon.scientificName}</div>
-                                            <div>Common Name: {taxon.commonName}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <strong className="col-md-3">Sensor Type:  </strong>
-                                <div className="col-md-3">{detail?.valuesMeasured?.join(', ')}</div>
                             </div>
                         </div>
 
@@ -144,8 +145,15 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             </div>
 
                             <div>
-                                <strong className="col-md-3">Update frequency: </strong>
-                                <div className="col-md-3">{detail?.updateFrequency}</div>
+                                <strong className="col-md-3">Embargo end date place : </strong>
+                                <div className="col-md-3">{detail?.embargoEndDate}</div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-12">
+                            <div>
+                               <strong className="col-md-3">Update frequency: </strong>
+                               <div className="col-md-3">{detail?.updateFrequency}</div>
                             </div>
                         </div>
 

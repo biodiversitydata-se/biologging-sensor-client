@@ -42,7 +42,7 @@ export interface Contact {
 }
 
 export interface Taxon {
-    guid: string;	
+    taxonGuid: string;	
     scientificName: string;
     commonName: string;
 }
