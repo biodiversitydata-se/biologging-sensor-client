@@ -112,8 +112,8 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                     {detail?.taxonomicCoverage.map((taxon, index) => (
                                         <div key={index}>
                                             <div>Guid: <a href={`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}>{`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}</a></div>
-                                            <div>Scientific Name: {taxon.scientificName}</div>
-                                            <div>Common Name: {taxon.commonName}</div>
+                                            <div>Scientific Name: {taxon.taxonScientificName}</div>
+                                            <div>Common Name: {taxon.taxonCommonName}</div>
                                         </div>
                                     ))}
                                 </div>

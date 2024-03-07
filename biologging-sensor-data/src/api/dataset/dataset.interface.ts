@@ -44,8 +44,8 @@ export interface Contact {
 
 export interface Taxon {
     taxonGuid: string;	
-    scientificName: string;
-    commonName: string;
+    taxonScientificName: string;
+    taxonCommonName: string;
 }
 
 export interface GeographicWENS {
