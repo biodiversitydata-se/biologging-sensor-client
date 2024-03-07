@@ -1,12 +1,22 @@
-import Link from "next/link";
+import { useEffect, useState } from 'react';
 import './Table.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfo, faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Dataset } from "@/api/dataset/dataset.interface";
-import { TEST_URL_BASE } from "@/constants";
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
-  const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
+  const [selected, setSelected] = useState<boolean[]>([]);
+
+  useEffect(() => {
+    const selected = new Array<boolean>(data.length).fill(false);
+    setSelected(selected);
+  }, [data])
+
+  function _selectRow(dataset: Dataset, i: number) {
+    const selected = new Array<boolean>(data.length).fill(false);
+    selected[i] = true;
+    setSelected(selected);
+
+    onSelect(dataset);
+  }
 
   return (
     <div className="container overview">
@@ -14,64 +24,34 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
         <thead>
           <tr>
             <th>Title</th>
-            <th>Description</th>
-            <th>Owner</th>
             <th>Animal count</th>
             <th>Taxon</th>
+            <th>Instrument type</th>
             <th>Institution</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Actions</th>
+            <th>Dates</th>
+            <th>Total records</th>
           </tr>
         </thead>
 
         <tbody>
           {data.map((item, i) => (
-            <tr key={i} onClick={() => { onSelect(item) }}>
+            <tr key={i} onClick={() => { _selectRow(item, i) }} className="cursor-pointer" style={selected[i] ? { fontWeight: "bold" } : undefined}>
               <td>{item.datasetTitle}</td>
-              <td>{item.datasetDescription}</td>
-              <td>{item.owner[0].firstName}</td>
               <td>{item.animalCount}</td>
-              <td>{item.taxonomicCoverage[0].commonName}</td>
-              <td>{item.institutionCode}</td>
-              <td>{item.temporalCoverage?.startDatetime?.slice(0, 10)}</td>
-              <td>{item.temporalCoverage?.endDateTime?.slice(0, 10)}</td>
-              <td>
-                <div className="row " onClick={(e) => e.stopPropagation()}>
-                  <div className="col-xs-1">
-                    <Link
-                      href={{
-                        pathname: `/detail/[id]`,
-                        query: {
-                          id: item.datasetID,
-                        },
-                      }}
-                      as={`${baseUrl}detail/${item.datasetID}`}
-                    >
-                      <FontAwesomeIcon icon={faInfo} />
-                    </Link>
-                  </div>
-
-                  <div className="col-xs-auto">
-                    <Link href={{
-                      pathname: `/visualisation`,
-                      query: {
-                        search: item.datasetID,
-                      },
-                    }}
-                      as={`${baseUrl}visualisation`}
-                    >
-                      <FontAwesomeIcon icon={faMapLocationDot} />
-                    </Link>
-                  </div>
+              <td>{item.taxonomicCoverage.map(itm => (
+                <div onClick={(e) => e.stopPropagation()}>
+                  <a target="_blank" href={`https://species.biodiversitydata.se/species/${itm.taxonGuid}`}>{itm.taxonCommonName}</a>
                 </div>
-
-              </td>
+              ))}</td>
+              <td>{item?.instrumentTypes?.join(", ")}</td>
+              <td>{item.institutionCode}</td>
+              <td>{item.temporalCoverage?.startDatetime?.slice(0, 10)} {item.temporalCoverage?.endDateTime ? <span>- {item.temporalCoverage?.endDateTime.slice(0, 10)} </span> : null}</td>
+              <td>{item.numberOfRecords}</td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+    </div >
   )
 
 }
