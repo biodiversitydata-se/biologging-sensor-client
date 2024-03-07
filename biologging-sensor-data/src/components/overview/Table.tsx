@@ -1,11 +1,23 @@
+import { useEffect, useState } from 'react';
 import './Table.css'
-import { Dataset, Taxon } from "@/api/dataset/dataset.interface";
+import { Dataset } from "@/api/dataset/dataset.interface";
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
-  function _taxonSite(taxon: Taxon): string {
-    return `https://species.biodiversitydata.se/species/${taxon.taxonGuid}`
+  const [selected, setSelected] = useState<boolean[]>([]);
 
+  useEffect(() => {
+    const selected = new Array<boolean>(data.length).fill(false);
+    setSelected(selected);
+  }, [data])
+
+  function _selectRow(dataset: Dataset, i: number) {
+    const selected = new Array<boolean>(data.length).fill(false);
+    selected[i] = true;
+    setSelected(selected);
+
+    onSelect(dataset);
   }
+
   return (
     <div className="container overview">
       <table>
@@ -23,7 +35,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
 
         <tbody>
           {data.map((item, i) => (
-            <tr key={i} onClick={() => { onSelect(item) }} className="cursor-pointer">
+            <tr key={i} onClick={() => { _selectRow(item, i) }} className="cursor-pointer" style={selected[i] ? { fontWeight: "bold" } : undefined}>
               <td>{item.datasetTitle}</td>
               <td>{item.animalCount}</td>
               <td>{item.taxonomicCoverage.map(itm => (
