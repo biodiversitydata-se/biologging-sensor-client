@@ -37,8 +37,12 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <div className="col-md-12">
                             <strong className="col-md-6">Bibliographic Citation: </strong>
                             <div className="col-md-6">
-                                {detail?.bibliographicCitation.DOI && <div>DOI: {detail?.bibliographicCitation.DOI}</div>}
-                                {detail?.bibliographicCitation.URL && <div>URL: <a>{detail?.bibliographicCitation.URL}</a></div>}
+                                {Array.isArray(detail?.bibliographicCitation) && detail.bibliographicCitation.map((citation, index) => (
+                                    <div key={index}>
+                                        <div>Title: {citation.title}</div>
+                                        {citation.DOI && <div>DOI: <a href={citation.DOI}>{citation.DOI}</a></div>}
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
@@ -110,7 +114,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                             <div>
                                 <strong className="col-md-3">Sensor Type:  </strong>
-                                <div className="col-md-3">{detail?.sensorTypes?.join(', ')}</div>
+                                <div className="col-md-3">{detail?.valuesMeasured?.join(', ')}</div>
                             </div>
                         </div>
 

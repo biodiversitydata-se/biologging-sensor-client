@@ -30,6 +30,7 @@ export interface Dataset {
     dateCreated: string;
     dateUpdated: string;
     numberOfRecords: number;
+    valuesMeasured: string[];
 }
 
 export interface Contact {
@@ -60,6 +61,5 @@ export interface RangeDateTime {
 
 export interface Reference {
     DOI: string;
-    URL: string;	
-    Definition:	string;
+    title: string;	
 }
