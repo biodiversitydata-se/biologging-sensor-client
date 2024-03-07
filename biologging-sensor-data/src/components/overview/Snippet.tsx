@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
     const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
-
     const bold = {
         fontWeight: "bold",
     }
@@ -58,7 +57,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
                 <div className="row">
                     <div className="col-md-2" style={bold}>Sensors:</div>
-                    <div className="col-md-10">{data?.sensorTypes?.join(", ")}</div>
+                    <div className="col-md-10">{data?.valuesMeasured?.join(", ")}</div>
                 </div>
             </div>
         </div>
