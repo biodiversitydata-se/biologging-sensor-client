@@ -36,8 +36,8 @@ export default function Polylines({ coords }: { coords: Coordinates }) {
 
     function _getRadius(i: number, n: number): number {
         const s = 5;
-        const m = 15;
-        const l = 25;
+        const m = 25;
+        const l = 35;
 
         if (i === 0) {
             return l;
@@ -56,10 +56,9 @@ export default function Polylines({ coords }: { coords: Coordinates }) {
                     key={i}
                     center={x}
                     radius={_getRadius(i, coords.length)}
-                    pathOptions={{ color: color, fillOpacity: 1 }}
+                    pathOptions={i === coords.length - 1 ? { color: 'black', fillOpacity: 1, fillColor: color } : { color: color, fillOpacity: 1 }}
                 />
             ))}
-            <Marker position={coords[coords.length - 1]} icon={markerIcon} />
 
         </div>
     )

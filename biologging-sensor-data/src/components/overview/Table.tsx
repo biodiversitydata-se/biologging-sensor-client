@@ -3,8 +3,11 @@ import './Table.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faMapLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Dataset } from "@/api/dataset/dataset.interface";
+import { TEST_URL_BASE } from "@/constants";
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
+  const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
+
   return (
     <div className="container overview">
       <table>
@@ -43,7 +46,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
                           id: item.datasetID,
                         },
                       }}
-                      as={`detail/${item.datasetID}`}
+                      as={`${baseUrl}detail/${item.datasetID}`}
                     >
                       <FontAwesomeIcon icon={faInfo} />
                     </Link>
@@ -56,7 +59,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
                         search: item.datasetID,
                       },
                     }}
-                      as={'visualisation'}
+                      as={`${baseUrl}visualisation`}
                     >
                       <FontAwesomeIcon icon={faMapLocationDot} />
                     </Link>

@@ -1,9 +1,12 @@
 "use client";
+import { TEST_URL_BASE } from "@/constants";
 import Link from "next/link";
 import { useState } from "react";
 
 const Banner = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
 
   return (
     <>
@@ -69,7 +72,7 @@ const Banner = () => {
                           <Link href={{
                             pathname: `/`,
                           }}
-                            as={''}
+                            as={baseUrl}
                           >
                             Dataset Listing
                           </Link>
@@ -79,7 +82,7 @@ const Banner = () => {
                           <Link href={{
                             pathname: `/visualisation`,
                           }}
-                            as={'visualisation'}
+                            as={`${baseUrl}visualisation`}
                           >
                             Dataset Visualisation
                           </Link>
@@ -117,7 +120,7 @@ const Banner = () => {
                   <Link href={{
                     pathname: `/`,
                   }}
-                    as={''}
+                    as={baseUrl}
                   >
                     Dataset Listing
                   </Link>
@@ -127,7 +130,7 @@ const Banner = () => {
                   <Link href={{
                     pathname: `/visualisation`,
                   }}
-                    as={'visualisation'}
+                    as={`${baseUrl}visualisation`}
                   >
                     Dataset Visualisation
                   </Link>
