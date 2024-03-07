@@ -1,6 +1,7 @@
 import React, { } from 'react';
 import './detail.css';
 import { Dataset } from '@/api/dataset/dataset.interface';
+import Link from "next/link";
 
 function Detail({ detail }: { detail: Dataset | null }) {
     console.log(detail);
@@ -8,7 +9,10 @@ function Detail({ detail }: { detail: Dataset | null }) {
     return (
         <div>
             <div className="container">
-                <h5>Dataset record: <strong>{detail?.datasetID}</strong></h5>
+                <h5>
+                    <span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                    <Link href="/"> Back</Link>
+                </h5>
                 <div className='panel panel-default'>
                     <div className='panel-body row'>
                         <div className="col-md-12">
