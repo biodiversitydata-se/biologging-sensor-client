@@ -1,3 +1,5 @@
+// TroubleShooting 2nd time for X-Axis #28 
+
 import React, { useEffect, useState } from 'react';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
@@ -68,7 +70,9 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
         },
       },
     },
+    
   });
+  
 
   useEffect(() => {
     const dataFetch = async () => {
