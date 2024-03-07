@@ -1,19 +1,18 @@
 import { Dataset } from "@/api/dataset/dataset.interface";
+import { TEST_URL_BASE } from "@/constants";
 import Link from "next/link";
 
-// #f2f2f2 - table header
-// #fafafa table content
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
+    const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
     const bold = {
         fontWeight: "bold",
     }
     return (
         <div>
-            {/* HEADER */}
             <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div>
-                    Dataset record: <span style={bold}>{data?.datasetID}</span>
+                    Dataset record:
                 </div>
 
                 <div>
@@ -23,35 +22,42 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                             id: data?.datasetID,
                         },
                     }}
-                        as={`/detail/${data?.datasetID}`}> Show all information about this dataset</Link>
+                        as={`${baseUrl}detail/${data?.datasetID}`}>More information</Link>
                 </div>
 
                 <div>
-                    <Link href="/visualisation">Data visualisation tool</Link>
+                    {data?.numberOfRecords && data?.numberOfRecords > 0 && (
+                        <Link href={{
+                            pathname: `/visualisation`,
+                            query: {
+                                id: data?.datasetID,
+                            },
+                        }}
+                            as={`${baseUrl}visualisation`}>Visualisation</Link>
+                    )}
                 </div>
 
             </div>
 
-            {/* CONTENT */}
             <div style={{ backgroundColor: "#fafafa", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div className="row">
                     <div className="col-md-2" style={bold}>Title:</div>
-                    <div>{data?.datasetTitle}</div>
+                    <div className="col-md-10">{data?.datasetTitle}</div>
                 </div>
 
                 <div className="row">
                     <div className="col-md-2" style={bold}>Description:</div>
-                    <div>{data?.datasetDescription}</div>
+                    <div className="col-md-10">{data?.datasetDescription}</div>
                 </div>
 
                 <div className="row">
                     <div className="col-md-2" style={bold}>Instruments:</div>
-                    <div>{data?.instrumentTypes?.join(", ")}</div>
+                    <div className="col-md-10">{data?.instrumentTypes?.join(", ")}</div>
                 </div>
 
                 <div className="row">
                     <div className="col-md-2" style={bold}>Sensors:</div>
-                    <div>{data?.sensorTypes?.join(", ")}</div>
+                    <div className="col-md-10">{data?.valuesMeasured?.join(", ")}</div>
                 </div>
             </div>
         </div>
