@@ -30,6 +30,7 @@ export interface Dataset {
     dateCreated: string;
     dateUpdated: string;
     numberOfRecords: number;
+    isFinalized: boolean;
 }
 
 export interface Contact {
@@ -40,9 +41,12 @@ export interface Contact {
 }
 
 export interface Taxon {
-    guid: string;	
-    scientificName: string;
-    commonName: string;
+    taxonListSourceUrl: string,
+    taxonListSourceName: string,
+    taxonGuid: string,
+    taxonScientificName: string,
+    taxonCommonName: string,
+    dyntaxaId: number,
 }
 
 export interface GeographicWENS {
