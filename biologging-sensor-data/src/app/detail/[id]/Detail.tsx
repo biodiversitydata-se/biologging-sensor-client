@@ -2,16 +2,22 @@ import React, { } from 'react';
 import './detail.css';
 import { Dataset } from '@/api/dataset/dataset.interface';
 import Link from "next/link";
+import { TEST_URL_BASE } from "@/constants";
 
 function Detail({ detail }: { detail: Dataset | null }) {
-    console.log(detail);
+
+    const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
 
     return (
         <div>
             <div className="container">
                 <h5>
                     <span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-                    <Link href="/"> Back</Link>
+                    <Link href={{
+                            pathname: `/`,
+                          }}
+                            as={baseUrl}
+                          > Back</Link>
                 </h5>
                 <div className='panel panel-default'>
                     <div className='panel-body row'>
