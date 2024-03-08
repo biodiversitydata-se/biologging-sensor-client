@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TEST_URL_BASE } from "@/constants";
 
 function Detail({ detail }: { detail: Dataset | null }) {
+    console.log('detail', detail);
 
     const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
 
@@ -63,10 +64,17 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.curator.map((person, index) => (
                                     <div key={index}>
                                         <div>
-                                            <a href={person.webpage}>
-                                               <span>{person.firstName + ', '}</span>
-                                               <span>{person.lastName}</span>
-                                            </a>
+                                            {person.webpage ? (
+                                                <a href={person.webpage}>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </a>
+                                            ) : (
+                                                <>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </>
+                                            )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
                                         {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
@@ -81,10 +89,17 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.creator.map((person, index) => (
                                     <div key={index}>
                                          <div>
-                                            <a href={person.webpage}>
-                                               <span>{person.firstName + ', '}</span>
-                                               <span>{person.lastName}</span>
-                                            </a>
+                                            {person.webpage ? (
+                                                <a href={person.webpage}>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </a>
+                                            ) : (
+                                                <>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </>
+                                            )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
                                         {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
@@ -99,10 +114,17 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.contact.map((person, index) => (
                                     <div key={index}>
                                         <div>
-                                            <a href={person.webpage}>
-                                               <span>{person.firstName + ', '}</span>
-                                               <span>{person.lastName}</span>
-                                            </a>
+                                            {person.webpage ? (
+                                                <a href={person.webpage}>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </a>
+                                            ) : (
+                                                <>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </>
+                                            )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
                                         {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
