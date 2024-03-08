@@ -90,6 +90,11 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
             display: true,
             text: 'Time',
           },
+          ticks: {
+            callback: function(value, index, values) {
+              return value;
+            }
+          }
         },
         y: {
           title: {
