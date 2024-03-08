@@ -15,4 +15,5 @@ export interface Event{
     eventTaxon: Taxon[];
     dateCreated: string;
     dateUpdated: string;
+    valuesMeasured: string[];
 }
