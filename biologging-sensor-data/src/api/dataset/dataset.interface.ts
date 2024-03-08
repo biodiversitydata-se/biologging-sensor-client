@@ -37,8 +37,9 @@ export interface Dataset {
 export interface Contact {
     firstName: string;	
     lastName: string;
-    emailAddress: string;
-    userId: string;
+    email: string;
+    userid: string;
+    webpage: string;
 }
 
 export interface Taxon {
@@ -61,10 +62,9 @@ export interface GeographicWENS {
 export interface RangeDateTime {
     startDatetime: string;
     endDateTime: string;
-}
+    }
 
 export interface Reference {
     DOI: string;
-    URL: string;	
-    Definition:	string;
+    title: string;	
 }
