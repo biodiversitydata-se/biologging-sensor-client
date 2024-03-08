@@ -24,18 +24,11 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-  },
-};
-
 interface LineDataset {
   label: string;
   data: number[];
+  backgroundColor: string;
+  borderColor: string;
 }
 
 interface LineData {
@@ -44,17 +37,82 @@ interface LineData {
 }
 
 export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
-  const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: [] });
+  const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: []});
+  const [colors, setColors] = useState<string[]>([]);
+  const [options, setOptions] = useState({
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+      },
+      title: {
+        display: true,
+        text: sensor.toUpperCase(),
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Time',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: sensor,
+        },
+      },
+    },
+  });
 
   useEffect(() => {
+    if (colors.length !== events.length) {
+      setColors(events.map(() => getRandomColor()));
+    }
+  }, [events]);
+
+  useEffect(() => {
+    setOptions({
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom' as const,
+        },
+        title: {
+          display: true,
+          text: sensor.toUpperCase(),
+        },
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Time',
+          },
+          ticks: {
+            callback: function(value, index, values) {
+              return value;
+            }
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: sensor,
+          },
+        },
+      },
+    });
+
     const dataFetch = async () => {
       const labels = new Set<string>();
       const datasets: LineDataset[] = [];
 
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 5; i++) {
         const eventIds = [events[i].eventID];
-        const datasetids = [events[i].datasetID];
-        const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetids });
+        const datasetIds = [events[i].datasetID];
+        const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds });
         const records: Record[] = result.results;
 
         const values: number[] = [];
@@ -65,17 +123,17 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           if (value) {
             values.push(value);
           }
-        })
-
-        datasets.push({ label: events[i].eventID, data: values });
+        });
+        
+        datasets.push({ label: events[i].eventID, data: values, backgroundColor: colors[i], borderColor: colors[i]});
       }
 
-      setLineData({ ...lineData, labels: Array.from(labels), datasets: datasets })
+      setLineData({ labels: Array.from(labels), datasets: datasets})
     }
 
     dataFetch();
 
-  }, [events])
+  }, [events, sensor, lineData, colors]);
 
   function _setLabel(itm: Record): string {
     const date = new Date(itm.recordStart);
@@ -86,56 +144,17 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
   }
 
-
-  // useEffect(() => {
-  //   // Reset labels and dataValues
-  //   setLabels([]);
-  //   setDataValues([]);
-
-  //   const dataFetch = async () => {
-  //     for (let i = 0; i < 3; i++) {
-  //       if (true) {
-  //         const ids = [events[i].eventID];
-  //         const ids2 = [events[i].datasetID];
-  //         const result = await filterRecords({ eventIds: ids, datasetIds: ids2 });
-  //         const records: Record[] = result.results;
-  //         if (selectedSensor?.sensor) {
-  //           const sensor = selectedSensor.sensor;
-  //           records.slice(0, 30).filter(itm => itm.recordValues[sensor])
-  //             .map(itm => {
-  //               setLabels(oldLabels => {
-  //                 let date = new Date(itm.recordStart);
-  //                 let hours = String(date.getUTCHours()).padStart(2, '0');
-  //                 let minutes = String(date.getUTCMinutes()).padStart(2, '0');
-  //                 let seconds = String(date.getUTCSeconds()).padStart(2, '0');
-  //                 let newLabel = `${hours}:${minutes}:${seconds}`;
-  //                 if (!oldLabels.includes(newLabel)) {
-  //                   return [...oldLabels, newLabel];
-  //                 } else {
-  //                   return oldLabels;
-  //                 }
-  //               });
-  //               setSensorData(oldData => {
-  //                 const sensorIndex = oldData.findIndex(data => data.sensor === sensor);
-  //                 if (sensorIndex !== -1) {
-  //                   const newData = [...oldData];
-  //                   newData[sensorIndex].dataValues.push(itm.recordValues[sensor]);
-  //                   return newData;
-  //                 } else {
-  //                   return [...oldData, { sensor, dataValues: [itm.recordValues[sensor]] }];
-  //                 }
-  //               });
-  //             });
-  //         }
-  //       }
-
-  //     }
-  //   };
-  //   dataFetch();
-  // }, [events, selectedSensor]);
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
   return (
-    <div>
+    <div style={{ marginBottom: '20px' }}>
       <Line options={options} data={lineData} />
     </div>
   );

@@ -29,19 +29,26 @@ export interface Dataset {
     sensitiveData: boolean;
     dateCreated: string;
     dateUpdated: string;
+    numberOfRecords: number;
+    isFinalized: boolean;
+    valuesMeasured: string[];
 }
 
 export interface Contact {
     firstName: string;	
     lastName: string;
-    emailAddress: string;
-    userId: string;
+    email: string;
+    userid: string;
+    webpage: string;
 }
 
 export interface Taxon {
-    guid: string;	
-    scientificName: string;
-    commonName: string;
+    taxonListSourceUrl: string,
+    taxonListSourceName: string,
+    taxonGuid: string,
+    taxonScientificName: string,
+    taxonCommonName: string,
+    dyntaxaId: number,
 }
 
 export interface GeographicWENS {
@@ -55,10 +62,9 @@ export interface GeographicWENS {
 export interface RangeDateTime {
     startDatetime: string;
     endDateTime: string;
-}
+    }
 
 export interface Reference {
     DOI: string;
-    URL: string;	
-    Definition:	string;
+    title: string;	
 }

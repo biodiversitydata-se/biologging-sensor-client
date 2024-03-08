@@ -3,3 +3,7 @@
     overflow-y: scroll;
     max-height: 400px;
 }
+
+tr {
+    cursor: pointer;
+}
