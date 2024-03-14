@@ -1,8 +1,10 @@
+import Image from 'next/image';
 import React, { } from 'react';
 import './detail.css';
 import { Dataset } from '@/api/dataset/dataset.interface';
 import Link from "next/link";
 import { TEST_URL_BASE } from "@/constants";
+import orcidLogo from "@/assets/images/orcid.logo.icon.svg";
 
 function Detail({ detail }: { detail: Dataset | null }) {
     console.log('detail', detail);
@@ -77,7 +79,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                             )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
-                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
+                                        {person.userid ? <div><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} /><a href={`https://orcid.org/${person.userid}`}>{`https://orcid.org/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
@@ -102,7 +104,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                             )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
-                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
+                                        {person.userid ? <div><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} /><a href={`https://orcid.org/${person.userid}`}>{`https://orcid.org/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
@@ -127,7 +129,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                             )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
-                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
+                                        {person.userid ? <div><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} /><a href={`https://orcid.org/${person.userid}`}>{`https://orcid.org/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
