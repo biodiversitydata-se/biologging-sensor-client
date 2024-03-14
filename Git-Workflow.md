@@ -1,19 +1,24 @@
 # GitHub Workflow Guidelines for Lund University's `biodiversitydata-se` Project
 
-To minimize conflicts among us (developers) in terms of maintaining a clean and organized codebase and to ensure a smooth and efficient code review process we've established the following guidelines.
+To create a collaborative and productive environment around working with the codebase, please follow the procedures listed in this document. These procedures are in place to help all contributors be clear of how to work in this repository and to have software quality on the contributed code. 
   
+## Collaborative Development Model in Use
+
+For now, the collaborative development model used in this repo is the "Shared repository" model. Details can be found [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/about-collaborative-development-models).
+
+The release branch is called `main`.
+
+The main integration branch for latest development is called `develop`.
 
 ## Basic Principles
 
-1.  **Branching Strategy**: Use branches for all **new changes, features, fixes, and refactoring**. Avoid direct commits to the `develop` branch (We agreed not to commit directly to the main or develop branch).
+1.  **Branching Strategy**: Create branches for all **new changes, features, fixes, and refactoring**. Avoid direct commits to the `develop` and `main` branches.
 
 2.  **Code Reviews**: All changes must undergo code review before merging into the `develop` branch to ensure quality and consistency.
 
 3.  **Continuous Integration**: Ensure that the `main` branch always contains a working version of the application.
 
 ## General Workflow Steps:
-
-  
 
 -  **Pull Before Push:**
 
@@ -26,9 +31,12 @@ To minimize conflicts among us (developers) in terms of maintaining a clean and 
 
 ### 1. Creating Branches
 
-- We (every developer) should create a new branch for each change we want to make.
+- Create a new branch for each change you want to make.
 
 - Branch names should be descriptive and reflect the purpose of the change.
+
+- Preparation work if you have newly cloned the repo and want to track another remote branch than `main` branch:
+	- git checkout --track origin/<branch name, e.g. develop> 
 
 - Branch creation commands (in this order):
 	- git checkout develop
@@ -39,20 +47,22 @@ To minimize conflicts among us (developers) in terms of maintaining a clean and 
 
 ### 2. Making Changes
 
-- We (developers) work on our respective branches, making changes and improvements.
-
 - Follow the project's coding standards and guidelines while making modifications (evolving standards are occuring during the development process, so if we're uncertain about how to proceed or if the modification might impact existing standards, we should consult with our team members via Slack).
 
-- Write descriptive self-explanatory Git commit message 
+- Write a descriptive self-explanatory Git commit message 
 	- Format: [JIRA issue #]: short  description  of  the  change
 	- Example: 57: added colors
 
 - Commit regularly
 
 ### 3. Create Pull Request (PR)
-- Once changes are ready, initiate a PR for review (to facilitate code reviews, do not push directly to the develop branch. Instead, push changes to feature branches.)
+- When you ready to submit your changes, start the procedure to create a pull request (PR) to initiate a code review:
+	- git push --set-upstream origin [name of your_branch] for the first time you are pushing your new branch to the remote repo. 
+		- This will create a connection between your local branch with the branch of the same name on the repo, such that all subsequent commits on your local branch when pushed will update the branch on the remote.
+		- Result: in GitHub, under Branches, you should see a new entry for your branch.
+	- In GitHub, create a new PR and choose the base branch to be the `develop` branch. This is the branch the changes when approved will be pushed to.
 
-- Generally, for every branch you need to create **only one** PR. 
+- For every branch, create **only one** PR. 
 
 - When creating PR, write in PR comment:
 	- Link to task in Jira;
@@ -79,7 +89,7 @@ To minimize conflicts among us (developers) in terms of maintaining a clean and 
 
 - In this stage, you will have merge conflicts visible. It is up to you ho to resolve it, but keep in mind, you probably do not want to overwrite changes made by someone else on the develop branch, as these changes were already approved. **If in any doubt, ask the team on the Slack**.
 
-- once resolved - commit and push your changes
+- Commit and push your changes after resolving
 
 - **IF** any problems occur during merge and you are unsure, ask the team on the Slack. Command to abort the merge:
 	- git merge --abort
@@ -91,10 +101,11 @@ To minimize conflicts among us (developers) in terms of maintaining a clean and 
 	- (OPTIONAL) Run the code on your local machine
 	- If something is not clear, leave a comment in the PR, preferably on the line that is not clear
 	- **Approve** only if you have no comments to for clarification/changing
+	- Check the contribution guidelines in this document have been followed. Flag to the PR submitter if otherwise.
 - **As a PR creator**
 	- Answer comments and questions
 	- Fix the changes according to comments
-	- You do not have to create new PR or branch for fixing the code, every push is automatically updated in the PR
+	- You do not have to create new PR or branch for fixing the code. Every subsequent new commit to the same branch and push to the remote is automatically updated in the PR.
   
 
 ### 5. Merging Changes
@@ -109,15 +120,24 @@ To minimize conflicts among us (developers) in terms of maintaining a clean and 
 
   
 
-### 6. Pulling Changes
+### 6. Pull Changes to Update Your Local Repo 
 
-- Before making any new changes, pull the latest changes from the `develop` branch to stay up-to-date.
+- Before making any new changes, pull the latest changes from the `develop` branch to stay up-to-date:
+	- git pull
 
 - Resolve any merge conflicts locally before proceeding.
 	- **However** there should not be any at this stage, please ask the team on Slack in this case. 
 
-  
+- To update the list of remote branches on your local machine, e.g. past feature branches you created have been deleted due to closed PRs, run:
+	- git remote update origin --prune
+	- git branch –all to see all local and remote branches locally.
+		- Result: a list of remotes/origin/[branch name] should show on the output list.
 
 ### 7. **Documentation:**
 
-- Document any significant changes (at least leave comments on Slack), including reasons for modifications, to ensure transparency and clarity for all team members.
+- Document any significant changes, including reasons for modifications, at the appropriate location.
+	- What is considered appropriate location? 
+		- It depends on the content. Discuss with your fellow reviewers to determine the location.
+		- Place documentation at a location where the reader will most likely look when they need the explanation.
+	- If it's related to explaining the code, e.g. some cryptic variable or logic, the most appropriate place would be with the code snippet or source code file where the code snippet is found.
+	- If it's a "big picture" explanation about the software design, consider placing it in a separate design-docs folder.
