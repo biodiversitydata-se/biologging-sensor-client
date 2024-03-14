@@ -44,7 +44,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <div className="col-md-12">
                             <strong className="col-md-6">Total records: </strong>
                             <div className="col-md-6">
-                                {detail?.numberOfRecords}
+                                {detail?.numberOfRecords?.toLocaleString('en-US').replace(/,/g, ' ')}
                             </div>
                         </div>
 
