@@ -205,8 +205,8 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             <div className="col-md-3">{detail?.version || 'No Version available.'}</div>
                         </div>
                             <div>
-                               <strong className="col-md-3">Update frequency: </strong>
-                               <div className="col-md-3">{detail?.updateFrequency}</div>
+                               <strong className="col-md-3">Last Updated | UpdateFrequency: </strong>
+                               <div className="col-md-3">{ detail?.dateUpdated.slice(0, 10) + ' | ' + detail?.updateFrequency}</div>
                             </div>
                         </div>
                     </div>
