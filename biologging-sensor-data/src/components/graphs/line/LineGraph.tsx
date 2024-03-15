@@ -60,7 +60,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       y: {
         title: {
           display: true,
-          text: sensor,
+          text: '',
         },
       },
     },
@@ -73,38 +73,74 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   }, [events]);
 
   useEffect(() => {
-    setOptions({
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom' as const,
-        },
-        title: {
-          display: true,
-          text: sensor.toUpperCase(),
-        },
-      },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Time',
+    const fetchInstrumentInfo = async () => {
+      // Fetch instrument information here
+      const instrumentID = "1c30-47f5-9f1d-a3e7dc1a1"; // Replace with your actual instrument ID
+      // Simulating API call to fetch instrument data
+      const instrumentData = {
+        "instrumentID": "1c30-47f5-9f1d-a3e7dc1a1",
+        "valuesMeasured": [
+          "activity",
+          "pressure",
+          "temperature",
+          "altitude"
+        ],
+        "unitsReported": [
+          "activity score",
+          "hPa",
+          "deg C",
+          "meters"
+        ]
+      };
+  
+      const index = instrumentData.valuesMeasured.indexOf(sensor);
+      if (index !== -1) {
+        setOptions(prevOptions => ({
+          ...prevOptions,
+          scales: {
+            ...prevOptions.scales,
+            x: {
+              ...prevOptions.scales.x,
+              title: {
+                display: true,
+                text: 'Time',
+              },
+            },
+            y: {
+              ...prevOptions.scales.y,
+              title: {
+                display: true,
+                text: instrumentData.unitsReported[index],
+              },
+            },
           },
+        }));
+      }
+    };
+  
+    fetchInstrumentInfo();
+  }, [sensor]);
+  
+  useEffect(() => {
+    setOptions(prevOptions => ({
+      ...prevOptions,
+      scales: {
+        ...prevOptions.scales,
+        x: {
+          ...prevOptions.scales.x,
           ticks: {
             callback: function(value, index, values) {
               return value;
             }
           }
-        },
-        y: {
-          title: {
-            display: true,
-            text: sensor,
-          },
-        },
-      },
-    });
+        }
+      }
+    }));
+  }, []);
+  
+  
 
+  useEffect(() => {
     const dataFetch = async () => {
       const labels = new Set<string>();
       const datasets: LineDataset[] = [];
