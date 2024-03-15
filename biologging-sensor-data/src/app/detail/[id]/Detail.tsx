@@ -200,15 +200,14 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
 
                         <div className="col-md-12">
+                        <div>
+                            <strong className="col-md-3">Version: </strong>
+                            <div className="col-md-3">{detail?.version || 'No Version available.'}</div>
+                        </div>
                             <div>
                                <strong className="col-md-3">Update frequency: </strong>
                                <div className="col-md-3">{detail?.updateFrequency}</div>
                             </div>
-                        </div>
-
-                        <div className="col-md-12">
-                            <strong className="col-md-6">Version: </strong>
-                            <div className="col-md-6">{detail?.version || 'No Version available.'}</div>
                         </div>
                     </div>
                 </div>
