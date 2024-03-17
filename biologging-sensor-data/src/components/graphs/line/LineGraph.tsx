@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
@@ -36,35 +37,34 @@ interface LineData {
   datasets: LineDataset[];
 }
 
+interface InstrumentData {
+  unitsReported: string[];
+  valuesMeasured: string[];
+}
+
 export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
   const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: []});
   const [colors, setColors] = useState<string[]>([]);
-  const [options, setOptions] = useState({
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom' as const,
-      },
-      title: {
-        display: true,
-        text: sensor.toUpperCase(),
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Time',
-        },
-      },
-      y: {
-        title: {
-          display: true,
-          text: sensor,
-        },
-      },
-    },
-  });
+  const [unit, setUnit] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchInstrumentData = async () => {
+      try {
+        const response = await axios.get<InstrumentData>(`http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/instrument/1c30-47f5-9f1d-a3e7dc1a1`);
+        const { unitsReported, valuesMeasured } = response.data;
+        const index = valuesMeasured.findIndex(value => value === sensor);
+        if (index !== -1) {
+          setUnit(unitsReported[index]);
+        } else {
+          setUnit(null);
+        }
+      } catch (error) {
+        console.error('Error fetching instrument data:', error);
+      }
+    };
+
+    fetchInstrumentData();
+  }, [sensor]);
 
   useEffect(() => {
     if (colors.length !== events.length) {
@@ -73,38 +73,6 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   }, [events]);
 
   useEffect(() => {
-    setOptions({
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom' as const,
-        },
-        title: {
-          display: true,
-          text: sensor.toUpperCase(),
-        },
-      },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Time',
-          },
-          ticks: {
-            callback: function(value, index, values) {
-              return value;
-            }
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: sensor,
-          },
-        },
-      },
-    });
-
     const dataFetch = async () => {
       const labels = new Set<string>();
       const datasets: LineDataset[] = [];
@@ -152,6 +120,38 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     }
     return color;
   }
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+      },
+      title: {
+        display: true,
+        text: sensor.toUpperCase(),
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Time',
+        },
+        ticks: {
+          callback: function(value, index, values) {
+            return value;
+          }
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: unit !== null ? unit : 'Unit is NOT REPORTED',
+        },
+      },
+    },
+  };
 
   return (
     <div style={{ marginBottom: '20px' }}>
