@@ -50,7 +50,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   useEffect(() => {
     const fetchInstrumentData = async () => {
       try {
-        const response = await axios.get<InstrumentData>(`http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/instrument/1c30-47f5-9f1d-a3e7dc1a1`);
+        const response = await axios.get<InstrumentData>(`http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/instrument/${sensor}`);
         const { unitsReported, valuesMeasured } = response.data;
         const index = valuesMeasured.findIndex(value => value === sensor);
         if (index !== -1) {
