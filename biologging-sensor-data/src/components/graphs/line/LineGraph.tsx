@@ -38,23 +38,26 @@ interface LineData {
 }
 
 interface InstrumentData {
-  unitsReported: string[];
-  valuesMeasured: string[];
+  sensors: {
+    valuesMeasured: string[];
+    unitsReported: string[];
+  };
 }
 
 export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
   const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: []});
   const [colors, setColors] = useState<string[]>([]);
   const [unit, setUnit] = useState<string | null>(null);
+  const instrumentID = '1c30-47f5-9f1d-a3e7dc1a1'; // Now the Y-Axis satisfies our requirement. However, we should replace this instrument ID with dynamic instrumentID.
 
   useEffect(() => {
     const fetchInstrumentData = async () => {
       try {
-        const response = await axios.get<InstrumentData>(`http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/instrument/${sensor}`);
-        const { unitsReported, valuesMeasured } = response.data;
-        const index = valuesMeasured.findIndex(value => value === sensor);
-        if (index !== -1) {
-          setUnit(unitsReported[index]);
+        const response = await axios.get<InstrumentData>(`http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/instrument/${instrumentID}`); // Maybe seperate API componenet is created for this instrument API. 
+        const { sensors } = response.data;
+        const sensorIndex = sensors.valuesMeasured.findIndex(value => value === sensor);
+        if (sensorIndex !== -1) {
+          setUnit(sensors.unitsReported[sensorIndex]);
         } else {
           setUnit(null);
         }
@@ -109,7 +112,6 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
-
   }
 
   function getRandomColor() {
@@ -147,7 +149,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       y: {
         title: {
           display: true,
-          text: unit !== null ? unit : 'Unit is NOT REPORTED',
+          text: unit !== null ? unit : 'Unit is Not Available',
         },
       },
     },
