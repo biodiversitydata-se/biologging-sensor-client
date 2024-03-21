@@ -86,7 +86,16 @@ const Banner = () => {
                           >
                             Dataset Visualisation
                           </Link>
+                        </li>
 
+                        <li>
+                          <Link href={{
+                            pathname: `/about`,
+                          }}
+                            as={`${baseUrl}about`}
+                          >
+                            About
+                          </Link>
                         </li>
                       </ul>
                     </nav>
