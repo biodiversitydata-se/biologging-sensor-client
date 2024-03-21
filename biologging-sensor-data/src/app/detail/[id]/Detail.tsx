@@ -1,10 +1,13 @@
+import Image from 'next/image';
 import React, { } from 'react';
 import './detail.css';
 import { Dataset } from '@/api/dataset/dataset.interface';
 import Link from "next/link";
 import { TEST_URL_BASE } from "@/constants";
+import orcidLogo from "@/assets/images/orcid.logo.icon.svg";
 
 function Detail({ detail }: { detail: Dataset | null }) {
+    console.log('detail', detail);
 
     const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
 
@@ -41,7 +44,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <div className="col-md-12">
                             <strong className="col-md-6">Total records: </strong>
                             <div className="col-md-6">
-                                {detail?.numberOfRecords}
+                                {detail?.numberOfRecords?.toLocaleString('en-US').replace(/,/g, ' ')}
                             </div>
                         </div>
 
@@ -63,13 +66,20 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.curator.map((person, index) => (
                                     <div key={index}>
                                         <div>
-                                            <a href={person.webpage}>
-                                               <span>{person.firstName + ', '}</span>
-                                               <span>{person.lastName}</span>
-                                            </a>
+                                            {person.webpage ? (
+                                                <a href={person.webpage}>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </a>
+                                            ) : (
+                                                <>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </>
+                                            )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
-                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
+                                        {person.userid ? <div><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} /><a href={`https://orcid.org/${person.userid}`}>{`https://orcid.org/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
@@ -81,13 +91,20 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.creator.map((person, index) => (
                                     <div key={index}>
                                          <div>
-                                            <a href={person.webpage}>
-                                               <span>{person.firstName + ', '}</span>
-                                               <span>{person.lastName}</span>
-                                            </a>
+                                            {person.webpage ? (
+                                                <a href={person.webpage}>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </a>
+                                            ) : (
+                                                <>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </>
+                                            )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
-                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
+                                        {person.userid ? <div><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} /><a href={`https://orcid.org/${person.userid}`}>{`https://orcid.org/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
@@ -99,13 +116,20 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.contact.map((person, index) => (
                                     <div key={index}>
                                         <div>
-                                            <a href={person.webpage}>
-                                               <span>{person.firstName + ', '}</span>
-                                               <span>{person.lastName}</span>
-                                            </a>
+                                            {person.webpage ? (
+                                                <a href={person.webpage}>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </a>
+                                            ) : (
+                                                <>
+                                                    <span>{person.firstName + ', '}</span>
+                                                    <span>{person.lastName}</span>
+                                                </>
+                                            )}
                                         </div>
                                         <div>{person.email ? person.email : null}</div>
-                                        {person.userid ? <div><a href={`https://info.orcid.org/brand-guidelines/${person.userid}`}>{`https://info.orcid.org/brand-guidelines/${person.userid}`}</a></div> : null}
+                                        {person.userid ? <div><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} /><a href={`https://orcid.org/${person.userid}`}>{`https://orcid.org/${person.userid}`}</a></div> : null}
                                     </div>
                                 ))}
                             </div>
@@ -176,15 +200,14 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
 
                         <div className="col-md-12">
-                            <div>
-                               <strong className="col-md-3">Update frequency: </strong>
-                               <div className="col-md-3">{detail?.updateFrequency}</div>
-                            </div>
+                        <div>
+                            <strong className="col-md-3">Version: </strong>
+                            <div className="col-md-3">{detail?.version || 'No Version available.'}</div>
                         </div>
-
-                        <div className="col-md-12">
-                            <strong className="col-md-6">Version: </strong>
-                            <div className="col-md-6">{detail?.version || 'No Version available.'}</div>
+                            <div>
+                               <strong className="col-md-3">Last Updated | UpdateFrequency: </strong>
+                               <div className="col-md-3">{ detail?.dateUpdated.slice(0, 10) + ' | ' + detail?.updateFrequency}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
