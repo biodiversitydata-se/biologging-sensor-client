@@ -1,9 +1,10 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
+import { getInstruments } from '@/api/instrument/api'; 
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,6 +15,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { get } from '@/api/apiService';
 
 ChartJS.register(
   CategoryScale,
@@ -37,34 +39,40 @@ interface LineData {
   datasets: LineDataset[];
 }
 
-interface InstrumentData {
-  unitsReported: string[];
-  valuesMeasured: string[];
-}
-
 export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
   const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: []});
   const [colors, setColors] = useState<string[]>([]);
-  const [unit, setUnit] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchInstrumentData = async () => {
-      try {
-        const response = await axios.get<InstrumentData>(`http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/instrument/${sensor}`);
-        const { unitsReported, valuesMeasured } = response.data;
-        const index = valuesMeasured.findIndex(value => value === sensor);
-        if (index !== -1) {
-          setUnit(unitsReported[index]);
-        } else {
-          setUnit(null);
+  const [options, setOptions] = useState({
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+      },
+      title: {
+        display: true,
+        text: sensor.toUpperCase(),
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Time',
+        },
+        ticks: {
+          callback: function(value, index, values) {
+            return value;
+          }
         }
-      } catch (error) {
-        console.error('Error fetching instrument data:', error);
-      }
-    };
-
-    fetchInstrumentData();
-  }, [sensor]);
+      },
+      y: {
+        title: {
+          display: true,
+          text: sensor,
+        },
+      },
+    },
+  });
 
   useEffect(() => {
     if (colors.length !== events.length) {
@@ -73,6 +81,61 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   }, [events]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await get<any>(`dataset/${events[0].datasetID}`);
+        const unitOfMeasure = response.unitsReported[events[0].valuesMeasured.indexOf(sensor)];
+        setOptions(prevOptions => ({
+          ...prevOptions,
+          scales: {
+            ...prevOptions.scales,
+            y: {
+              ...prevOptions.scales.y,
+              title: {
+                display: true,
+                text: `${sensor.charAt(0).toUpperCase()}${sensor.slice(1)} (${unitOfMeasure.charAt(0).toUpperCase()}${unitOfMeasure.slice(1)})`,
+              },
+            },
+          },
+        }));
+      } catch (error) {
+      }
+    };
+
+    fetchData();
+  }, [sensor, events]);
+  
+  
+  useEffect(() => {
+    setOptions(prevOptions => ({
+      ...prevOptions,
+      title: {
+        ...prevOptions.title,
+        text: sensor.toUpperCase(),
+      },
+    }));
+  }, [sensor]);
+
+  useEffect(() => {
+    setOptions(prevOptions => ({
+      ...prevOptions,
+      scales: {
+        ...prevOptions.scales,
+        x: {
+          ...prevOptions.scales.x,
+          title: {
+            display: true,
+            text: 'Time',
+          },
+          ticks: {
+            callback: function(value, index, values) {
+              return value;
+            }
+          }
+        },
+      },
+    }));
+
     const dataFetch = async () => {
       const labels = new Set<string>();
       const datasets: LineDataset[] = [];
@@ -109,7 +172,6 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
-
   }
 
   function getRandomColor() {
@@ -121,45 +183,9 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     return color;
   }
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom' as const,
-      },
-      title: {
-        display: true,
-        text: sensor.toUpperCase(),
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Time',
-        },
-        ticks: {
-          callback: function(value, index, values) {
-            return value;
-          }
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: unit !== null ? unit : 'Unit is NOT REPORTED',
-        },
-      },
-    },
-  };
-
   return (
-    <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
-       {lineData.labels.length > 0 && lineData.datasets.some(dataset => dataset.data.length > 0) ? (
-            <Line options={options} data={lineData} />
-        ) : (
-            <strong className='mx-auto'>No data available.</strong>
-        )}
+    <div style={{ marginBottom: '20px' }}>
+      <Line options={options} data={lineData} />
     </div>
   );
 }
