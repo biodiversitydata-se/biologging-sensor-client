@@ -154,8 +154,12 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   };
 
   return (
-    <div style={{ marginBottom: '20px' }}>
-      <Line options={options} data={lineData} />
+    <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
+       {lineData.labels.length > 0 && lineData.datasets.some(dataset => dataset.data.length > 0) ? (
+            <Line options={options} data={lineData} />
+        ) : (
+            <strong className='mx-auto'>No data available.</strong>
+        )}
     </div>
   );
 }

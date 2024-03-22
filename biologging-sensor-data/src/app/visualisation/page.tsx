@@ -21,21 +21,22 @@ export default function Visualize() {
   }
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mt-n3">
       <SensorSelectionProvider>
         <div className="row">
-          <div className="col-md-3">
+          <div className="col-md-6">
             <div className="vis-list">
               <DatasetsList initDataset={null} onSelect={(itm: Dataset) => _updateEvents(itm)} />
             </div>
-
+          </div>
+          <div className="col-md-6">
             <div className="vis-list">
               <SensorsList events={events} />
             </div>
           </div>
-          <div className="col-md-7">
-            <Visualisation events={events} />
-          </div>
+        </div>
+        <div className="col-md-10" style={{ textAlign: 'center' }}>
+          <Visualisation events={events} />
         </div>
       </SensorSelectionProvider>
     </div>
