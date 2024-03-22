@@ -3,6 +3,8 @@ import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
+import { getInstruments } from '@/api/instrument/api'; 
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -91,23 +93,19 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
               ...prevOptions.scales.y,
               title: {
                 display: true,
-                text: `${sensor} (${unitOfMeasure})`,
+                text: `${sensor.charAt(0).toUpperCase()}${sensor.slice(1)} (${unitOfMeasure.charAt(0).toUpperCase()}${unitOfMeasure.slice(1)})`,
               },
             },
           },
         }));
       } catch (error) {
-        if (error.response && error.response.status === 404) {
-          window.alert("Data cannot be loaded. Please contact mathieu.blanchet@biol.lu.se");
-        } else {
-          window.alert("An error occurred: Please contact mathieu.blanchet@biol.lu.se");
-        }
       }
     };
 
     fetchData();
   }, [sensor, events]);
-
+  
+  
   useEffect(() => {
     setOptions(prevOptions => ({
       ...prevOptions,
