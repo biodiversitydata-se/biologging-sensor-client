@@ -80,9 +80,9 @@ const Banner = () => {
 
                         <li>
                           <Link href={{
-                            pathname: `/visualisation`,
+                            pathname: `/visualisation/[id]`,
                           }}
-                            as={`${baseUrl}visualisation`}
+                            as={`${baseUrl}visualisation/all`}
                           >
                             Dataset Visualisation
                           </Link>

@@ -28,12 +28,12 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                 <div>
                     {data?.numberOfRecords && data?.numberOfRecords > 0 && (
                         <Link href={{
-                            pathname: `/visualisation`,
+                            pathname: `/visualisation/[id]`,
                             query: {
                                 id: data?.datasetID,
                             },
                         }}
-                            as={`${baseUrl}visualisation`}>Visualisation</Link>
+                            as={`${baseUrl}visualisation/${data?.datasetID}`}>Visualisation</Link>
                     )}
                 </div>
 
