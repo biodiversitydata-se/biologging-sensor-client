@@ -45,7 +45,13 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
               ))}</td>
               <td>{item?.instrumentTypes?.join(", ")}</td>
               <td>{item.institutionCode}</td>
-              <td>{item.temporalCoverage?.startDatetime?.slice(0, 10)} {item.temporalCoverage?.endDateTime ? <span>- {item.temporalCoverage?.endDateTime.slice(0, 10)} </span> : null}</td>
+              <td style={{ width: '150px' }}>
+                {item.temporalCoverage?.startDatetime?.slice(0, 10)} 
+                {item.temporalCoverage?.endDateTime ? 
+                <div> to {item.temporalCoverage?.endDateTime.slice(0, 10)} </div> 
+                : null
+                }
+              </td>
               <td>{item.numberOfRecords.toLocaleString('en-US').replace(/,/g, ' ')}</td>
             </tr>
           ))}
