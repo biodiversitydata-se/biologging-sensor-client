@@ -22,15 +22,21 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
       );
 
       setDatasets(sorted);
-
-      if (initDataset) {
-        _selectDataset(datasets.findIndex(itm => itm.datasetID === initDataset));
-      }
     }
 
     fetchDataset();
 
   }, []);
+
+  useEffect(() => {
+    if (initDataset) {
+      const i = datasets.findIndex(itm => itm.datasetID === initDataset);
+      const dataset = datasets[i];
+      setSelected(dataset)
+      onSelect(dataset);
+    }
+
+  }, [datasets])
 
   function _selectDataset(i: number) {
     const dataset = datasets[i];
