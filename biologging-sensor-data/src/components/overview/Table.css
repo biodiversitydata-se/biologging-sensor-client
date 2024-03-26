@@ -7,3 +7,7 @@
 tr {
     cursor: pointer;
 }
+
+.hover-row:hover {
+    background-color: #262525 !important;
+}
