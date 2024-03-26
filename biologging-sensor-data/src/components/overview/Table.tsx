@@ -37,7 +37,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
           {data.map((item, i) => (
             <tr key={i} onClick={() => { _selectRow(item, i) }} className="cursor-pointer" style={selected[i] ? { fontWeight: "bold" } : undefined}>
               <td>{item.datasetTitle}</td>
-              <td>{item.animalCount}</td>
+              <td>{item.animalCount.toLocaleString('en-US').replace(/,/g, ' ')}</td>
               <td>{item.taxonomicCoverage.map(itm => (
                 <div onClick={(e) => e.stopPropagation()}>
                   <a target="_blank" href={`https://species.biodiversitydata.se/species/${itm.taxonGuid}`}>{itm.taxonCommonName}</a>
