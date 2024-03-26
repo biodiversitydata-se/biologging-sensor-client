@@ -186,7 +186,10 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   return (
     <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
        {lineData.labels.length > 0 && lineData.datasets.some(dataset => dataset.data.length > 0) ? (
+          <>
             <Line options={options} data={lineData} />
+            <h5 style={{color: '#666666'}}>Total number of records is {events.length}</h5>
+          </>
         ) : (
             <strong className='mx-auto'>No data available.</strong>
         )}
