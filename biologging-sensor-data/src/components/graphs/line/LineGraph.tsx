@@ -93,7 +93,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
               ...prevOptions.scales.y,
               title: {
                 display: true,
-                text: `${sensor.charAt(0).toUpperCase()}${sensor.slice(1)} (${unitOfMeasure.charAt(0).toUpperCase()}${unitOfMeasure.slice(1)})`,
+                text: `${sensor.charAt(0).toUpperCase()}${sensor.slice(1)} (${unitOfMeasure.charAt(0)}${unitOfMeasure.slice(1)})`,
               },
             },
           },
