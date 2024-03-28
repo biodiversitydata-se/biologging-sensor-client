@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './Table.css'
+import './Table.css';
 import { Dataset } from "@/api/dataset/dataset.interface";
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
