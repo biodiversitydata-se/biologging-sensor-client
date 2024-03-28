@@ -1,12 +1,9 @@
 "use client";
-import { TEST_URL_BASE } from "@/constants";
-import Link from "next/link";
 import { useState } from "react";
+import { AboutLink, OverviewLink, VisualisationLink } from "./links";
 
 const Banner = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
 
   return (
     <>
@@ -69,33 +66,15 @@ const Banner = () => {
                       className="site-navigation primary-menu primary-menu-bottom nav-menu-desktop primary-menu-desktop style-plain">
                       <ul id="menu-nested-pages-main-menu" className="primary-menu-ul menu nav-menu">
                         <li>
-                          <Link href={{
-                            pathname: `/`,
-                          }}
-                            as={baseUrl}
-                          >
-                            Dataset Listing
-                          </Link>
+                          <OverviewLink>Dataset Listing</OverviewLink>
                         </li>
 
                         <li>
-                          <Link href={{
-                            pathname: `/visualisation/[id]`,
-                          }}
-                            as={`${baseUrl}visualisation/all`}
-                          >
-                            Dataset Visualisation
-                          </Link>
+                          <VisualisationLink datasetId="all">Dataset Visualisation</VisualisationLink>
                         </li>
 
                         <li>
-                          <Link href={{
-                            pathname: `/about`,
-                          }}
-                            as={`${baseUrl}about`}
-                          >
-                            About
-                          </Link>
+                          <AboutLink>About</AboutLink>
                         </li>
                       </ul>
                     </nav>
@@ -126,24 +105,15 @@ const Banner = () => {
               <ul className="nav navbar-nav navbar-right">
                 {/* ...your links... */}
                 <li>
-                  <Link href={{
-                    pathname: `/`,
-                  }}
-                    as={baseUrl}
-                  >
-                    Dataset Listing
-                  </Link>
+                  <OverviewLink>Dataset Listing</OverviewLink>
                 </li>
 
                 <li>
-                  <Link href={{
-                    pathname: `/visualisation`,
-                  }}
-                    as={`${baseUrl}visualisation`}
-                  >
-                    Dataset Visualisation
-                  </Link>
+                  <VisualisationLink datasetId="all">Dataset Visualisation</VisualisationLink>
+                </li>
 
+                <li>
+                  <AboutLink>About</AboutLink>
                 </li>
               </ul>
             </div>

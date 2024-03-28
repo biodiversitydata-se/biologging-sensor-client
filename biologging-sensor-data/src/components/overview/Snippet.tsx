@@ -1,13 +1,9 @@
 import { Dataset } from "@/api/dataset/dataset.interface";
-import { TEST_URL_BASE } from "@/constants";
-import Link from "next/link";
+import { DetailLink, VisualisationLink } from "../links";
+import './Snippet.css';
 
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
-    const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
-    const bold = {
-        fontWeight: "bold",
-    }
     return (
         <div>
             <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
@@ -15,25 +11,11 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                     Dataset record:
                 </div>
 
-                <div>
-                    <Link href={{
-                        pathname: `/detail/[id]`,
-                        query: {
-                            id: data?.datasetID,
-                        },
-                    }}
-                        as={`${baseUrl}detail/${data?.datasetID}`}>More information</Link>
-                </div>
+                <DetailLink datasetId={data?.datasetID}>More information</DetailLink>
 
                 <div>
                     {data?.numberOfRecords && data?.numberOfRecords > 0 && (
-                        <Link href={{
-                            pathname: `/visualisation/[id]`,
-                            query: {
-                                id: data?.datasetID,
-                            },
-                        }}
-                            as={`${baseUrl}visualisation/${data?.datasetID}`}>Visualisation</Link>
+                        <VisualisationLink datasetId={data?.datasetID}>Visualisation</VisualisationLink>
                     )}
                 </div>
 
@@ -41,22 +23,22 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
             <div style={{ backgroundColor: "#fafafa", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div className="row">
-                    <div className="col-md-2" style={bold}>Title:</div>
+                    <div className="col-md-2 bold">Title:</div>
                     <div className="col-md-10">{data?.datasetTitle}</div>
                 </div>
 
                 <div className="row">
-                    <div className="col-md-2" style={bold}>Description:</div>
+                    <div className="col-md-2 bold">Description:</div>
                     <div className="col-md-10">{data?.datasetDescription}</div>
                 </div>
 
                 <div className="row">
-                    <div className="col-md-2" style={bold}>Instruments:</div>
+                    <div className="col-md-2 bold">Instruments:</div>
                     <div className="col-md-10">{data?.instrumentTypes?.join(", ")}</div>
                 </div>
 
                 <div className="row">
-                    <div className="col-md-2" style={bold}>Sensors:</div>
+                    <div className="col-md-2 bold">Sensors:</div>
                     <div className="col-md-10">{data?.valuesMeasured?.join(", ")}</div>
                 </div>
             </div>
