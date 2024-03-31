@@ -3,6 +3,7 @@ import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
+import { Dataset } from '@/api/dataset/dataset.interface';
 import { getInstruments } from '@/api/instrument/api'; 
 
 import {
@@ -144,7 +145,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
         const eventIds = [events[i].eventID];
         const datasetIds = [events[i].datasetID];
         const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds });
-        const records: Record[] = result.results;
+        const records: Dataset[] = result.results;
 
         const values: number[] = [];
 
@@ -166,7 +167,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
   }, [events, sensor, lineData, colors]);
 
-  function _setLabel(itm: Record): string {
+  function _setLabel(itm: Dataset): string {
     const date = new Date(itm.recordStart);
     const hours = String(date.getUTCHours()).padStart(2, '0');
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
