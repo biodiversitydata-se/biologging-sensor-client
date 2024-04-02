@@ -32,10 +32,6 @@ export interface Dataset {
     numberOfRecords: number;
     isFinalized: boolean;
     valuesMeasured: string[];
- 	 	
-    recordStart: string;	
-    recordEnd: string;
-    recordValues: any;
 }
 
 export interface Contact {
