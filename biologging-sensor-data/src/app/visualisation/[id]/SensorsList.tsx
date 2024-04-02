@@ -1,49 +1,50 @@
-import { Event } from "@/api/event/event.typscript";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SensorList } from "./interface";
 import { handleSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
+import { Dataset } from "@/api/dataset/dataset.interface";
 
-interface Args {
-    events: Event[];
+interface Props {
+    selectedDataset: Dataset | null;
 }
 
-
-export default function SensorsList({ events }: Args) {
+export default function SensorsList({ selectedDataset }: Props) {
     const { sensors, updateSensors } = handleSensorSelection();
 
     useEffect(() => {
-        // identify sensors
-        const sensorSet = new Set<string>();
-
-        for (const e of events) {
-            e.valuesMeasured.map((itm) => {
-                sensorSet.add(itm);
-            })
+        if (selectedDataset) {
+            const values: SensorList[] = selectedDataset.sensorTypes.map(item => ({
+                sensor: item,
+                selected: false,
+            }));
+            updateSensors(values);
         }
-
-        const sorted = Array.from(sensorSet).sort();
-
-        const values: SensorList[] = sorted.map(item => ({
-            sensor: item,
-            selected: false,
-        }));
-
-        updateSensors(values);
-    }, [events])
+    }, [selectedDataset])
 
     function _selectSensor(i: number) {
-        const s = [...sensors];
-        s[i].selected = !s[i].selected;
-        updateSensors(s);
+        const updatedSensors = sensors.map((sensor, index) => {
+            if (index === i) {
+                return {
+                    ...sensor,
+                    selected: !sensor.selected
+                };
+            }
+            return sensor;
+        });
+        updateSensors(updatedSensors);
     }
 
     return (
         <div>
             <h5>Select sensor</h5>
-            {sensors.map((item, index) => {
-                return <div style={item.selected ? { backgroundColor: "lightblue" } : undefined} key={index} onClick={() => _selectSensor(index)}>{item.sensor}</div>
-            })}
+            {sensors.map((item, index) => (
+                <div
+                    style={item.selected ? { backgroundColor: "lightblue" } : undefined}
+                    key={index}
+                    onClick={() => _selectSensor(index)}
+                >
+                    {item.sensor}
+                </div>
+            ))}
         </div>
-    )
-
+    );
 }
