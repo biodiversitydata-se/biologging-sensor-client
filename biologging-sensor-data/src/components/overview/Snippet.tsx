@@ -16,9 +16,9 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                 <DetailLink datasetId={data?.datasetID}>More information</DetailLink>
 
                 <div>
-                    {data?.numberOfRecords && data?.numberOfRecords > 0 && (
-                        <VisualisationLink datasetId={data?.datasetID}>Visualisation</VisualisationLink>
-                    )}
+                    {data?.numberOfRecords && data?.numberOfRecords > 0 ?
+                        <VisualisationLink datasetId={data?.datasetID}>Visualisation</VisualisationLink> : null
+                    }
                 </div>
 
             </div>
@@ -35,15 +35,17 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                     <div className="col-md-2">
                         <div className="row" style={{ display: "flex", justifyContent: "space-between" }}>
                             <DetailLink datasetId={data?.datasetID}>
-                                <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" style={{ marginRight: "20px" }} />
+                                <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" />
                             </DetailLink>
 
-                            {data?.numberOfRecords && data?.numberOfRecords > 0 && (
-                                <VisualisationLink datasetId={data?.datasetID}>
-                                    <FontAwesomeIcon icon={faChartLine} className="snippet-icon" />
-                                </VisualisationLink>
-                            )}
-
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 ?
+                                <div style={{ marginLeft: "20px" }}>
+                                    <VisualisationLink datasetId={data?.datasetID}>
+                                        <FontAwesomeIcon icon={faChartLine} className="snippet-icon" />
+                                    </VisualisationLink>
+                                </div>
+                                : null
+                            }
                         </div>
                     </div>
                 </div>
