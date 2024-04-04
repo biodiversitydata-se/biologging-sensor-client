@@ -21,64 +21,89 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     onSelect(dataset);
   }
 
-  const TaxonomicCoverageRenderer = ({ value }) => (
-    console.log(value),
-    <>
-      {value.map(itm => (
-        <div key={itm.taxonGuid} onClick={(e) => e.stopPropagation()}>
-          <a target="_blank" href={`https://species.biodiversitydata.se/species/${itm.taxonGuid}`}>{itm.taxonCommonName}</a>
+  const TaxonomicCoverageRenderer = ({ value }) => {
+    if (Array.isArray(value)) {
+      return (
+      value.map((itm: any, index: number) => (
+              <div key={index} onClick={(e) => e.stopPropagation()}>
+                  <a target="_blank" href={`https://species.biodiversitydata.se/species/${itm.taxonGuid}`}>{itm.taxonCommonName}</a>
+                </div>
+                ))
+    )} else {
+      return null;
+    }
+  };
+
+  const TemporalCoverageRenderer = ({ value }) => {
+    if (Array.isArray(value)) {
+      return (
+        <div style={{ width: '150px' }}>
+          {value.map((item, index) => (
+            <div key={index}>
+              <span>{item.startDatetime?.slice(0, 10)}</span>
+              {item.endDateTime ? 
+                <span> to {item.endDateTime.slice(0, 10)} </span> 
+                : null
+              }
+            </div>
+          ))}
         </div>
-      ))}
-    </>
-  );
+      );
+    } else {
+      return null;
+    }
+  }
 
-    const [rowData, setRowData] = useState(data.map((item, i) => ({
-      datasetTitle: item.datasetTitle,
-      animalCount: item.animalCount.toLocaleString('en-US').replace(/,/g, ' '),
-      taxonomicCoverage: item.taxonomicCoverage,
-      instrumentTypes: item?.instrumentTypes?.join(", "),
-      institutionCode: item.institutionCode,
-      temporalCoverage: item.temporalCoverage,
-      numberOfRecords: item.numberOfRecords.toLocaleString('en-US').replace(/,/g, ' '),
-    })));
+  const gridOptions = {
+    defaultColDef: {
+        resizable: true
+    }
+  };
 
-    const colDefs = [
-      { field: "datasetTitle", cellRenderer: "agTextCellRenderer" },
-      { field: "animalCount", cellRenderer: "agTextCellRenderer" },
-      { 
-        field: "taxonomicCoverage", 
-        cellRendererFramework: TaxonomicCoverageRenderer
-      },
-      { field: "instrumentTypes", cellRenderer: "agTextCellRenderer" },
-      { field: "institutionCode", cellRenderer: "agTextCellRenderer" },
-      { 
-        field: "temporalCoverage", 
-        cellRendererFramework: (params) => (
-          <div style={{ width: '150px' }}>
-            {params.value?.startDatetime?.slice(0, 10)} 
-            {params.value?.endDateTime ? 
-            <div> to {params.value?.endDateTime.slice(0, 10)} </div> 
-            : null
-            }
-          </div>
-        )
-      },
-      { field: "numberOfRecords", cellRenderer: "agTextCellRenderer" },
-    ];
-  
+  const rowData = data.map((item, i) => ({
+    datasetTitle: item.datasetTitle,
+    animalCount: item.animalCount.toLocaleString('en-US').replace(/,/g, ' '),
+    taxonomicCoverage: item.taxonomicCoverage,
+    instrumentTypes: item?.instrumentTypes?.join(", "),
+    institutionCode: item.institutionCode,
+    temporalCoverage: item.temporalCoverage,
+    numberOfRecords: item.numberOfRecords.toLocaleString('en-US').replace(/,/g, ' '),
+  }));
 
-   return (
-    // wrapping container with theme & size
-    <div
-     className="ag-theme-quartz" // applying the grid theme
-     style={{ height: 500 }} // the grid will fill the size of the parent container
-    >
-      <AgGridReact
+  const colDefs = [
+    { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title" },
+    { field: "animalCount", cellRenderer: "agTextCellRenderer", headerName: "Animal count"},
+    {
+      field: 'taxonomicCoverage',
+      cellRenderer: TaxonomicCoverageRenderer,
+      autoHeight: true,
+      headerName: "Taxon"
+    },
+    { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type"},
+    { field: "institutionCode", cellRenderer: "agTextCellRenderer", headerName: "Institution"},
+    { 
+      field: "temporalCoverage",
+      headerName: "Dates", 
+      cellRendererFramework: TemporalCoverageRenderer,
+      autoHeight: true,
+    },
+    { field: "numberOfRecords", cellRenderer: "agTextCellRenderer", headerName: "Total records"},
+  ];  
+
+    return (
+      <div className="ag-theme-quartz" style={{ height: 400, width: '100%' }}>
+        <AgGridReact
           rowData={rowData}
           columnDefs={colDefs}
-      />
-    </div>
-   )
+          onRowClicked={(event) => _selectRow(event.data, event.rowIndex)}
+          rowClassRules={{
+            'hover-row': true,
+            'bold-row': (params) => selected[params.rowIndex]
+          }}
+          gridOptions={gridOptions}
+        />
+      </div>
+    );
 
   // return (
   //   <div className="container overview">
