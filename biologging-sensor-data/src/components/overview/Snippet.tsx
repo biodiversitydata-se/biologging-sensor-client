@@ -10,7 +10,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
         <div>
             <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div>
-                    Dataset record:
+                    Dataset overview:
                 </div>
 
                 <DetailLink datasetId={data?.datasetID}>More information</DetailLink>
