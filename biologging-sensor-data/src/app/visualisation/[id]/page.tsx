@@ -10,10 +10,14 @@ import { SensorSelectionProvider } from "@/hooks/sensorSelectContext/sensorSelec
 import Visualisation from "./Visualisation";
 import './visualisation.css';
 
-export default function Visualize() {
+export default function Visualize({ params }: { params: { id: string } }) {
   const [events, setEvent] = useState<Event[]>([]);
 
+
   async function _updateEvents(d: Dataset) {
+    if (!d) {
+      return;
+    }
     const id = [d.datasetID];
     const result = await filterEvents({ datasetIds: id });
 
@@ -21,21 +25,22 @@ export default function Visualize() {
   }
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mt-n3">
       <SensorSelectionProvider>
         <div className="row">
-          <div className="col-md-3">
+          <div className="col-md-6">
             <div className="vis-list">
-              <DatasetsList initDataset={null} onSelect={(itm: Dataset) => _updateEvents(itm)} />
+              <DatasetsList initDataset={params.id} onSelect={(itm: Dataset) => _updateEvents(itm)} />
             </div>
-
+          </div>
+          <div className="col-md-6">
             <div className="vis-list">
               <SensorsList events={events} />
             </div>
           </div>
-          <div className="col-md-7">
-            <Visualisation events={events} />
-          </div>
+        </div>
+        <div className="col-md-10" style={{ textAlign: 'center' }}>
+          <Visualisation events={events} />
         </div>
       </SensorSelectionProvider>
     </div>

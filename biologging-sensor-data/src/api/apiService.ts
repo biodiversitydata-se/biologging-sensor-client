@@ -28,4 +28,3 @@ export const post = async <T>(endpoint: string, body: any): Promise<ApiResponse<
         return error as AxiosError;
     }
 }
-

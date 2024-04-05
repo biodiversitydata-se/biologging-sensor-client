@@ -3,6 +3,8 @@ import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
+import { getInstruments } from '@/api/instrument/api'; 
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +15,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { get } from '@/api/apiService';
 
 ChartJS.register(
   CategoryScale,
@@ -56,6 +59,11 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           display: true,
           text: 'Time',
         },
+        ticks: {
+          callback: function(value, index, values) {
+            return value;
+          }
+        }
       },
       y: {
         title: {
@@ -73,19 +81,48 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   }, [events]);
 
   useEffect(() => {
-    setOptions({
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom' as const,
-        },
-        title: {
-          display: true,
-          text: sensor.toUpperCase(),
-        },
+    const fetchData = async () => {
+      try {
+        const response = await get<any>(`dataset/${events[0].datasetID}`);
+        const unitOfMeasure = response.unitsReported[events[0].valuesMeasured.indexOf(sensor)];
+        setOptions(prevOptions => ({
+          ...prevOptions,
+          scales: {
+            ...prevOptions.scales,
+            y: {
+              ...prevOptions.scales.y,
+              title: {
+                display: true,
+                text: `${sensor.charAt(0).toUpperCase()}${sensor.slice(1)} (${unitOfMeasure.charAt(0)}${unitOfMeasure.slice(1)})`,
+              },
+            },
+          },
+        }));
+      } catch (error) {
+      }
+    };
+
+    fetchData();
+  }, [sensor, events]);
+  
+  
+  useEffect(() => {
+    setOptions(prevOptions => ({
+      ...prevOptions,
+      title: {
+        ...prevOptions.title,
+        text: sensor.toUpperCase(),
       },
+    }));
+  }, [sensor]);
+
+  useEffect(() => {
+    setOptions(prevOptions => ({
+      ...prevOptions,
       scales: {
+        ...prevOptions.scales,
         x: {
+          ...prevOptions.scales.x,
           title: {
             display: true,
             text: 'Time',
@@ -96,14 +133,8 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
             }
           }
         },
-        y: {
-          title: {
-            display: true,
-            text: sensor,
-          },
-        },
       },
-    });
+    }));
 
     const dataFetch = async () => {
       const labels = new Set<string>();
@@ -141,7 +172,6 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
-
   }
 
   function getRandomColor() {
@@ -154,8 +184,15 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   }
 
   return (
-    <div style={{ marginBottom: '20px' }}>
-      <Line options={options} data={lineData} />
+    <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
+       {lineData.labels.length > 0 && lineData.datasets.some(dataset => dataset.data.length > 0) ? (
+          <>
+            <Line options={options} data={lineData} />
+            <h5 style={{color: '#666666'}}>Total number of records is {events.length}</h5>
+          </>
+        ) : (
+            <strong className='mx-auto'>No data available.</strong>
+        )}
     </div>
   );
 }

@@ -20,3 +20,5 @@ export interface Sensor {
     calibrationDate: string;
     calibrationDetails: string;
 }
+
+

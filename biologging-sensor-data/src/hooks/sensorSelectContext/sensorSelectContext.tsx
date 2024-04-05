@@ -1,5 +1,5 @@
 import { Dataset } from "@/api/dataset/dataset.interface";
-import { SensorList } from "@/app/visualisation/interface";
+import { SensorList } from "@/app/visualisation/[id]/interface";
 import { createContext, useContext, useState } from "react";
 
 interface SensorSelection {
@@ -9,7 +9,7 @@ interface SensorSelection {
 
 export const SensorSelectionContext = createContext<SensorSelection>({
     sensors: [],
-    updateSensors: ([]) =>{},
+    updateSensors: ([]) => { },
 });
 
 export function handleSensorSelection() {
@@ -20,7 +20,7 @@ export function SensorSelectionProvider(props: any) {
     const [sensors, updateSensors] = useState<SensorList[]>([]);
 
     return (
-        <SensorSelectionContext.Provider value={{sensors: sensors, updateSensors: updateSensors}}>
+        <SensorSelectionContext.Provider value={{ sensors: sensors, updateSensors: updateSensors }}>
             {props.children}
         </SensorSelectionContext.Provider>
     )
