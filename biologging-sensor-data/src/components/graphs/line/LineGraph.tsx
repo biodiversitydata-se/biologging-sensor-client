@@ -106,16 +106,30 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   }, [sensor, events]);
   
   
+  // useEffect(() => {
+  //   setOptions(prevOptions => ({
+  //     ...prevOptions,
+  //     title: {
+  //       ...prevOptions.title,
+  //       text: sensor.toUpperCase(),
+  //     },
+  //   }));
+  // }, [sensor]);
+
   useEffect(() => {
     setOptions(prevOptions => ({
       ...prevOptions,
-      title: {
-        ...prevOptions.title,
-        text: sensor.toUpperCase(),
+      plugins: {
+        ...prevOptions.plugins,
+        title: {
+          ...prevOptions.plugins.title,
+          text: sensor.toUpperCase(),
+        },
       },
     }));
   }, [sensor]);
 
+  
   useEffect(() => {
     setOptions(prevOptions => ({
       ...prevOptions,
