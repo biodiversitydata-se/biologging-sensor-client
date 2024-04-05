@@ -3,33 +3,20 @@ import { filterRecords } from "@/api/record/api";
 import { Record } from "@/api/record/record.interface";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
+import { ActData, ActDaysData, AData } from "./interface";
+import ActogramGraph from "./ActogramGraph";
 
-export interface ActData {
-    [date: string]: ActItem[];
-
-    // date: Date;
-    // score: number;
-}
-
-export interface ActItem {
-    hour: any;
-    score: number;
-}
-
-export interface ActDaysData {
-    [month: string]: number;
-    // date: Date;
-    // days: number;
-}
 
 export default function Actogram({ events }: { events: Event[] }) {
     const [data, setData] = useState<ActData>();
     const [daysDate, setDaysData] = useState<ActDaysData>();
+    const [aData, setAData] = useState<AData[]>();
     useEffect(() => {
 
         const dataFetch = async () => {
             const days: ActDaysData = {};
             const items: ActData = {};
+            const aadata: AData[] = [];
 
             const relEvent = events[0];
             const ids = [relEvent.eventID];
@@ -38,7 +25,8 @@ export default function Actogram({ events }: { events: Event[] }) {
             const result = await filterRecords({ eventIds: ids, datasetIds: datasetId });
             const records: Record[] = result.results;
 
-            for (const item of records) {
+            for (let i = 0; i < records.length; i++) {
+                const item = records[i];
                 const date = new Date(item.recordStart);
                 const score = item.recordValues.activity.acc_sum;
 
@@ -52,6 +40,33 @@ export default function Actogram({ events }: { events: Event[] }) {
                 const daysKey: string = currentMonth + currentYear;
                 const itemKey: string = currentDay + daysKey;
 
+                if (i === 0) { // first entry,pad with empty until the hour
+                    for (let j = 0; j < currentTime; j++) {
+                        const itm: AData = {
+                            x: (j * 10),
+                            y: Math.floor(i / 48),
+                            value: -10,
+                        }
+
+                        aadata.push(itm);
+
+                    }
+                }
+
+                const offset = Math.floor(aadata.length / 24) % 2 ? 250 : 0;
+
+                const itm: AData = {
+                    x: (currentTime * 10) + offset,
+                    y: 10 * Math.floor(aadata.length / 48),
+                    value: score,
+                }
+
+
+                aadata.push(itm);
+
+                // if (aadata.length > 80) {
+                //     break;
+                // }
 
                 // increment number of days for the current month
                 if (!days[daysKey]) {
@@ -69,9 +84,14 @@ export default function Actogram({ events }: { events: Event[] }) {
 
             setData(items);
             setDaysData(days);
+            setAData(aadata);
         };
 
         dataFetch();
     }, [events])
+
+    return (
+        <ActogramGraph data={data} days={daysDate} adata={aData}></ActogramGraph>
+    )
 
 }

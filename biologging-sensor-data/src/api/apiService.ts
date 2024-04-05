@@ -20,7 +20,7 @@ export const post = async <T>(endpoint: string, body: any): Promise<ApiResponse<
                 'Content-Type': 'application/json',
               },
               params: {
-                take: 500,
+                take: 1000,
               },
         });
         return response.data;
