@@ -1,3 +1,4 @@
+  type Column = ColDef<{ datasetTitle: string; animalCount: string; taxonomicCoverage: Taxon[]; instrumentTypes: string; institutionCode: string; temporalCoverage: RangeDateTime; numberOfRecords: string; }, any> | ColGroupDef;
 import { useEffect, useState } from 'react';
 import './Table.css'
 import { Dataset } from "@/api/dataset/dataset.interface";
@@ -49,15 +50,32 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
           ))}
         </div>
       );
-    } else {
-      return null;
+    } else if (typeof value === 'object' && value !== null) {
+        return (
+          <div style={{ width: '150px' }}>
+            <span>{value.startDatetime?.slice(0, 10)}</span>
+            {value.endDateTime ? 
+              <span> to {value.endDateTime.slice(0, 10)} </span> 
+              : null
+            }
+          </div>
+        );
+      } else {
+        return null;
+      }
     }
-  }
 
   const gridOptions = {
     defaultColDef: {
-        resizable: true
-    }
+      resizable: true,
+      sortable: true,
+    },
+    defaultSortModel: [
+      {
+        colId: "createdDate",
+        sort: "desc", // This will sort the createdDate column in descending order by default
+      }
+    ]
   };
 
   const rowData = data.map((item, i) => ({
@@ -70,32 +88,47 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     numberOfRecords: item.numberOfRecords.toLocaleString('en-US').replace(/,/g, ' '),
   }));
 
-  const colDefs = [
-    { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title" },
-    { field: "animalCount", cellRenderer: "agTextCellRenderer", headerName: "Animal count"},
-    {
-      field: 'taxonomicCoverage',
-      cellRenderer: TaxonomicCoverageRenderer,
-      autoHeight: true,
-      headerName: "Taxon"
-    },
-    { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type"},
-    { field: "institutionCode", cellRenderer: "agTextCellRenderer", headerName: "Institution"},
-    { 
-      field: "temporalCoverage",
-      headerName: "Dates", 
-      cellRendererFramework: TemporalCoverageRenderer,
-      autoHeight: true,
-    },
-    { field: "numberOfRecords", cellRenderer: "agTextCellRenderer", headerName: "Total records"},
-  ];  
+const columns: Column[] = [
+  { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title", sortable: true},
+  { 
+    field: "animalCount", 
+    cellRenderer: "agTextCellRenderer", 
+    headerName: "Animal count", 
+    valueGetter: params => parseInt(params.data.animalCount.replace(/,/g, ''), 10)
+  },
+  {
+    field: 'taxonomicCoverage',
+    cellRenderer: TaxonomicCoverageRenderer,
+    autoHeight: true,
+    headerName: "Taxon",
+  },
+  { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type"},
+  { field: "institutionCode", cellRenderer: "agTextCellRenderer", headerName: "Institution"},
+  {
+    field: "temporalCoverage",
+    headerName: "Dates",
+    cellRenderer: TemporalCoverageRenderer,
+    autoHeight: true,
+    comparator: (valueA, valueB, nodeA, nodeB, isInverted) => {
+      const dateA = new Date(valueA.startDatetime);
+      const dateB = new Date(valueB.startDatetime);
+      return dateA.getTime() - dateB.getTime();
+    }
+  },
+  { 
+    field: "numberOfRecords", 
+    cellRenderer: "agTextCellRenderer", 
+    headerName: "Total records",
+    valueGetter: params => parseInt(params.data.numberOfRecords.replace(/,/g, ''), 10)
+  },
+];
 
     return (
       <div className="ag-theme-quartz" style={{ height: 400, width: '100%' }}>
         <AgGridReact
           rowData={rowData}
-          columnDefs={colDefs}
-          onRowClicked={(event) => _selectRow(event.data, event.rowIndex)}
+          columnDefs={columns}
+          onRowClicked={(event) => event.data && _selectRow(event.data, event.rowIndex)}
           rowClassRules={{
             'hover-row': true,
             'bold-row': (params) => selected[params.rowIndex]
