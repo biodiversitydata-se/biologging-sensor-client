@@ -1,53 +1,53 @@
 import { Dataset } from "@/api/dataset/dataset.interface";
-import { TEST_URL_BASE } from "@/constants";
-import Link from "next/link";
+import { DetailLink, VisualisationLink } from "../links";
+import './Snippet.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChartLine, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
-    const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
-    const bold = {
-        fontWeight: "bold",
-    }
     return (
         <div>
             <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div>
-                    Dataset record:
+                    Dataset overview:
                 </div>
 
-                <div>
-                    <Link href={{
-                        pathname: `/detail/[id]`,
-                        query: {
-                            id: data?.datasetID,
-                        },
-                    }}
-                        as={`${baseUrl}detail/${data?.datasetID}`}>More information</Link>
-                </div>
+                <DetailLink datasetId={data?.datasetID}>More information</DetailLink>
 
                 <div>
-                    {data?.numberOfRecords && data?.numberOfRecords > 0 && (
-                        <Link href={{
-                            pathname: `/visualisation`,
-                            query: {
-                                id: data?.datasetID,
-                            },
-                        }}
-                            as={`${baseUrl}visualisation`}>Visualisation</Link>
-                    )}
+                    {data?.numberOfRecords && data?.numberOfRecords > 0 ?
+                        <VisualisationLink datasetId={data?.datasetID}>Visualisation</VisualisationLink> : null
+                    }
                 </div>
 
             </div>
 
             <div style={{ backgroundColor: "#fafafa", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div className="row">
-                    <div className="col-md-2" style={bold}>Title:</div>
-                    <div className="col-md-10">{data?.datasetTitle}</div>
+                    <div className="col-md-2 bold">Title:</div>
+                    <div className="col-md-9">{data?.datasetTitle}</div>
                 </div>
 
                 <div className="row">
-                    <div className="col-md-2" style={bold}>Description:</div>
-                    <div className="col-md-10">{data?.datasetDescription}</div>
+                    <div className="col-md-2 bold">Description:</div>
+                    <div className="col-md-8">{data?.datasetDescription}</div>
+                    <div className="col-md-2">
+                        <div className="row" style={{ display: "flex", justifyContent: "space-between" }}>
+                            <DetailLink datasetId={data?.datasetID}>
+                                <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" />
+                            </DetailLink>
+
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 ?
+                                <div style={{ marginLeft: "20px" }}>
+                                    <VisualisationLink datasetId={data?.datasetID}>
+                                        <FontAwesomeIcon icon={faChartLine} className="snippet-icon" />
+                                    </VisualisationLink>
+                                </div>
+                                : null
+                            }
+                        </div>
+                    </div>
                 </div>
 
                 <div className="row">
@@ -56,8 +56,8 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                 </div>
 
                 <div className="row">
-                    <div className="col-md-2" style={bold}>Sensors:</div>
-                    <div className="col-md-10">{data?.valuesMeasured?.join(", ")}</div>
+                    <div className="col-md-2 bold">Sensors:</div>
+                    <div className="col-md-9">{data?.valuesMeasured?.join(", ")}</div>
                 </div>
             </div>
         </div>

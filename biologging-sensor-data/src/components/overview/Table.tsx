@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './Table.css'
+import './Table.css';
 import { Dataset } from "@/api/dataset/dataset.interface";
 import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
