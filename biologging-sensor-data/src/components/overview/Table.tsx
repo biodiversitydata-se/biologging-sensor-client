@@ -1,4 +1,3 @@
-  type Column = ColDef<{ datasetTitle: string; animalCount: string; taxonomicCoverage: Taxon[]; instrumentTypes: string; institutionCode: string; temporalCoverage: RangeDateTime; numberOfRecords: string; }, any> | ColGroupDef;
 import { useEffect, useState } from 'react';
 import './Table.css'
 import { Dataset } from "@/api/dataset/dataset.interface";
@@ -21,19 +20,6 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
 
     onSelect(dataset);
   }
-
-  const TaxonomicCoverageRenderer = ({ value }) => {
-    if (Array.isArray(value)) {
-      return (
-      value.map((itm: any, index: number) => (
-              <div key={index} onClick={(e) => e.stopPropagation()}>
-                  <a target="_blank" href={`https://species.biodiversitydata.se/species/${itm.taxonGuid}`}>{itm.taxonCommonName}</a>
-                </div>
-                ))
-    )} else {
-      return null;
-    }
-  };
 
   const TemporalCoverageRenderer = ({ value }) => {
     if (Array.isArray(value)) {
@@ -67,8 +53,9 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
 
   const gridOptions = {
     defaultColDef: {
-      resizable: true,
+      resizable: false,
       sortable: true,
+      filter: true,
     },
     defaultSortModel: [
       {
@@ -88,28 +75,32 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     numberOfRecords: item.numberOfRecords.toLocaleString('en-US').replace(/,/g, ' '),
   }));
 
-const columns: Column[] = [
+const columns = [
   { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title", sortable: true},
   { 
     field: "animalCount", 
     cellRenderer: "agTextCellRenderer", 
     headerName: "Animal count", 
+    width: 135,
     valueGetter: params => parseInt(params.data.animalCount.replace(/,/g, ''), 10)
   },
   {
     field: 'taxonomicCoverage',
-    cellRenderer: TaxonomicCoverageRenderer,
+    cellRenderer: 'taxonomicCoverageRenderer',
     autoHeight: true,
     headerName: "Taxon",
+    width: 110,
+    valueGetter: (params) => params.data.taxonomicCoverage[0].taxonCommonName,
   },
   { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type"},
-  { field: "institutionCode", cellRenderer: "agTextCellRenderer", headerName: "Institution"},
+  { field: "institutionCode", cellRenderer: "agTextCellRenderer",  width: 150, headerName: "Institution"},
   {
     field: "temporalCoverage",
     headerName: "Dates",
     cellRenderer: TemporalCoverageRenderer,
     autoHeight: true,
-    comparator: (valueA, valueB, nodeA, nodeB, isInverted) => {
+    width: 195,
+    comparator: (valueA, valueB) => {
       const dateA = new Date(valueA.startDatetime);
       const dateB = new Date(valueB.startDatetime);
       return dateA.getTime() - dateB.getTime();
@@ -118,13 +109,14 @@ const columns: Column[] = [
   { 
     field: "numberOfRecords", 
     cellRenderer: "agTextCellRenderer", 
-    headerName: "Total records",
+    headerName: "Total records", 
+    width: 130,
     valueGetter: params => parseInt(params.data.numberOfRecords.replace(/,/g, ''), 10)
   },
 ];
 
     return (
-      <div className="ag-theme-quartz" style={{ height: 400, width: '100%' }}>
+      <div className="ag-theme-quartz" style={{ height: 263, width: '100%' }}>
         <AgGridReact
           rowData={rowData}
           columnDefs={columns}
@@ -137,54 +129,4 @@ const columns: Column[] = [
         />
       </div>
     );
-
-  // return (
-  //   <div className="container overview">
-  //     <table>
-  //       <thead>
-  //         <tr>
-  //           <th>Title</th>
-  //           <th>Animal count</th>
-  //           <th>Taxon</th>
-  //           <th>Instrument type</th>
-  //           <th>Institution</th>
-  //           <th>Dates</th>
-  //           <th>Total records</th>
-  //         </tr>
-  //       </thead>
-
-  //       <tbody>
-  //         {data.map((item, i) => (
-  //           <tr
-  //             key={i}
-  //             onClick={() => { _selectRow(item, i) }}
-  //             className="cursor-pointer hover-row"
-  //             style={selected[i] ? { fontWeight: "bold", backgroundColor: isHovered ? '#f5f5f5' : 'transparent' } : { backgroundColor: isHovered ? '#f5f5f5' : 'transparent' }}
-  //             onMouseEnter={() => setIsHovered(true)}
-  //             onMouseLeave={() => setIsHovered(false)}
-  //           >
-  //             <td>{item.datasetTitle}</td>
-  //             <td>{item.animalCount.toLocaleString('en-US').replace(/,/g, ' ')}</td>
-  //             <td>{item.taxonomicCoverage.map(itm => (
-  //             <div key={i} onClick={(e) => e.stopPropagation()}>
-  //                 <a target="_blank" href={`https://species.biodiversitydata.se/species/${itm.taxonGuid}`}>{itm.taxonCommonName}</a>
-  //               </div>
-  //             ))}</td>
-  //             <td>{item?.instrumentTypes?.join(", ")}</td>
-  //             <td>{item.institutionCode}</td>
-  //             <td style={{ width: '150px' }}>
-  //               {item.temporalCoverage?.startDatetime?.slice(0, 10)} 
-  //               {item.temporalCoverage?.endDateTime ? 
-  //               <div> to {item.temporalCoverage?.endDateTime.slice(0, 10)} </div> 
-  //               : null
-  //               }
-  //             </td>
-  //             <td>{item.numberOfRecords.toLocaleString('en-US').replace(/,/g, ' ')}</td>
-  //           </tr>
-  //         ))}
-  //       </tbody>
-  //     </table>
-  //   </div >
-  // )
-
 }
