@@ -7,18 +7,18 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
   const [selected, setSelected] = useState<boolean[]>([]);
+  const [fullData, setFullData] = useState<Dataset[]>([]);
 
   useEffect(() => {
-    const selected = new Array<boolean>(data.length).fill(false);
-    setSelected(selected);
+    setSelected(new Array<boolean>(data.length).fill(false));
+    setFullData(data);
   }, [data])
 
-  function _selectRow(dataset: Dataset, i: number) {
+  const _selectRow = (i: number) => {
     const selected = new Array<boolean>(data.length).fill(false);
     selected[i] = true;
     setSelected(selected);
-
-    onSelect(dataset);
+    onSelect(fullData[i]);
   }
 
   const TemporalCoverageRenderer = ({ value }) => {
@@ -120,7 +120,7 @@ const columns = [
         <AgGridReact
           rowData={rowData}
           columnDefs={columns}
-          onRowClicked={(event) => event.data && _selectRow(event.data, event.rowIndex)}
+          onRowClicked={({ rowIndex: i }) => _selectRow(i)}
           rowClassRules={{
             'hover-row': true,
             'bold-row': (params) => selected[params.rowIndex]
