@@ -12,12 +12,14 @@ import './visualisation.css';
 
 export default function Visualize({ params }: { params: { id: string } }) {
   const [events, setEvent] = useState<Event[]>([]);
+  const [dataset, setDataset] = useState<Dataset>();
 
 
   async function _updateEvents(d: Dataset) {
     if (!d) {
       return;
     }
+    setDataset(d);
     const id = [d.datasetID];
     const result = await filterEvents({ datasetIds: id });
 
@@ -35,7 +37,7 @@ export default function Visualize({ params }: { params: { id: string } }) {
           </div>
           <div className="col-md-6">
             <div className="vis-list">
-              <SensorsList events={events} />
+              <SensorsList dataset={dataset} />
             </div>
           </div>
         </div>

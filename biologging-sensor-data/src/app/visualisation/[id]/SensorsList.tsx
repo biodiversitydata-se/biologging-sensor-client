@@ -2,34 +2,28 @@ import { Event } from "@/api/event/event.typscript";
 import { useEffect, useState } from "react";
 import { SensorList } from "./interface";
 import { handleSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
+import { Dataset } from "@/api/dataset/dataset.interface";
 
 interface Args {
-    events: Event[];
+    dataset: Dataset | undefined;
 }
 
 
-export default function SensorsList({ events }: Args) {
+export default function SensorsList({ dataset }: Args) {
     const { sensors, updateSensors } = handleSensorSelection();
 
     useEffect(() => {
-        // identify sensors
-        const sensorSet = new Set<string>();
-
-        for (const e of events) {
-            e.valuesMeasured.map((itm) => {
-                sensorSet.add(itm);
-            })
+        if (!dataset) {
+            return;
         }
 
-        const sorted = Array.from(sensorSet).sort();
-
-        const values: SensorList[] = sorted.map(item => ({
+        const values: SensorList[] = dataset.valuesMeasured.map(item => ({
             sensor: item,
             selected: false,
         }));
 
         updateSensors(values);
-    }, [events])
+    }, [dataset])
 
     function _selectSensor(i: number) {
         const s = [...sensors];
