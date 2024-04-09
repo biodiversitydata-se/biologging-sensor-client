@@ -1,16 +1,15 @@
 import { Event } from "@/api/event/event.typscript";
 import { useEffect, useState } from "react";
 import { SensorList } from "./interface";
-import { handleSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
+import { useSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
 import { Dataset } from "@/api/dataset/dataset.interface";
 
 interface Args {
     dataset: Dataset | undefined;
 }
 
-
 export default function SensorsList({ dataset }: Args) {
-    const { sensors, updateSensors } = handleSensorSelection();
+    const { sensors, updateSensors } = useSensorSelection();
 
     useEffect(() => {
         if (!dataset) {
