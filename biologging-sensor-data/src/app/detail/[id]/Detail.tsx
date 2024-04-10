@@ -2,25 +2,17 @@ import Image from 'next/image';
 import React, { } from 'react';
 import './detail.css';
 import { Dataset } from '@/api/dataset/dataset.interface';
-import Link from "next/link";
-import { TEST_URL_BASE } from "@/constants";
 import orcidLogo from "@/assets/images/orcid.logo.icon.svg";
+import { OverviewLink } from '@/components/links';
 
 function Detail({ detail }: { detail: Dataset | null }) {
-    console.log('detail', detail);
-
-    const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
 
     return (
         <div>
             <div className="container">
                 <h5>
                     <span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-                    <Link href={{
-                            pathname: `/`,
-                          }}
-                            as={baseUrl}
-                          > Back</Link>
+                    <OverviewLink>Back</OverviewLink>
                 </h5>
                 <div className='panel panel-default'>
                     <div className='panel-body row'>
@@ -90,7 +82,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             <div className="col-md-6">
                                 {detail?.creator.map((person, index) => (
                                     <div key={index}>
-                                         <div>
+                                        <div>
                                             {person.webpage ? (
                                                 <a href={person.webpage}>
                                                     <span>{person.firstName + ', '}</span>
@@ -200,13 +192,13 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
 
                         <div className="col-md-12">
-                        <div>
-                            <strong className="col-md-3">Version: </strong>
-                            <div className="col-md-3">{detail?.version || 'No Version available.'}</div>
-                        </div>
                             <div>
-                               <strong className="col-md-3">Last Updated | UpdateFrequency: </strong>
-                               <div className="col-md-3">{ detail?.dateUpdated.slice(0, 10) + ' | ' + detail?.updateFrequency}</div>
+                                <strong className="col-md-3">Version: </strong>
+                                <div className="col-md-3">{detail?.version || 'No Version available.'}</div>
+                            </div>
+                            <div>
+                                <strong className="col-md-3">Last Updated | UpdateFrequency: </strong>
+                                <div className="col-md-3">{detail?.dateUpdated.slice(0, 10) + ' | ' + detail?.updateFrequency}</div>
                             </div>
                         </div>
                     </div>
