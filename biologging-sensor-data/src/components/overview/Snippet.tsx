@@ -52,7 +52,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
                 <div className="row">
                     <div className="col-md-2 bold">Instruments:</div>
-                    <div className="col-md-9">{data?.instrumentTypes?.join(", ")}</div>
+                    <div className="col-md-10">{Array.isArray(data?.instrumentTypes) ? data.instrumentTypes.join(", ") : data?.instrumentTypes}</div>
                 </div>
 
                 <div className="row">
