@@ -5,7 +5,6 @@ import { useSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectCont
 import { useEffect, useState } from "react";
 
 export default function Visualisation({ events }: { events: Event[] }) {
-    console.log("events", events);
     const { sensors, updateSensors, handleSensorSelection } = useSensorSelection();
     const [isMap, setMap] = useState<boolean>(false);
     const [sensorSelected, setSelected] = useState<boolean>(false)

@@ -3,7 +3,7 @@ import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
-import { getInstruments } from '@/api/instrument/api'; 
+import { getInstruments } from '@/api/instrument/api';
 
 import {
   Chart as ChartJS,
@@ -40,7 +40,7 @@ interface LineData {
 }
 
 export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
-  const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: []});
+  const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: [] });
   const [colors, setColors] = useState<string[]>([]);
   const [options, setOptions] = useState({
     responsive: true,
@@ -60,7 +60,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           text: 'Time',
         },
         ticks: {
-          callback: function(value, index, values) {
+          callback: function (value, index, values) {
             return value;
           }
         }
@@ -84,7 +84,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     const fetchData = async () => {
       try {
         const response = await get<any>(`dataset/${events[0].datasetID}`);
-        const unitOfMeasure = response.unitsReported[events[0].valuesMeasured.indexOf(sensor)];
+        const unitOfMeasure = response.unitsReported[response.valuesMeasured.indexOf(sensor)];
         setOptions(prevOptions => ({
           ...prevOptions,
           scales: {
@@ -93,7 +93,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
               ...prevOptions.scales.y,
               title: {
                 display: true,
-                text: `${sensor.charAt(0).toUpperCase()}${sensor.slice(1)} (${unitOfMeasure.charAt(0)}${unitOfMeasure.slice(1)})`,
+                text: `${sensor?.charAt(0).toUpperCase()}${sensor?.slice(1)} (${unitOfMeasure?.charAt(0)}${unitOfMeasure?.slice(1)})`,
               },
             },
           },
@@ -104,7 +104,6 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
     fetchData();
   }, [sensor, events]);
-  
 
 
   useEffect(() => {
@@ -120,7 +119,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     }));
   }, [sensor]);
 
-  
+
   useEffect(() => {
     setOptions(prevOptions => ({
       ...prevOptions,
@@ -133,7 +132,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
             text: 'Time',
           },
           ticks: {
-            callback: function(value, index, values) {
+            callback: function (value, index, values) {
               return value;
             }
           }
@@ -160,16 +159,16 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
             values.push(value);
           }
         });
-        
-        datasets.push({ label: events[i].eventID, data: values, backgroundColor: colors[i], borderColor: colors[i]});
+
+        datasets.push({ label: events[i].eventID, data: values, backgroundColor: colors[i], borderColor: colors[i] });
       }
 
-      setLineData({ labels: Array.from(labels), datasets: datasets})
+      setLineData({ labels: Array.from(labels), datasets: datasets })
     }
 
     dataFetch();
 
-  }, [events, sensor, lineData, colors]);
+  }, [events, sensor]);
 
   function _setLabel(itm: Record): string {
     const date = new Date(itm.recordStart);
@@ -182,7 +181,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
   function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
-    for (var i = 0; i < 6; i++ ) {
+    for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
@@ -190,14 +189,14 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
   return (
     <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
-       {lineData.labels.length > 0 && lineData.datasets.some(dataset => dataset.data.length > 0) ? (
-          <>
-            <Line options={options} data={lineData} />
-            <h5 style={{color: '#666666'}}>Total number of records is {events.length}</h5>
-          </>
-        ) : (
-            <strong className='mx-auto'>No data available.</strong>
-        )}
+      {lineData.labels.length > 0 && lineData.datasets.some(dataset => dataset.data.length > 0) ? (
+        <>
+          <Line options={options} data={lineData} />
+          <h5 style={{ color: '#666666' }}>Total number of records is {events.length}</h5>
+        </>
+      ) : (
+        <strong className='mx-auto'>No data available.</strong>
+      )}
     </div>
   );
 }
