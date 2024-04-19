@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ActogramProps } from "./interface";
+import { S } from "./const";
 
 export default function ActogramGraph({ data, days, adata }: ActogramProps) {
     const w = 1000;
@@ -18,21 +19,15 @@ export default function ActogramGraph({ data, days, adata }: ActogramProps) {
             return;
         }
 
-        console.log(adata)
+        // month labels
+        console.log(days)
 
 
-
-
-        // Draw 48 squares next to each other
-        // for (let i = 0; i < 48; i++) {
-        //     squares.push({ x: i * (squareSize + gap), y: 0, size: squareSize });
-        // }
-
+        // squares = data
         adata?.forEach((square) => {
             ctx.fillStyle = getColor(square.value);
             ctx.strokeStyle = 'black';
-            //ctx.fillStyle = 'red';
-            ctx.fillRect(square.x, square.y, 10, 10);
+            ctx.fillRect(square.x + 100, square.y + 100, S, S);
         });
 
 

@@ -5,12 +5,14 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { ActData, ActDaysData, AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
+import { S } from "./const";
 
 
 export default function Actogram({ events }: { events: Event[] }) {
     const [data, setData] = useState<ActData>();
     const [daysDate, setDaysData] = useState<ActDaysData>();
     const [aData, setAData] = useState<AData[]>();
+    const [aDays, setADays] = useState<Map<string, number>>();
     useEffect(() => {
 
         const dataFetch = async () => {
@@ -43,7 +45,7 @@ export default function Actogram({ events }: { events: Event[] }) {
                 if (i === 0) { // first entry,pad with empty until the hour
                     for (let j = 0; j < currentTime; j++) {
                         const itm: AData = {
-                            x: (j * 10),
+                            x: (j * S),
                             y: Math.floor(i / 48),
                             value: -10,
                         }
@@ -56,8 +58,8 @@ export default function Actogram({ events }: { events: Event[] }) {
                 const offset = Math.floor(aadata.length / 24) % 2 ? 250 : 0;
 
                 const itm: AData = {
-                    x: (currentTime * 10) + offset,
-                    y: 10 * Math.floor(aadata.length / 48),
+                    x: (currentTime * S) + offset,
+                    y: S * Math.floor(aadata.length / 48),
                     value: score,
                 }
 
