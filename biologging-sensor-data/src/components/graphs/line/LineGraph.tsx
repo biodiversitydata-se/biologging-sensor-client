@@ -3,7 +3,7 @@ import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record.interface';
-import { getInstruments } from '@/api/instrument/api';
+import { getInstrument } from '@/api/instrument/api';
 
 import {
   Chart as ChartJS,
@@ -41,7 +41,6 @@ interface LineData {
 
 export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
   const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: [] });
-  const [colors, setColors] = useState<string[]>([]);
   const [options, setOptions] = useState({
     responsive: true,
     plugins: {
@@ -73,14 +72,11 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       },
     },
   });
-
+  
+  
   useEffect(() => {
-    if (colors.length !== events.length) {
-      setColors(events.map(() => getRandomColor()));
-    }
-  }, [events]);
+    const colors = ['blue', 'green', 'red', 'orange', 'purple'];
 
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await get<any>(`dataset/${events[0].datasetID}`);
@@ -99,46 +95,9 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           },
         }));
       } catch (error) {
+        console.error(error);
       }
     };
-
-    fetchData();
-  }, [sensor, events]);
-
-
-  useEffect(() => {
-    setOptions(prevOptions => ({
-      ...prevOptions,
-      plugins: {
-        ...prevOptions.plugins,
-        title: {
-          ...prevOptions.plugins.title,
-          text: sensor.toUpperCase(),
-        },
-      },
-    }));
-  }, [sensor]);
-
-
-  useEffect(() => {
-    setOptions(prevOptions => ({
-      ...prevOptions,
-      scales: {
-        ...prevOptions.scales,
-        x: {
-          ...prevOptions.scales.x,
-          title: {
-            display: true,
-            text: 'Time',
-          },
-          ticks: {
-            callback: function (value, index, values) {
-              return value;
-            }
-          }
-        },
-      },
-    }));
 
     const dataFetch = async () => {
       const labels = new Set<string>();
@@ -152,7 +111,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
         const values: number[] = [];
 
-        records.map(itm => {
+        records.map((itm) => {
           labels.add(_setLabel(itm));
           const value = itm.recordValues[sensor];
           if (value) {
@@ -160,14 +119,17 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           }
         });
 
-        datasets.push({ label: events[i].eventID, data: values, backgroundColor: colors[i], borderColor: colors[i] });
+        const instrumentResponse = await getInstrument(events[i].instrumentID);
+        const instrumentSerialNumber = instrumentResponse.instrumentSerialNumber;
+
+        datasets.push({ label: instrumentSerialNumber, data: values, backgroundColor: colors[i], borderColor: colors[i] });
       }
 
-      setLineData({ labels: Array.from(labels), datasets: datasets })
-    }
+      setLineData({ labels: Array.from(labels), datasets: datasets });
+    };
 
+    fetchData();
     dataFetch();
-
   }, [events, sensor]);
 
   function _setLabel(itm: Record): string {
@@ -176,15 +138,6 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
-  }
-
-  function getRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
   }
 
   return (
