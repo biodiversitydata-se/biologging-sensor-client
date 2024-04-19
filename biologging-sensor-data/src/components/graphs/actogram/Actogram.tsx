@@ -3,22 +3,19 @@ import { filterRecords } from "@/api/record/api";
 import { Record } from "@/api/record/record.interface";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { ActData, ActDaysData, AData } from "./interface";
+import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
 import { S } from "./const";
 
 
 export default function Actogram({ events }: { events: Event[] }) {
-    const [data, setData] = useState<ActData>();
-    const [daysDate, setDaysData] = useState<ActDaysData>();
-    const [aData, setAData] = useState<AData[]>();
-    const [aDays, setADays] = useState<Map<string, number>>();
+    const [data, setData] = useState<AData[]>();
+    const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     useEffect(() => {
 
         const dataFetch = async () => {
-            const days: ActDaysData = {};
-            const items: ActData = {};
-            const aadata: AData[] = [];
+            const items: AData[] = [];
+            const monthCounts: Map<string, number> = new Map<string, number>();
 
             const relEvent = events[0];
             const ids = [relEvent.eventID];
@@ -35,65 +32,49 @@ export default function Actogram({ events }: { events: Event[] }) {
                 // validate if measured correctly 
 
                 // make key for dictionary
-                const currentDay = format(date, "dd");
                 const currentMonth = format(date, 'LLLL');
                 const currentYear = format(date, "yy");
-                const currentTime = date.getHours();
-                const daysKey: string = currentMonth + currentYear;
-                const itemKey: string = currentDay + daysKey;
+                const currentHour = date.getHours();
+                const dayKey: string = currentMonth + currentYear;
 
                 if (i === 0) { // first entry,pad with empty until the hour
-                    for (let j = 0; j < currentTime; j++) {
+                    for (let j = 0; j < currentHour; j++) {
                         const itm: AData = {
                             x: (j * S),
-                            y: Math.floor(i / 48),
-                            value: -10,
+                            y: 0,
+                            value: -10, // not masure value for now
                         }
 
-                        aadata.push(itm);
-
+                        items.push(itm);
                     }
                 }
 
-                const offset = Math.floor(aadata.length / 24) % 2 ? 250 : 0;
-
                 const itm: AData = {
-                    x: (currentTime * S) + offset,
-                    y: S * Math.floor(aadata.length / 48),
+                    x: (currentHour * S),
+                    y: S * Math.floor(items.length / 24),
                     value: score,
                 }
 
 
-                aadata.push(itm);
-
-                // if (aadata.length > 80) {
-                //     break;
-                // }
+                items.push(itm);
 
                 // increment number of days for the current month
-                if (!days[daysKey]) {
-                    days[daysKey] = 0;
+                if (!monthCounts.get(dayKey)) {
+                    monthCounts.set(dayKey, 0);
                 }
-                days[daysKey]++;
-
-                // add value to the current day
-                if (!items[itemKey]) {
-                    items[itemKey] = [];
-                }
-
-                items[itemKey].push({ hour: currentTime, score: score });
+                let d = monthCounts.get(dayKey);
+                monthCounts.set(dayKey, d! + 1);
             }
 
             setData(items);
-            setDaysData(days);
-            setAData(aadata);
+            setCounts(monthCounts);
         };
 
         dataFetch();
     }, [events])
 
     return (
-        <ActogramGraph data={data} days={daysDate} adata={aData}></ActogramGraph>
+        <ActogramGraph data={data} mCounts={counts}></ActogramGraph>
     )
 
 }

@@ -1,20 +1,6 @@
-export interface ActData {
-    [date: string]: ActItem[];
-}
-
-export interface ActItem {
-    hour: any;
-    score: number;
-}
-
-export interface ActDaysData {
-    [month: string]: number;
-}
-
 export interface ActogramProps {
-    data: ActData | undefined;
-    days: ActDaysData | undefined;
-    adata: AData[] | undefined;
+    data: AData[] | undefined;
+    mCounts: Map<string, number> | undefined;
 }
 
 export interface AData {

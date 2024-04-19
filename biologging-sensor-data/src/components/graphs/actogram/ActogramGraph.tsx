@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { ActogramProps } from "./interface";
+import { ActogramProps, AData } from "./interface";
 import { S } from "./const";
 
-export default function ActogramGraph({ data, days, adata }: ActogramProps) {
+export default function ActogramGraph({ data, mCounts }: ActogramProps) {
     const w = 1000;
     const h = 800;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -19,20 +19,34 @@ export default function ActogramGraph({ data, days, adata }: ActogramProps) {
             return;
         }
 
-        // month labels
-        console.log(days)
+        const M_OFFSET = 100;
+        const D_OFFSET = 24 * S;
+        const OFFSET = M_OFFSET + D_OFFSET;
 
-
-        // squares = data
-        adata?.forEach((square) => {
+        // draw left side   
+        data?.forEach((square) => {
             ctx.fillStyle = getColor(square.value);
             ctx.strokeStyle = 'black';
-            ctx.fillRect(square.x + 100, square.y + 100, S, S);
+            ctx.fillRect(square.x + M_OFFSET, square.y + M_OFFSET, S, S);
         });
 
+        // draw right side 
+        // shift by one day
+        data = data?.slice(24, data.length);
+
+        data?.forEach((square) => {
+            ctx.fillStyle = getColor(square.value);
+            ctx.strokeStyle = 'black';
+            ctx.fillRect(square.x + OFFSET, square.y + M_OFFSET - 10, S, S);
+        });
+
+        // month labels
+
+        // time on the top
 
 
-    }, [adata]);
+    }, [data]);
+
 
     function getColor(score: number): string {
         if (score == 0) {
