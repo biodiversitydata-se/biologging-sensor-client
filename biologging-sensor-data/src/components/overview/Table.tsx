@@ -66,6 +66,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   };
 
   const rowData = data.map((item, i) => ({
+    datas: console.log(item.numberOfRecords),
     datasetTitle: item.datasetTitle,
     animalCount: item.animalCount.toLocaleString('en-US').replace(/,/g, ' '),
     taxonomicCoverage: item.taxonomicCoverage,
@@ -81,8 +82,9 @@ const columns = [
     field: "animalCount", 
     cellRenderer: "agTextCellRenderer", 
     headerName: "Animal count", 
+    width: 200,
     flex: 1,
-    valueGetter: params => parseInt(params.data.animalCount.replace(/,/g, ''), 10),
+    valueGetter: params => params.data.animalCount,
     cellStyle: { textAlign: "right" }
   },
   {
@@ -112,7 +114,7 @@ const columns = [
     cellRenderer: "agTextCellRenderer", 
     headerName: "Total records", 
     flex: 1,
-    valueGetter: params => parseInt(params.data.numberOfRecords.replace(/,/g, ''), 10),
+    valueGetter: params => params.data.numberOfRecords,
     cellStyle: { textAlign: "right" }
   },
 ];
