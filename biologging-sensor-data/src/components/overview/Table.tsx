@@ -24,12 +24,12 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   const TemporalCoverageRenderer = ({ value }) => {
     if (Array.isArray(value)) {
       return (
-        <div style={{ width: '150px' }}>
+        <div style={{ width: '20px' }}>
           {value.map((item, index) => (
             <div key={index}>
-              <span>{item.startDatetime?.slice(0, 10)}</span>
+              <div>{item.startDatetime?.slice(0, 10)}</div>
               {item.endDateTime ? 
-                <span> to {item.endDateTime.slice(0, 10)} </span> 
+                <div> to {item.endDateTime.slice(0, 10)} </div> 
                 : null
               }
             </div>
@@ -38,10 +38,10 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
       );
     } else if (typeof value === 'object' && value !== null) {
         return (
-          <div style={{ width: '150px' }}>
-            <span>{value.startDatetime?.slice(0, 10)}</span>
+          <div style={{ width: '20px' }}>
+            <div>{value.startDatetime?.slice(0, 10)}</div>
             {value.endDateTime ? 
-              <span> to {value.endDateTime.slice(0, 10)} </span> 
+              <div> to {value.endDateTime.slice(0, 10)} </div> 
               : null
             }
           </div>
@@ -66,6 +66,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   };
 
   const rowData = data.map((item, i) => ({
+    datas: console.log(item.numberOfRecords),
     datasetTitle: item.datasetTitle,
     animalCount: item.animalCount.toLocaleString('en-US').replace(/,/g, ' '),
     taxonomicCoverage: item.taxonomicCoverage,
@@ -76,30 +77,32 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   }));
 
 const columns = [
-  { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title", sortable: true},
+  { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title", sortable: true, flex: 1},
   { 
     field: "animalCount", 
     cellRenderer: "agTextCellRenderer", 
     headerName: "Animal count", 
-    width: 135,
-    valueGetter: params => parseInt(params.data.animalCount.replace(/,/g, ''), 10)
+    width: 200,
+    flex: 1,
+    valueGetter: params => params.data.animalCount,
+    cellStyle: { textAlign: "right" }
   },
   {
     field: 'taxonomicCoverage',
     cellRenderer: 'taxonomicCoverageRenderer',
     autoHeight: true,
     headerName: "Taxon",
-    width: 110,
+    flex: 1,
     valueGetter: (params) => params.data.taxonomicCoverage[0].taxonCommonName,
   },
-  { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type"},
-  { field: "institutionCode", cellRenderer: "agTextCellRenderer",  width: 150, headerName: "Institution"},
+  { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type", flex: 1},
+  { field: "institutionCode", cellRenderer: "agTextCellRenderer", flex: 1, headerName: "Institution"},
   {
     field: "temporalCoverage",
     headerName: "Dates",
     cellRenderer: TemporalCoverageRenderer,
     autoHeight: true,
-    width: 195,
+    flex: 1,
     comparator: (valueA, valueB) => {
       const dateA = new Date(valueA.startDatetime);
       const dateB = new Date(valueB.startDatetime);
@@ -110,13 +113,14 @@ const columns = [
     field: "numberOfRecords", 
     cellRenderer: "agTextCellRenderer", 
     headerName: "Total records", 
-    width: 130,
-    valueGetter: params => parseInt(params.data.numberOfRecords.replace(/,/g, ''), 10)
+    flex: 1,
+    valueGetter: params => params.data.numberOfRecords,
+    cellStyle: { textAlign: "right" }
   },
 ];
 
     return (
-      <div className="ag-theme-quartz" style={{ height: 263, width: '100%' }}>
+      <div className="ag-theme-quartz" style={{ height: '100vh', width: '100wh' }}>
         <AgGridReact
           rowData={rowData}
           columnDefs={columns}
