@@ -4,7 +4,7 @@ export default function About() {
             <div className="container">
                 <div className="col-md-offset-1 col-md-10">
                     <div className="row" style={{marginBottom: '20px'}}>
-                       <p>SBDI Biologging tools manages data from animal sensor systems.  Biologging research involves the collection of time-series sensor data, The data can be used to create visualisations of e.g. migration tracks, foraging and home range trajectories and/or to characterize behaviour or physiology of animals. The main data providers are currently Lund University (the CAnMove animal movement database) and the Swedish University of Life Sciences (the WRAM wireless remote animal monitoring database).</p>
+                       <p>SBDI Biologging tools manages data from animal sensor systems.  Biologging research involves the collection of time-series sensor data. The data can be used to create visualisations of e.g. migration tracks, foraging and home range trajectories and/or to characterize behaviour or physiology of animals. The main data providers are currently Lund University (the CAnMove animal movement database) and the Swedish University of Life Sciences (the WRAM wireless remote animal monitoring database).</p>
                        <p>SBDI Biologging is part of the SBDI infrastructure. If you would like to connect using the API follow this link. An example use can be studied in the client repo <a href="https://github.com/biodiversitydata-se/biologging-sensor-client">https://github.com/biodiversitydata-se/biologging-sensor-client</a></p>
                     </div>
 
