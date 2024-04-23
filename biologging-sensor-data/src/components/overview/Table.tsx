@@ -62,7 +62,8 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
         colId: "createdDate",
         sort: "desc", // This will sort the createdDate column in descending order by default
       }
-    ]
+    ],
+    domLayout: 'autoHeight',
   };
 
   const rowData = data.map((item, i) => ({
@@ -82,8 +83,7 @@ const columns = [
     field: "animalCount", 
     cellRenderer: "agTextCellRenderer", 
     headerName: "Animal count", 
-    width: 200,
-    flex: 1,
+    width: 135,
     valueGetter: params => params.data.animalCount,
     cellStyle: { textAlign: "right" }
   },
@@ -92,17 +92,17 @@ const columns = [
     cellRenderer: 'taxonomicCoverageRenderer',
     autoHeight: true,
     headerName: "Taxon",
-    flex: 1,
+    width: 130,
     valueGetter: (params) => params.data.taxonomicCoverage[0].taxonCommonName,
   },
   { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type", flex: 1},
-  { field: "institutionCode", cellRenderer: "agTextCellRenderer", flex: 1, headerName: "Institution"},
+  { field: "institutionCode", cellRenderer: "agTextCellRenderer", width: 130, headerName: "Institution"},
   {
     field: "temporalCoverage",
     headerName: "Dates",
     cellRenderer: TemporalCoverageRenderer,
     autoHeight: true,
-    flex: 1,
+    width: 130,
     comparator: (valueA, valueB) => {
       const dateA = new Date(valueA.startDatetime);
       const dateB = new Date(valueB.startDatetime);
@@ -113,14 +113,14 @@ const columns = [
     field: "numberOfRecords", 
     cellRenderer: "agTextCellRenderer", 
     headerName: "Total records", 
-    flex: 1,
+    width: 130,
     valueGetter: params => params.data.numberOfRecords,
     cellStyle: { textAlign: "right" }
   },
 ];
 
     return (
-      <div className="ag-theme-quartz" style={{ height: '100vh', width: '100wh' }}>
+      <div className="ag-theme-quartz" style={{ width: '100wh' }}>
         <AgGridReact
           rowData={rowData}
           columnDefs={columns}
