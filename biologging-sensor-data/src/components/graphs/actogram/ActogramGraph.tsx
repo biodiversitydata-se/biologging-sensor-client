@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ActogramProps, AData } from "./interface";
 import { S } from "./const";
 
-export default function ActogramGraph({ data, mCounts }: ActogramProps) {
+export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
     const w = 1000;
     const h = 800;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -24,10 +24,9 @@ export default function ActogramGraph({ data, mCounts }: ActogramProps) {
 
         _drawLeftSide();
         _drawRightSide();
-        _drawMonthLine(T_OFFSET);
         _drawMonthLabels();
-        _drawTimeLabels();
         _drawBorderLines();
+        _drawTimeLabels();
     }, [data]);
 
     function _drawLeftSide() {
@@ -60,33 +59,50 @@ export default function ActogramGraph({ data, mCounts }: ActogramProps) {
         let y = T_OFFSET;
         ctx.fillStyle = 'black';
         ctx.font = '10px Arial';
+        let day = 0;
+
+        _drawLine(50, 100, y, y);
+
         mCounts?.forEach((value: number, key: string) => {
             const days = value / 24;
+            day += days;
             const d = days / 2 * S;
             y += d;
-            const month = key;
+            const month = key.replace(/[0-9]/g, '');
             ctx.fillText(month, 0, y + S);
             y += d + S;
-            _drawMonthLine(y);
+            _drawLine(50, 100, y, y);
         })
-
     }
 
-    function _drawMonthLine(y: number) {
-        if (!ctx) return;
-
-        ctx.beginPath();
-        ctx.moveTo(50, y);
-        ctx.lineTo(100, y);
-        ctx.strokeStyle = 'black';
-        ctx.stroke();
-    }
 
     function _drawTimeLabels() {
 
     }
 
     function _drawBorderLines() {
+        if (!ctx) return;
+        // left
+        let x = M_OFFSET;
+        let y1 = T_OFFSET;
+        let y2 = T_OFFSET + (days * S) + S;
+        _drawLine(x, x, y1, y2);
+
+        //middle 
+        x = OFFSET;
+        y1 = T_OFFSET;
+        y2 = T_OFFSET + (days * S) + 10;
+        _drawLine(x, x, y1, y2);
+    }
+
+    function _drawLine(x1: number, x2: number, y1: number, y2: number) {
+        if (!ctx) return;
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
 
     }
 

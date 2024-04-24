@@ -1,7 +1,7 @@
 import { Event } from "@/api/event/event.typscript";
 import { filterRecords } from "@/api/record/api";
 import { Record } from "@/api/record/record.interface";
-import { format } from "date-fns";
+import { format, setDay } from "date-fns";
 import { useEffect, useState } from "react";
 import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
@@ -11,6 +11,7 @@ import { S } from "./const";
 export default function Actogram({ events }: { events: Event[] }) {
     const [data, setData] = useState<AData[]>();
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
+    const [days, setDay] = useState<number>(0);
     useEffect(() => {
 
         const dataFetch = async () => {
@@ -66,6 +67,14 @@ export default function Actogram({ events }: { events: Event[] }) {
                 monthCounts.set(dayKey, d! + 1);
             }
 
+            // setting number of days
+            monthCounts.forEach((value: number, key: string) => {
+                const days = value / 24;
+                setDay((prev) => prev + days);
+            })
+
+            setDay((prev) => Math.ceil(prev))
+
             setData(items);
             setCounts(monthCounts);
         };
@@ -74,7 +83,7 @@ export default function Actogram({ events }: { events: Event[] }) {
     }, [events])
 
     return (
-        <ActogramGraph data={data} mCounts={counts}></ActogramGraph>
+        <ActogramGraph data={data} mCounts={counts} days={days}></ActogramGraph>
     )
 
 }
