@@ -12,7 +12,6 @@ export default function Visualisation({ events }: { events: Event[] }) {
     useEffect(() => {
         const latSelected = sensors.some(item => item.sensor === 'latitude' && item.selected);
         const lonSelected = sensors.some(item => item.sensor === 'longitude' && item.selected);
-        const otherSelected = sensors.some(item => item.sensor !== 'latitude' && item.sensor !== 'longitude' && item.selected);
 
         if ((latSelected && !lonSelected) || (!latSelected && lonSelected)) {
             const newSensors = sensors.map(item => {
@@ -27,20 +26,20 @@ export default function Visualisation({ events }: { events: Event[] }) {
             updateSensors(newSensors);
         }
 
-        setMap(latSelected && lonSelected && !otherSelected);
+        setMap(latSelected && lonSelected);
         setSelected(sensors.some(itm => itm.selected));
     }, [sensors, updateSensors])
 
     return (
         <div>
             {
-                sensorSelected ?
-                    (isMap ?
-                        <MapGraph events={events} />
-                        : sensors
-                            .filter(itm => itm.selected)
-                            .map((itm, index) => { return <LineGraph key={index} events={events} sensor={itm.sensor} /> }))
-                    : null
+                sensorSelected &&
+                <>
+                    {isMap && <MapGraph events={events} />}
+                    {sensors
+                        .filter(itm => itm.selected && itm.sensor !== 'latitude' && itm.sensor !== 'longitude')
+                        .map((itm, index) => <LineGraph key={index} events={events} sensor={itm.sensor} />)}
+                </>
             }
         </div>
     )
