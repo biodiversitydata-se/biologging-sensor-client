@@ -73,10 +73,9 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     },
   });
   
-  
   useEffect(() => {
     const colors = ['blue', 'green', 'red', 'orange', 'purple'];
-
+  
     const fetchData = async () => {
       try {
         const response = await get<any>(`dataset/${events[0].datasetID}`);
@@ -98,40 +97,44 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
         console.error(error);
       }
     };
-
+  
     const dataFetch = async () => {
-      const labels = new Set<string>();
       const datasets: LineDataset[] = [];
-
+      let labels: string[] = []; //, I initialized it (Array to hold labels dynamically) outside loop.
+  
       for (let i = 0; i < 5; i++) {
         const eventIds = [events[i].eventID];
         const datasetIds = [events[i].datasetID];
         const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds });
         const records: Record[] = result.results;
-
+  
         const values: number[] = [];
-
-        records.map((itm) => {
-          labels.add(_setLabel(itm));
+  
+        records.forEach((itm, index) => {
           const value = itm.recordValues[sensor];
           if (value) {
             values.push(value);
+            if (i === 0) {
+              labels.push(_setLabel(itm));
+            }
           }
         });
-
+  
         const instrumentResponse = await getInstrument(events[i].instrumentID);
         const instrumentSerialNumber = instrumentResponse.instrumentSerialNumber;
-
+  
         datasets.push({ label: instrumentSerialNumber, data: values, backgroundColor: colors[i], borderColor: colors[i] });
       }
-
-      setLineData({ labels: Array.from(labels), datasets: datasets });
+  
+      labels = labels.filter((label, index) => datasets.some(dataset => dataset.data[index] !== undefined));
+  
+      setLineData({ labels: labels, datasets: datasets });
     };
-
+  
     fetchData();
     dataFetch();
   }, [events, sensor]);
-
+  
   function _setLabel(itm: Record): string {
     const date = new Date(itm.recordStart);
     const hours = String(date.getUTCHours()).padStart(2, '0');
@@ -139,7 +142,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     const seconds = String(date.getUTCSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
   }
-
+  
   return (
     <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
       {lineData.labels.length > 0 && lineData.datasets.some(dataset => dataset.data.length > 0) ? (
