@@ -1,9 +1,13 @@
 .overview 
 {
     overflow-y: scroll;
-    max-height: 400px;
+    height: 100vh;
 }
 
 tr {
     cursor: pointer;
+}
+
+.container {
+    width: 100%;
 }

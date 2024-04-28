@@ -1,57 +1,136 @@
 import { useEffect, useState } from 'react';
-import './Table.css'
+import './Table.css';
 import { Dataset } from "@/api/dataset/dataset.interface";
+import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
+import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
+import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
   const [selected, setSelected] = useState<boolean[]>([]);
+  const [fullData, setFullData] = useState<Dataset[]>([]);
 
   useEffect(() => {
-    const selected = new Array<boolean>(data.length).fill(false);
-    setSelected(selected);
+    setSelected(new Array<boolean>(data.length).fill(false));
+    setFullData(data);
   }, [data])
 
-  function _selectRow(dataset: Dataset, i: number) {
+  const _selectRow = (i: number) => {
     const selected = new Array<boolean>(data.length).fill(false);
     selected[i] = true;
     setSelected(selected);
-
-    onSelect(dataset);
+    onSelect(fullData[i]);
   }
 
-  return (
-    <div className="container overview">
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Animal count</th>
-            <th>Taxon</th>
-            <th>Instrument type</th>
-            <th>Institution</th>
-            <th>Dates</th>
-            <th>Total records</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {data.map((item, i) => (
-            <tr key={i} onClick={() => { _selectRow(item, i) }} className="cursor-pointer" style={selected[i] ? { fontWeight: "bold" } : undefined}>
-              <td>{item.datasetTitle}</td>
-              <td>{item.animalCount}</td>
-              <td>{item.taxonomicCoverage.map(itm => (
-                <div onClick={(e) => e.stopPropagation()}>
-                  <a target="_blank" href={`https://species.biodiversitydata.se/species/${itm.taxonGuid}`}>{itm.taxonCommonName}</a>
-                </div>
-              ))}</td>
-              <td>{item?.instrumentTypes?.join(", ")}</td>
-              <td>{item.institutionCode}</td>
-              <td>{item.temporalCoverage?.startDatetime?.slice(0, 10)} {item.temporalCoverage?.endDateTime ? <span>- {item.temporalCoverage?.endDateTime.slice(0, 10)} </span> : null}</td>
-              <td>{item.numberOfRecords}</td>
-            </tr>
+  const TemporalCoverageRenderer = ({ value }) => {
+    if (Array.isArray(value)) {
+      return (
+        <div style={{ width: '20px' }}>
+          {value.map((item, index) => (
+            <div key={index}>
+              <div>{item.startDatetime?.slice(0, 10)}</div>
+              {item.endDateTime ? 
+                <div> to {item.endDateTime.slice(0, 10)} </div> 
+                : null
+              }
+            </div>
           ))}
-        </tbody>
-      </table>
-    </div >
-  )
+        </div>
+      );
+    } else if (typeof value === 'object' && value !== null) {
+        return (
+          <div style={{ width: '20px' }}>
+            <div>{value.startDatetime?.slice(0, 10)}</div>
+            {value.endDateTime ? 
+              <div> to {value.endDateTime.slice(0, 10)} </div> 
+              : null
+            }
+          </div>
+        );
+      } else {
+        return null;
+      }
+    }
 
+  const gridOptions = {
+    defaultColDef: {
+      resizable: false,
+      sortable: true,
+      filter: true,
+    },
+    defaultSortModel: [
+      {
+        colId: "createdDate",
+        sort: "desc", // This will sort the createdDate column in descending order by default
+      }
+    ],
+    domLayout: 'autoHeight',
+  };
+
+  const rowData = data.map((item, i) => ({
+    datas: console.log(item.numberOfRecords),
+    datasetTitle: item.datasetTitle,
+    animalCount: item.animalCount.toLocaleString('en-US').replace(/,/g, ' '),
+    taxonomicCoverage: item.taxonomicCoverage,
+    instrumentTypes: item?.instrumentTypes?.join(", "),
+    institutionCode: item.institutionCode,
+    temporalCoverage: item.temporalCoverage,
+    numberOfRecords: item.numberOfRecords.toLocaleString('en-US').replace(/,/g, ' '),
+  }));
+
+const columns = [
+  { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title", sortable: true, flex: 1},
+  { 
+    field: "animalCount", 
+    cellRenderer: "agTextCellRenderer", 
+    headerName: "Animal count", 
+    width: 135,
+    valueGetter: params => params.data.animalCount,
+    cellStyle: { textAlign: "right" }
+  },
+  {
+    field: 'taxonomicCoverage',
+    cellRenderer: 'taxonomicCoverageRenderer',
+    autoHeight: true,
+    headerName: "Taxon",
+    width: 130,
+    valueGetter: (params) => params.data.taxonomicCoverage[0].taxonCommonName,
+  },
+  { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type", flex: 1},
+  { field: "institutionCode", cellRenderer: "agTextCellRenderer", width: 130, headerName: "Institution"},
+  {
+    field: "temporalCoverage",
+    headerName: "Dates",
+    cellRenderer: TemporalCoverageRenderer,
+    autoHeight: true,
+    width: 130,
+    comparator: (valueA, valueB) => {
+      const dateA = new Date(valueA.startDatetime);
+      const dateB = new Date(valueB.startDatetime);
+      return dateA.getTime() - dateB.getTime();
+    }
+  },
+  { 
+    field: "numberOfRecords", 
+    cellRenderer: "agTextCellRenderer", 
+    headerName: "Total records", 
+    width: 130,
+    valueGetter: params => params.data.numberOfRecords,
+    cellStyle: { textAlign: "right" }
+  },
+];
+
+    return (
+      <div className="ag-theme-quartz" style={{ width: '100wh' }}>
+        <AgGridReact
+          rowData={rowData}
+          columnDefs={columns}
+          onRowClicked={({ rowIndex: i }) => _selectRow(i)}
+          rowClassRules={{
+            'hover-row': true,
+            'bold-row': (params) => selected[params.rowIndex]
+          }}
+          gridOptions={gridOptions}
+        />
+      </div>
+    );
 }

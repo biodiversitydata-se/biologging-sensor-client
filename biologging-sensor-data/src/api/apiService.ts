@@ -28,4 +28,3 @@ export const post = async <T>(endpoint: string, body: any, params?: any): Promis
         return error as AxiosError;
     }
 }
-
