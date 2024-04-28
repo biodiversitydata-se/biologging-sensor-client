@@ -1,0 +1,1 @@
+export const S = 10; // size of the square

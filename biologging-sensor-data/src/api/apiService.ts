@@ -13,13 +13,13 @@ export const get = async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     }
 };
 
-export const post = async <T>(endpoint: string, body: any): Promise<ApiResponse<T>> => {
+export const post = async <T>(endpoint: string, body: any, params?: any): Promise<ApiResponse<T>> => {
     try {
         const response: AxiosResponse<T> = await axios.post<T>(`${BASE_URL}${endpoint}`, body, {
             headers: {
                 'Content-Type': 'application/json',
               },
-              params: {
+              params: params ?? {
                 take: 100,
               },
         });
