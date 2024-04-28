@@ -22,7 +22,7 @@ export default function Actogram({ events }: { events: Event[] }) {
             const ids = [relEvent.eventID];
             const datasetId = [relEvent.datasetID]
 
-            const result = await filterRecords({ eventIds: ids, datasetIds: datasetId });
+            const result = await filterRecords({ eventIds: ids, datasetIds: datasetId }, { take: 1000 });
             const records: Record[] = result.results;
 
             for (let i = 0; i < records.length; i++) {
