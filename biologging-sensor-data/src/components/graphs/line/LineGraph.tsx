@@ -15,7 +15,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { get } from '@/api/apiService';
+import { getDataset } from '@/api/dataset/api';
 
 ChartJS.register(
   CategoryScale,
@@ -24,7 +24,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 interface LineDataset {
@@ -56,10 +56,10 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: '',
         },
         ticks: {
-          callback: function (value, index, values) {
+          callback: function (value: any) {
             return value;
           }
         }
@@ -72,31 +72,28 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       },
     },
   });
-  
-  
+
+
   useEffect(() => {
     const colors = ['blue', 'green', 'red', 'orange', 'purple'];
 
-    const fetchData = async () => {
-      try {
-        const response = await get<any>(`dataset/${events[0].datasetID}`);
-        const unitOfMeasure = response.unitsReported[response.valuesMeasured.indexOf(sensor)];
-        setOptions(prevOptions => ({
-          ...prevOptions,
-          scales: {
-            ...prevOptions.scales,
-            y: {
-              ...prevOptions.scales.y,
-              title: {
-                display: true,
-                text: `${sensor?.charAt(0).toUpperCase()}${sensor?.slice(1)} (${unitOfMeasure?.charAt(0)}${unitOfMeasure?.slice(1)})`,
-              },
+    const setUnitsOfMeasurement = async () => {
+      const response = await getDataset(events[0].datasetID);
+      const unitOfMeasure = response?.unitsReported[response.valuesMeasured.indexOf(sensor)];
+
+      setOptions(prevOptions => ({
+        ...prevOptions,
+        scales: {
+          ...prevOptions.scales,
+          y: {
+            ...prevOptions.scales.y,
+            title: {
+              display: true,
+              text: `${sensor?.charAt(0).toUpperCase()}${sensor?.slice(1)} (${unitOfMeasure?.charAt(0)}${unitOfMeasure?.slice(1)})`,
             },
           },
-        }));
-      } catch (error) {
-        console.error(error);
-      }
+        },
+      }));
     };
 
     const dataFetch = async () => {
@@ -111,10 +108,10 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
         const values: number[] = [];
 
-        records.map((itm) => {
-          labels.add(_setLabel(itm));
+        records.map((itm: Record) => {
           const value = itm.recordValues[sensor];
           if (value) {
+            labels.add(String(_setLabel(itm)));
             values.push(value);
           }
         });
@@ -128,17 +125,17 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       setLineData({ labels: Array.from(labels), datasets: datasets });
     };
 
-    fetchData();
+    setUnitsOfMeasurement();
     dataFetch();
   }, [events, sensor]);
 
   function _setLabel(itm: Record): string {
     const date = new Date(itm.recordStart);
-    const hours = String(date.getUTCHours()).padStart(2, '0');
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
+    date.setHours(date.getHours() + Math.round(date.getMinutes() / 60));
+    date.setMinutes(0, 0, 0); // Resets also seconds and milliseconds
+    return String(date);
   }
+
 
   return (
     <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
