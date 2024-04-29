@@ -56,7 +56,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       x: {
         title: {
           display: true,
-          text: '',
+          text: 'Time',
         },
         ticks: {
           callback: function (value: any) {
