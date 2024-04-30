@@ -78,13 +78,13 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
 
     function _drawTimeLabels() {
         if (!ctx) return;
-        //0, 12, 0, 12 0
         const y = T_OFFSET - 10;
         let x = M_OFFSET;
         const times = ["0:00", "12:00"];
 
         for (let i = 0; i < 5; i++) {
             ctx.fillText(times[i % 2], x, y);
+            _drawLine(x, x, y, y + 10);
             x += 12 * S;
         }
     }
