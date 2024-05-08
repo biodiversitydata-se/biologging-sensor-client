@@ -5,14 +5,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faCircleInfo, faDownload } from "@fortawesome/free-solid-svg-icons";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
+    
     const downloadDataset = (datasetId: string) => {
         const baseUrl = "http://canmove-dev.ekol.lu.se/biologgingPublicArchives/";
-        const latestVersion = 1;
-        const downloadUrl = `${baseUrl}${datasetId}/${datasetId}_json_${latestVersion}_0.zip`;
-        
-        window.open(downloadUrl);
+        if (data && data.versions && data.versions.length > 0) {
+            const sortedVersions = data.versions.sort((a, b) => b.versionNumber - a.versionNumber);
+            const latestVersion = sortedVersions[0];
+            const downloadUrl = `${baseUrl}${datasetId}/${datasetId}_json_${latestVersion.versionNumber}.zip`;
+            window.open(downloadUrl);
+        } else {
+            console.error("Dataset versions not found or empty.");
+        }
     };
-
+    
     return (
         <div>
             <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
