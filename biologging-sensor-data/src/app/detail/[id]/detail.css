@@ -1,3 +1,20 @@
+small {
+    color: #A7A4A4;
+}
+
 .col-md-12 {
-    border-bottom: 1px solid #999;
+    float: none;
+}
+
+.container-wrraper {
+    border: 10px solid #e8e8e8;
+    border-radius: 35px;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.strong {
+    font-weight: bold;
 }
