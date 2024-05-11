@@ -59,19 +59,29 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
         let y = T_OFFSET;
         ctx.fillStyle = 'black';
         ctx.font = '10px Arial';
-        let day = 0;
 
+        // top line
         _drawLine(50, 100, y, y);
 
         mCounts?.forEach((value: number, key: string) => {
             const days = value / 24;
-            day += days;
-            const d = days / 2 * S;
-            y += d;
+            const mSpace = days * S + S;
+            let end = y + mSpace;
+
+            // draw days line
+            for (let start = y + (5 * S); start < end; start += (5 * S)) {
+                _drawLine(80, 100, start, start);
+            }
+
+            // draw text
             const month = key.replace(/[0-9]/g, '');
-            ctx.fillText(month, 0, y + S);
-            y += d + S;
-            _drawLine(50, 100, y, y);
+            ctx.fillText(month, 50, y + (mSpace / 2) + S / 2);
+
+            // draw bottom line
+            _drawLine(50, 100, end, end);
+
+            // set new y
+            y = end;
         })
     }
 
