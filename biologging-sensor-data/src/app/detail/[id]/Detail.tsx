@@ -18,15 +18,10 @@ function Detail({ detail }: { detail: Dataset | null }) {
             }, 2000);
         }
     }, [isCopied]);
-    console.log(detail);
 
     return (
         <div>
             <div className="container">
-                {/* <h5>
-                    <span className="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-                    <OverviewLink>Back</OverviewLink>
-                </h5> */}
                 <div className="col-md-12" style={{ marginBottom: '20px' }}>
                     <h2 className="col-md-12">{detail?.datasetTitle}</h2>
                 </div>
