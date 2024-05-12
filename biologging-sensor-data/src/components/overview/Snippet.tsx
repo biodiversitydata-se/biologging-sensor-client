@@ -36,6 +36,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
             <div style={{ backgroundColor: "#fafafa", paddingLeft: "15px", paddingRight: "15px" }}>
                 <div className="row">
                     <div className="col-md-2 bold">Title:</div>
+                    <div className="col-md-8">{data?.datasetTitle}</div>
                 </div>
 
                 <div className="row">
