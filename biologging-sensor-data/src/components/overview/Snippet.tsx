@@ -5,11 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faCircleInfo, faDownload } from "@fortawesome/free-solid-svg-icons";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
-    const downloadDataset = (datasetId: string) => {
+    const downloadDataset = () => {
         const baseUrl = "http://canmove-dev.ekol.lu.se/biologgingPublicArchives/";
-        const downloadUrl = `${baseUrl}${datasetId}/${datasetId}_json_1_0.zip`;
+        const version = data.versions[0].number.replace(".","_");
+        const downloadUrl = `${baseUrl}${data?.datasetID}/${data?.datasetID}_json_${version}.zip`;
+
         window.open(downloadUrl);
     };
+
+    const firstVersion = data?.versions && data.versions[0];
+
 
     return (
         <div>
@@ -51,6 +56,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                                 {data?.numberOfRecords && data?.numberOfRecords > 0 ? (
                                  <div style={{ marginLeft: "10px" }}>
                                     <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset(data?.datasetID || '')} size="3x" style={{ color: "#1E4B75" }} />
+
                                 </div>
                             ) : null}
 

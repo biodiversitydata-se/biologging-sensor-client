@@ -25,7 +25,7 @@ export interface Dataset {
     qualityControl: string;
     relatedIdentifier: string;
     relationType: string;
-    version: string;
+    versions: string[];
     sensitiveData: boolean;
     dateCreated: string;
     dateUpdated: string;
@@ -33,7 +33,6 @@ export interface Dataset {
     isFinalized: boolean;
     valuesMeasured: string[];
     pictureUrl: string;
-    versions: string[];
 }
 
 export interface Contact {
