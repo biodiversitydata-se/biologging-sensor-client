@@ -120,7 +120,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <small className="col-md-12">Bibliographic Citation: </small>
                         <div className="col-md-12">
                             {Array.isArray(detail?.bibliographicCitation) && detail.bibliographicCitation.map((citation, index) => (
-                                <div key={index}>
+                                <div key={index} style={{paddingBottom: '3%'}}>
                                     <div className='span'>Title: {citation.title}</div>
                                     {citation.DOI && <div className='span'>DOI: <a href={citation.DOI}>{citation.DOI}</a></div>}
                                 </div>
