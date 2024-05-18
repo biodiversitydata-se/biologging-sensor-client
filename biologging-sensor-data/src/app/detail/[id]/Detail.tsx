@@ -46,22 +46,22 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     <h2 className="col-md-12">{detail?.datasetTitle}</h2>
                 </div>
 
-                <div className='row container-wrraper' style={{ marginBottom: '20px', marginTop: '40px' }}>
+                <div className='row container-wrraper' style={{ marginBottom: '20px', marginTop: '40px', paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-8">
                         <small className="col-md-12">description: </small>
-                        <strong className="col-md-12">{detail?.datasetDescription}</strong>
+                        <span className="col-md-12">{detail?.datasetDescription}</span>
                         <div>
-                            <small className="col-md-12">Taxon: </small>
-                            <div >
+                            <small className="col-md-12" style={{marginTop: '3%'}}>Taxon: </small>
+                            <div>
                                 {detail?.taxonomicCoverage ? (
                                     detail.taxonomicCoverage.map((taxon, index) => (
                                         <div key={index}>
-                                            <strong className="col-md-12">Scientific Name: {taxon.taxonScientificName}</strong>
-                                            <strong className="col-md-12">Common Name: <a href={`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}>{taxon.taxonCommonName}</a></strong>
+                                            <span className="col-md-12">Scientific Name: {taxon.taxonScientificName}</span>
+                                            <span className="col-md-12" style={{ paddingBottom: '3%'}}>Common Name: <a href={`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}>{taxon.taxonCommonName}</a></span>
                                         </div>
                                     ))
                                 ) : (
-                                    <div>No taxonomic coverage available.</div>
+                                    <div style={{ paddingBottom: '3%'}}>No taxonomic coverage available.</div>
                                 )}
                             </div>
                         </div>
@@ -71,40 +71,40 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.instrumentTypes ? (
                                     detail.instrumentTypes.map((instrument, index) => (
                                         <div key={index}>
-                                            <strong className="col-md-12">{instrument}</strong>
+                                            <span className="col-md-12" style={{ paddingBottom: '3%'}}>{instrument}</span>
                                         </div>
                                     ))
                                 ) : (
-                                    <div>No instrument types available.</div>
+                                    <div style={{ paddingBottom: '3%'}}>No instrument types available.</div>
                                 )}
                             </div>
                         </div>
                         <div>
                             <small className="col-md-12">Sensor Type:  </small>
-                            <strong className="col-md-12 capitalize">{detail?.valuesMeasured?.join(', ')}</strong>
+                            <span className="col-md-12 capitalize" style={{ paddingBottom: '3%'}}>{detail?.valuesMeasured?.join(', ')}</span>
                         </div>
                         <div>
                             <small className="col-md-12">No. of animals: </small>
-                            <strong className="col-md-12">{detail?.animalCount}</strong>
+                            <span className="col-md-12" style={{ paddingBottom: '3%'}}>{detail?.animalCount}</span>
                         </div>
 
                         <div>
                             <small className="col-md-12">Total records: </small>
-                            <div className="col-md-12">
-                                <strong>{detail?.numberOfRecords?.toLocaleString('en-US').replace(/,/g, ' ')}</strong>
+                            <div className="col-md-12" style={{ paddingBottom: '3%'}}>
+                                <span>{detail?.numberOfRecords?.toLocaleString('en-US').replace(/,/g, ' ')}</span>
                             </div>
                         </div>
 
                         <div>
                             <div className='col-md-3'>
                                 <small>Start Date: </small>
-                                <div className='strong'>
+                                <div>
                                     {detail?.temporalCoverage?.startDatetime?.slice(0, 10)}
                                 </div>
                             </div>
                             <div className='col-md-9'>
                                 <small>End Date: </small>
-                                <div className='strong'>
+                                <div>
                                     {detail?.temporalCoverage?.endDateTime && detail.isFinalized ? detail.temporalCoverage.endDateTime.slice(0, 10) : "ongoing"}
                                 </div>
                             </div>
@@ -115,28 +115,28 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>
                 </div>   
 
-                <div className='row container-wrraper' style={{ marginBottom: '20px' }}>
+                <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-12">
                         <small className="col-md-12">Bibliographic Citation: </small>
                         <div className="col-md-12">
                             {Array.isArray(detail?.bibliographicCitation) && detail.bibliographicCitation.map((citation, index) => (
                                 <div key={index}>
-                                    <div className='strong'>Title: {citation.title}</div>
-                                    {citation.DOI && <div className='strong'>DOI: <a href={citation.DOI}>{citation.DOI}</a></div>}
+                                    <div className='span'>Title: {citation.title}</div>
+                                    {citation.DOI && <div className='span'>DOI: <a href={citation.DOI}>{citation.DOI}</a></div>}
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
 
-                <div className='row container-wrraper' style={{ marginBottom: '20px' }}>
+                <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
                     
                         <div className="col-md-10">
                             <small className="col-md-12">Curator Owner: </small>
                             <div>
                                 {detail?.curator && detail.curator.map((person, index) => (
-                                <strong key={index}>
-                                    <strong className='col-md-2'>
+                                <span key={index}>
+                                    <span className='col-md-2' style={{ paddingBottom: '3%'}}>
                                         {person.webpage ? (
                                             <a href={person.webpage}>
                                                 <span>{person.firstName + ', '}</span>
@@ -148,7 +148,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                                 <span>{person.lastName}</span>
                                             </>
                                         )}
-                                    </strong>
+                                    </span>
                     
                                     {person.userid ? (
                                         <div className='col-md-5'>
@@ -157,18 +157,18 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                         </div>
                                     ) : null}
                                     
-                                    <strong className='col-md-5'>{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px' }} viewBox="0 0 16 16">
+                                    <span className='col-md-5'>{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px' }} viewBox="0 0 16 16">
                                         <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
-                                    </svg></strong>
-                                </strong>
+                                    </svg></span>
+                                </span>
                                 ))}
                             </div>
     
                             <small className="col-md-12">Creator: </small>
                             <div>
                                 {detail?.creator.map((person, index) => (
-                                    <strong key={index}>
-                                        <strong className="col-md-2">
+                                    <span key={index}>
+                                        <span className="col-md-2" style={{ paddingBottom: '3%'}}>
                                             {person.webpage ? (
                                                 <a href={person.webpage}>
                                                     <span>{person.firstName + ', '}</span>
@@ -180,20 +180,20 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                                     <span>{person.lastName}</span>
                                                 </>
                                             )}
-                                        </strong>
+                                        </span>
                                         {person.userid ? <a href={`https://orcid.org/${person.userid}`} className="col-md-5"><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} />{`https://orcid.org/${person.userid}`}</a> : null}
-                                        <strong className="col-md-4">{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16" onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
+                                        <span className="col-md-4">{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16" onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
                                                 <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
-                                            </svg></strong>
-                                        </strong>
+                                            </svg></span>
+                                        </span>
                                 ))}
                             </div>
         
                             <small className="col-md-12">Contact for questions:</small>
-                            <strong>
+                            <span>
                                 {detail?.contact.map((person, index) => (
                                     <div key={index}>
-                                        <strong className="col-md-2">
+                                        <span className="col-md-2" style={{ paddingBottom: '3%'}}>
                                             {person.webpage ? (
                                                 <a href={person.webpage}>
                                                     <span>{person.firstName + ', '}</span>
@@ -205,27 +205,27 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                                     <span>{person.lastName}</span>
                                                 </>
                                             )}
-                                        </strong>
+                                        </span>
                                         {person.userid ? <a href={`https://orcid.org/${person.userid}`} className="col-md-5"><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} />{`https://orcid.org/${person.userid}`}</a> : null}
-                                        <strong className="col-md-4">{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16"  onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
+                                        <span className="col-md-4">{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16"  onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
                                                 <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
-                                            </svg></strong>
+                                            </svg></span>
                                     </div>
                                 ))}
-                            </strong>
+                            </span>
                         
                             <small className="col-md-12">Institution: </small>
-                            <strong className="col-md-12">{detail?.institutionCode}</strong>
+                            <span className="col-md-12">{detail?.institutionCode}</span>
                         </div>
                         <div className="col-md-2">
-                            <p className="strong" style={{margin: "0 auto"}}>{copyMessage}</p>
+                            <p className="span" style={{margin: "0 auto"}}>{copyMessage}</p>
                         </div>
                 </div>
 
-                <div className='row container-wrraper' style={{ marginBottom: '20px' }}>
+                <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-12">
                         <small className="col-md-12">Geographical Coverage: </small>
-                        <div className="col-md-12">
+                        <div className="col-md-12" style={{ paddingBottom: '3%'}}>
                             {detail?.geographicalCoverage?.geographicalDescription && <div>{detail?.geographicalCoverage.geographicalDescription}</div>}
                         </div>
                         <div>
@@ -237,8 +237,8 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>
                 </div>
 
-                <div className='row container-wrraper' style={{ marginBottom: '20px'}}>
-                    <div className="col-md-12">
+                <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%'}}>
+                    <div className="col-md-12" style={{ paddingBottom: '3%'}}>
                         {detail?.samplingDescription && <div className='col-md-3'><small>Sampling Description:</small><div>{detail?.samplingDescription}</div></div>}
                         {detail?.qualityControl && <div className='col-md-3'><small>Quality Control:</small><div>{detail?.qualityControl}</div></div>}
                         {detail?.relatedIdentifier && <div className='col-md-3'><small>Related Identifier:</small><div>{detail?.relatedIdentifier}</div></div>}
@@ -257,11 +257,11 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>
                 </div>
 
-                <div className='row container-wrraper'>
+                <div className='row container-wrraper' style={{paddingTop: '3%', paddingBottom: '3%'}}>
                     <div className="col-md-12">
                         <div className="col-md-12">
                             {detail?.versions.map((keyword, index) => (
-                                <span key={index}>Ver: <a href={`http://canmove-dev.ekol.lu.se/biologgingPublicArchives/${detail.datasetID}/${detail.datasetID}_json_${keyword.number.replace('.', '_')}.zip`} download>{keyword.number}</a></span>
+                                <span key={index}className='col-md-1'>Ver: <a href={`http://canmove-dev.ekol.lu.se/biologgingPublicArchives/${detail.datasetID}/${detail.datasetID}_json_${keyword.number.replace('.', '_')}.zip`} download>{keyword.number}</a></span>
                             ))}
                         </div>
                     </div>
