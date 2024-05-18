@@ -4,10 +4,31 @@ import { Dataset } from "@/api/dataset/dataset.interface";
 import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
+import { AxiosError } from 'axios';
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
   const [selected, setSelected] = useState<boolean[]>([]);
   const [fullData, setFullData] = useState<Dataset[]>([]);
+  const [error, setError] = useState<string | null>(null);
+    
+  useEffect(() => {
+      if (data instanceof AxiosError) {
+          setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
+      } else if (data instanceof AxiosError && data.response?.status === 404) {
+          setError('Records not found. Please try again later.');
+      } else {
+          setError(null);
+      }
+  }, [data]);
+
+  if (error) {
+      return (
+          <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#6691A4', color: '#fff', padding: '20px', borderRadius: '5px', zIndex: 999 }}>
+              {error}
+          </div>
+      );
+  }
+
 
   useEffect(() => {
     setSelected(new Array<boolean>(data.length).fill(false));
