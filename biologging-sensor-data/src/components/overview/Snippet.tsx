@@ -13,8 +13,6 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
         window.open(downloadUrl);
     };
 
-    const firstVersion = data?.versions && data.versions[0];
-
 
     return (
         <div>
