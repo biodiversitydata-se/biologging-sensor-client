@@ -42,7 +42,7 @@ export default function Visualisation({ events }: { events: Event[] }) {
                     {isMap && <MapGraph events={events} />}
                     {isActogram && <Actogram events={events}></Actogram>}
                     {sensors
-                        .filter(itm => itm.selected && itm.sensor !== 'latitude' && itm.sensor !== 'longitude')
+                        .filter(itm => itm.selected && itm.sensor !== 'latitude' && itm.sensor !== 'longitude' && itm.sensor !== 'activity')
                         .map((itm, index) => <LineGraph key={index} events={events} sensor={itm.sensor} />)}
                 </>
             }

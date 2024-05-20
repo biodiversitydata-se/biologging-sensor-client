@@ -13,17 +13,27 @@ export default function Actogram({ events }: { events: Event[] }) {
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     const [days, setDay] = useState<number>(0);
     useEffect(() => {
-
         const dataFetch = async () => {
             const items: AData[] = [];
             const monthCounts: Map<string, number> = new Map<string, number>();
 
             const relEvent = events[0];
             const ids = [relEvent.eventID];
-            const datasetId = [relEvent.datasetID]
+            const datasetId = [relEvent.datasetID];
 
-            const result = await filterRecords({ eventIds: ids, datasetIds: datasetId }, { take: 1000 });
-            const records: Record[] = result.results;
+            // load data
+            const records: Record[] = [];
+            let noRecs = relEvent.numberOfRecords;
+            let skip = 0;
+            while (noRecs > 0) {
+                const take = noRecs < 1000 ? noRecs : 1000;
+
+                const result = await filterRecords({ eventIds: ids, datasetIds: datasetId }, { take: take, skip: skip });
+                records.push(...result.results);
+
+                skip++;
+                noRecs -= 1000;
+            }
 
             for (let i = 0; i < records.length; i++) {
                 const item = records[i];
