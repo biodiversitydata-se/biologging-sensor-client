@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ActogramProps, AData } from "./interface";
 import { S } from "./const";
+import { ActogramC, ActogramConfig, SensorType } from "@/config/model";
+import { sensorTypes } from "@/config/config";
 
 export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
     const w = 1000;
@@ -12,6 +14,7 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
     const D_OFFSET = 24 * S;
     const T_OFFSET = 100;
     const OFFSET = M_OFFSET + D_OFFSET;
+
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -127,29 +130,21 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
 
 
     function getColor(score: number): string {
-        if (score == 0) {
-            //return '#FFFFFF';
-            return 'yellow';
-        } else if (score >= 1 && score <= 10) {
-            //return '#66FF66';
-            return 'red';
-        } else if (score >= 11 && score <= 20) {
-            //return '#33FF33';
-            return 'green';
-        } else if (score >= 21 && score <= 30) {
-            // return '#00CC00';
-            return 'blue';
-        } else if (score >= 31 && score <= 40) {
-            //return '#009900';
-            return 'pink';
-        } else if (score >= 41 && score <= 50) {
-            // return '#006600';
-            return '#006600';
-        } else if (score >= 51 && score < 60) {
-            //return '#660066';
-            return 'purple';
-        } else if (score == 60) {
-            return 'black';
+        const actogramConfig = (sensorTypes['activity'] as ActogramC).config;
+
+        if (score === -10) {
+            return 'grey';
+        }
+
+        for (let item of actogramConfig) {
+            if (!item.to && item.from >= score) {
+                return item.color;
+            }
+
+            if (item.from <= score && item.to! >= score) {
+                return item.color;
+            }
+
         }
 
         return 'grey';

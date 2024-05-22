@@ -14,11 +14,11 @@ export class SensorType {
 
 export class ActogramConfig {
     from: number;
-    to: number;
+    to?: number;
     color: string;
     label: string;
 
-    constructor(from: number, to: number, color: string, label: string) {
+    constructor(color: string, label: string, from: number, to?: number) {
         this.from = from;
         this.to = to;
         this.color = color;
@@ -27,7 +27,7 @@ export class ActogramConfig {
 
 }
 
-export class Actogram extends SensorType {
+export class ActogramC extends SensorType {
     config: ActogramConfig[];
 
     constructor(type: GraphType, valuesMeasured: string[], config: ActogramConfig[]) {
@@ -36,13 +36,13 @@ export class Actogram extends SensorType {
     }
 }
 
-export class Map extends SensorType {
+export class MapC extends SensorType {
     constructor(type: GraphType, valuesMeasured: string[], units?: string) {
         super(type, valuesMeasured, units);
     }
 } 
 
-export class LineGraph extends SensorType {
+export class LineGraphC extends SensorType {
     x?: string;
     y?: string;
 
@@ -55,8 +55,10 @@ export class LineGraph extends SensorType {
 
 export class DatasetConfig {
     sensorTypes: string[];
+    customGraphs?: SensorType[];
 
-    constructor(sensorTypes: string[]) {
+    constructor(sensorTypes: string[], customGraphs?: SensorType[]) {
         this.sensorTypes = sensorTypes;
+        this.customGraphs = customGraphs;
     }
 }
