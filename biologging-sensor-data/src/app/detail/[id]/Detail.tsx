@@ -48,7 +48,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                 <div className='row container-wrraper' style={{ marginBottom: '20px', marginTop: '40px', paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-8">
-                        <small className="col-md-12">description: </small>
+                        <small className="col-md-12">Description: </small>
                         <span className="col-md-12">{detail?.datasetDescription}</span>
                         <div>
                             <small className="col-md-12" style={{marginTop: '3%'}}>Taxon: </small>
@@ -56,7 +56,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.taxonomicCoverage ? (
                                     detail.taxonomicCoverage.map((taxon, index) => (
                                         <div key={index}>
-                                            <span className="col-md-12">Scientific Name: {taxon.taxonScientificName}</span>
+                                            <span className="col-md-12">Scientific name: {taxon.taxonScientificName}</span>
                                             <span className="col-md-12" style={{ paddingBottom: '3%'}}>Common Name: <a href={`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}>{taxon.taxonCommonName}</a></span>
                                         </div>
                                     ))
@@ -66,7 +66,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             </div>
                         </div>
                         <div>
-                            <small className="col-md-12">Instrument Type: </small>
+                            <small className="col-md-12">Instrument type: </small>
                             <div>
                                 {detail?.instrumentTypes ? (
                                     detail.instrumentTypes.map((instrument, index) => (
@@ -80,7 +80,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             </div>
                         </div>
                         <div>
-                            <small className="col-md-12">Sensor Type:  </small>
+                            <small className="col-md-12">Sensor type:  </small>
                             <span className="col-md-12 capitalize" style={{ paddingBottom: '3%'}}>{detail?.valuesMeasured?.join(', ')}</span>
                         </div>
                         <div>
@@ -97,13 +97,13 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                         <div>
                             <div className='col-md-3'>
-                                <small>Start Date: </small>
+                                <small>Start date: </small>
                                 <div>
                                     {detail?.temporalCoverage?.startDatetime?.slice(0, 10)}
                                 </div>
                             </div>
                             <div className='col-md-9'>
-                                <small>End Date: </small>
+                                <small>End date: </small>
                                 <div>
                                     {detail?.temporalCoverage?.endDateTime && detail.isFinalized ? detail.temporalCoverage.endDateTime.slice(0, 10) : "ongoing"}
                                 </div>
@@ -117,7 +117,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                 <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-12">
-                        <small className="col-md-12">Bibliographic Citation: </small>
+                        <small className="col-md-12">Bibliographic citation: </small>
                         <div className="col-md-12">
                             {Array.isArray(detail?.bibliographicCitation) && detail.bibliographicCitation.map((citation, index) => (
                                 <div key={index} style={{paddingBottom: '3%'}}>
@@ -132,7 +132,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                 <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
                     
                         <div className="col-md-10">
-                            <small className="col-md-12">Curator Owner: </small>
+                            <small className="col-md-12">Curator owner: </small>
                             <div>
                                 {detail?.curator && detail.curator.map((person, index) => (
                                 <span key={index}>
@@ -224,7 +224,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                 <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-12">
-                        <small className="col-md-12">Geographical Coverage: </small>
+                        <small className="col-md-12">Geographical coverage: </small>
                         <div className="col-md-12" style={{ paddingBottom: '3%'}}>
                             {detail?.geographicalCoverage?.geographicalDescription && <div>{detail?.geographicalCoverage.geographicalDescription}</div>}
                         </div>
@@ -239,17 +239,17 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                 <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%'}}>
                     <div className="col-md-12" style={{ paddingBottom: '3%'}}>
-                        {detail?.samplingDescription && <div className='col-md-3'><small>Sampling Description:</small><div>{detail?.samplingDescription}</div></div>}
-                        {detail?.qualityControl && <div className='col-md-3'><small>Quality Control:</small><div>{detail?.qualityControl}</div></div>}
-                        {detail?.relatedIdentifier && <div className='col-md-3'><small>Related Identifier:</small><div>{detail?.relatedIdentifier}</div></div>}
-                        {detail?.relationType && <div className='col-md-3'><small>Relation Type:</small><div>{detail?.relationType}</div></div>}
+                        {detail?.samplingDescription && <div className='col-md-3'><small>Sampling description:</small><div>{detail?.samplingDescription}</div></div>}
+                        {detail?.qualityControl && <div className='col-md-3'><small>Quality control:</small><div>{detail?.qualityControl}</div></div>}
+                        {detail?.relatedIdentifier && <div className='col-md-3'><small>Related identifier:</small><div>{detail?.relatedIdentifier}</div></div>}
+                        {detail?.relationType && <div className='col-md-3'><small>Relation type:</small><div>{detail?.relationType}</div></div>}
                     </div>
                     <div className="col-md-12">
                         {<div className='col-md-3'><small>License:</small><div>{detail?.license}</div></div>}
                         {<div className='col-md-3'><small>Version:</small><div>{detail?.version || 'No Version available.'}</div></div>}
-                        {<div className='col-md-3'><small>Embargo end date place:</small><div>{detail?.embargoEndDate}</div></div>}
+                        {<div className='col-md-3'><small>Embarge end date:</small><div>{detail?.embargoEndDate}</div></div>}
                         {<div className='col-md-3'>
-                            <small>Last Updated | UpdateFrequency:</small>
+                            <small>Last updated | Update frequency:</small>
                             <div>
                                 {detail?.dateUpdated ? detail.dateUpdated.slice(0, 10) + ' | ' + detail?.updateFrequency : 'No date available'}
                             </div>
