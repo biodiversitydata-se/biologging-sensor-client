@@ -16,4 +16,6 @@ export interface Event{
     dateCreated: string;
     dateUpdated: string;
     valuesMeasured: string[];
+    numberOfRecords: number;
+
 }
