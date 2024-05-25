@@ -16,6 +16,7 @@ import {
   Legend,
 } from 'chart.js';
 import axios, { AxiosError } from 'axios';
+import { sensorTypes } from '@/config/config';
 
 ChartJS.register(
   CategoryScale,
@@ -76,11 +77,12 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
   useEffect(() => {
     const colors = ['blue', 'green', 'red', 'orange', 'purple'];
+    const valueMeasured = sensorTypes[sensor].valuesMeasured[0];
 
     const setUnitsOfMeasurement = async () => {
       try {
         const response = await getDataset(events[0].datasetID);
-        const unitOfMeasure = response?.unitsReported[response.valuesMeasured.indexOf(sensor)];
+        const unitOfMeasure = response?.unitsReported[response.valuesMeasured.indexOf(valueMeasured)];
         if (unitOfMeasure instanceof AxiosError) {
           setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
           return;
@@ -99,7 +101,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
             },
           },
         }));
-        
+
       } catch (error) {
         setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
       }
@@ -130,7 +132,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           const values: number[] = [];
 
           records.map((itm: Record) => {
-            const value = itm.recordValues[sensor];
+            const value = itm.recordValues[valueMeasured];
             if (value) {
               labels.add(String(_setLabel(itm)));
               values.push(value);
@@ -163,6 +165,13 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
     date.setMinutes(0, 0, 0);
     return String(date);
   }
+
+  return (
+    <div>
+      <Line options={options} data={lineData} />
+      <h5 style={{ color: '#666666' }}>Total number of records is {events.length}</h5>
+    </div>
+  )
 
   return (
     <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>

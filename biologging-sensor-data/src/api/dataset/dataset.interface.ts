@@ -13,7 +13,7 @@ export interface Dataset {
     resourceCitation: string;
     onlineUrl: string;
     bibliographicCitation: Reference;
-    sensorTypes: string[];
+    sensorType: string[];
     instrumentTypes: string[];
     taxonomicCoverage: Taxon[];
     embargoEndDate: string;

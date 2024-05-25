@@ -15,19 +15,20 @@ export default function Visualize({ params }: { params: { id: string } }) {
   const [dataset, setDataset] = useState<Dataset>();
 
 
-  async function _updateEvents(d: Dataset) {
-    if (!d) {
+  async function _updateEvents(selectedDataset: Dataset) {
+    if (!selectedDataset) {
       return;
     }
-    setDataset(d);
-    const id = [d.datasetID];
+
+    setDataset(selectedDataset);
+    const id = [selectedDataset.datasetID];
     const result = await filterEvents({ datasetIds: id });
 
     setEvent(result.results.slice(0, 30));
   }
 
   return (
-    <div className="container-fluid mt-n3">
+    <div className="container mt-n3">
       <SensorSelectionProvider>
         <div className="row">
           <div className="col-md-6">

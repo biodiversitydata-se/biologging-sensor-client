@@ -1,7 +1,8 @@
-import { ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, SensorType } from "./model";
+import { ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, SensorType, SensorTypeItem } from "./model";
 
 export const datasetConfig: {[id: string] : DatasetConfig} = {};
-export const sensorTypes: {[id: string] : ActogramConfig|LineGraphC|MapC} = {};
+export const valuesMeasured: {[id: string] : ActogramConfig|LineGraphC|MapC} = {};
+export const sensorTypes: {[id: string]: SensorTypeItem} = {};
 
 // DEFAULT ACTOGRAM CONFIG
 const aData: ActogramConfig[] = [];
@@ -18,7 +19,16 @@ aData.push(new ActogramConfig('black', '', 61));
 const actogram = new ActogramC('A', ['activity'], aData);
 
 // DEFAULT GRAPHS
-sensorTypes['activity'] = actogram;
+valuesMeasured['activity'] = actogram;
+
+// SENSOR TYPE MAPPING
+sensorTypes['Acceleration'] = new SensorTypeItem(['activity'], 'A');
+sensorTypes['Altimeter'] = new SensorTypeItem(['altitude'], 'L');
+sensorTypes['Pressure gauge'] = new SensorTypeItem(['pressure'], 'L');
+sensorTypes['Thermometer'] = new SensorTypeItem(['temperature'], 'L');
+sensorTypes['Light sensor'] = new SensorTypeItem(['light level'], 'L');
+sensorTypes['Wet/dry'] = new SensorTypeItem(['contact with water'], 'L');
+sensorTypes['Tracking radar'] = new SensorTypeItem(['latitude', 'longitude'], 'M');
 
 
 // DATASET 

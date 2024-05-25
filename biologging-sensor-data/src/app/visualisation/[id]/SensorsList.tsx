@@ -16,7 +16,7 @@ export default function SensorsList({ dataset }: Args) {
             return;
         }
 
-        const values: SensorList[] = dataset.valuesMeasured.map(item => ({
+        const values: SensorList[] = dataset.sensorType.map(item => ({
             sensor: item,
             selected: false,
         }));

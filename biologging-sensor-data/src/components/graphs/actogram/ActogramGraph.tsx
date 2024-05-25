@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ActogramProps, AData } from "./interface";
 import { S } from "./const";
 import { ActogramC, ActogramConfig, SensorType } from "@/config/model";
-import { sensorTypes } from "@/config/config";
+import { valuesMeasured } from "@/config/config";
 
 export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
     const w = 1000;
@@ -130,7 +130,7 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
 
 
     function getColor(score: number): string {
-        const actogramConfig = (sensorTypes['activity'] as ActogramC).config;
+        const actogramConfig = (valuesMeasured['activity'] as ActogramC).config;
 
         if (score === -10) {
             return 'grey';

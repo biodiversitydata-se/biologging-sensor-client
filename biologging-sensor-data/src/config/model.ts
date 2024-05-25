@@ -62,3 +62,14 @@ export class DatasetConfig {
         this.customGraphs = customGraphs;
     }
 }
+
+export class SensorTypeItem {
+    valuesMeasured: string[];
+    graphType: GraphType;
+
+    constructor(valuesMeasured: string[], graphType: GraphType) {
+        this.valuesMeasured = valuesMeasured;
+        this.graphType = graphType;
+    }
+
+}
