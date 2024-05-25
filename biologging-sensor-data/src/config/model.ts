@@ -1,14 +1,14 @@
 export type GraphType = 'A' | 'L' | 'M';
 
-export class SensorType {
-    type: GraphType;
+export class SensorTypeItem {
     valuesMeasured: string[];
-    units?: string; 
+    graphType: GraphType;
+    graph: LineGraphC|ActogramC|MapC;
 
-    constructor(type: GraphType, valuesMeasured: string[], units?: string) {
-        this.type = type;
-        this.units = units;
+    constructor(valuesMeasured: string[], graphType: GraphType, graph: LineGraphC|ActogramC|MapC) {
         this.valuesMeasured = valuesMeasured;
+        this.graphType = graphType;
+        this.graph = graph;
     }
 }
 
@@ -27,27 +27,25 @@ export class ActogramConfig {
 
 }
 
-export class ActogramC extends SensorType {
+export class ActogramC {
     config: ActogramConfig[];
 
-    constructor(type: GraphType, valuesMeasured: string[], config: ActogramConfig[]) {
-        super(type, valuesMeasured);
+    constructor(config: ActogramConfig[]) {
         this.config = config;
     }
 }
 
-export class MapC extends SensorType {
-    constructor(type: GraphType, valuesMeasured: string[], units?: string) {
-        super(type, valuesMeasured, units);
+export class MapC {
+    constructor() {
     }
 } 
 
-export class LineGraphC extends SensorType {
+export class LineGraphC {
+
     x?: string;
     y?: string;
 
-    constructor(type: GraphType, valuesMeasured: string[], x?: string, y?: string, units?: string) {
-        super(type, valuesMeasured, units);
+    constructor(x?: string, y?: string) {
         this.x = x;
         this.y = y;
     }
@@ -55,21 +53,11 @@ export class LineGraphC extends SensorType {
 
 export class DatasetConfig {
     sensorTypes: string[];
-    customGraphs?: SensorType[];
+    customGraph?: {[id: string]: SensorTypeItem};
 
-    constructor(sensorTypes: string[], customGraphs?: SensorType[]) {
+    constructor(sensorTypes: string[], customGraphs?: {[id: string]: SensorTypeItem} ) {
         this.sensorTypes = sensorTypes;
-        this.customGraphs = customGraphs;
+        this.customGraph = customGraphs;
     }
 }
 
-export class SensorTypeItem {
-    valuesMeasured: string[];
-    graphType: GraphType;
-
-    constructor(valuesMeasured: string[], graphType: GraphType) {
-        this.valuesMeasured = valuesMeasured;
-        this.graphType = graphType;
-    }
-
-}
