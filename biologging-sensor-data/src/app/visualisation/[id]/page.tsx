@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import { Event } from "@/api/event/event.typscript";
 import { filterEvents } from "@/api/event/api";
 import SensorsList from "./SensorsList";
-import { SensorSelectionProvider } from "@/hooks/sensorSelectContext/sensorSelectContext";
 import Visualisation from "./Visualisation";
 import './visualisation.css';
 
 export default function Visualize({ params }: { params: { id: string } }) {
   const [events, setEvent] = useState<Event[]>([]);
   const [dataset, setDataset] = useState<Dataset>();
+  const [selectedSensors, updateSelectedSensors] = useState<string[]>([]);
 
 
   async function _updateEvents(selectedDataset: Dataset) {
@@ -29,23 +29,21 @@ export default function Visualize({ params }: { params: { id: string } }) {
 
   return (
     <div className="container mt-n3">
-      <SensorSelectionProvider>
-        <div className="row">
-          <div className="col-md-6">
-            <div className="vis-list">
-              <DatasetsList initDataset={params.id} onSelect={(itm: Dataset) => _updateEvents(itm)} />
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="vis-list">
-              <SensorsList dataset={dataset} />
-            </div>
+      <div className="row">
+        <div className="col-md-6">
+          <div className="vis-list">
+            <DatasetsList initDataset={params.id} onSelect={(itm: Dataset) => _updateEvents(itm)} />
           </div>
         </div>
-        <div className="col-md-10" style={{ textAlign: 'center' }}>
-          <Visualisation events={events} />
+        <div className="col-md-6">
+          <div className="vis-list">
+            <SensorsList dataset={dataset} onSelect={(sensors: string[]) => updateSelectedSensors(sensors)} />
+          </div>
         </div>
-      </SensorSelectionProvider>
+      </div>
+      <div className="col-md-10" style={{ textAlign: 'center' }}>
+        <Visualisation events={events} sensors={selectedSensors} />
+      </div>
     </div>
   )
 }

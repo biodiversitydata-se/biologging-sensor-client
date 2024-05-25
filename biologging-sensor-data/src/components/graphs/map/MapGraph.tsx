@@ -14,6 +14,8 @@ export default function MapGraph({ events }: { events: Event[] }) {
 
     useEffect(() => {
 
+        if (!events.length) return;
+
         const dataFetch = async () => {
             const items = [];
 

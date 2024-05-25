@@ -13,6 +13,8 @@ export default function Actogram({ events }: { events: Event[] }) {
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     const [days, setDay] = useState<number>(0);
     useEffect(() => {
+        if (!events.length) return;
+
         const dataFetch = async () => {
             const items: AData[] = [];
             const monthCounts: Map<string, number> = new Map<string, number>();

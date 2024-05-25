@@ -58,7 +58,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       x: {
         title: {
           display: true,
-          text: (valuesMeasured[sensorTypes[sensor].valuesMeasured[0]] as LineGraphC).x,
+          text: (valuesMeasured[sensorTypes[sensor].valuesMeasured[0]] as LineGraphC)?.x,
         },
         ticks: {
           callback: function (value: any) {

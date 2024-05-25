@@ -3,11 +3,8 @@ import Actogram from "@/components/graphs/actogram/Actogram";
 import LineGraph from "@/components/graphs/line/LineGraph";
 import MapGraph from "@/components/graphs/map/MapGraph";
 import { sensorTypes } from "@/config/config";
-import { useSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext"
 
-export default function Visualisation({ events }: { events: Event[] }) {
-    const { sensors, updateSensors } = useSensorSelection();
-
+export default function Visualisation({ events, sensors }: { events: Event[], sensors: string[] }) {
     const SensorTypeDisplay = ({ sensor }: { sensor: string }) => {
         const graphType = sensorTypes[sensor]?.graphType;
 
@@ -22,7 +19,7 @@ export default function Visualisation({ events }: { events: Event[] }) {
     return (
         <div>
             {sensors.map((sensor, index) => (
-                sensor.selected && <SensorTypeDisplay key={index} sensor={sensor.sensor} />
+                <SensorTypeDisplay key={index} sensor={sensor} />
             ))}
         </div>
     )

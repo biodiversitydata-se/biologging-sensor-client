@@ -36,5 +36,5 @@ sensorTypes['Tracking radar'] = new SensorTypeItem(['latitude', 'longitude'], 'M
 
 // DATASET 
 datasetConfig['geolocator_great_snipes_AL'] = {sensorTypes: ['Acceleration', 'Altimeter']};
-datasetConfig['dataset_wram_moose_2003'] = {sensorTypes: ['Tracking radar', 'Altimeter']};
+//datasetConfig['dataset_wram_moose_2003'] = {sensorTypes: ['Tracking radar', 'Altimeter']};
 
