@@ -46,18 +46,6 @@ graph TD
 
 ```
 
-
-### Locate the Files
-
-1. Navigate to the `src` folder of your project.
-2. Inside the `src` folder, locate the `app` folder.
-3. Within the `app` folder, you'll find the `about` folder containing the relevant files for the About page:
-   - `page.tsx`
-   - `about.tsx`
-   - `about.css`
-
-
-
 <details>
   <summary><strong>See Further Details</strong></summary>
 

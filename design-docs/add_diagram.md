@@ -42,6 +42,7 @@ graph TD
 
 <details>
   <summary><strong>See Further Details</strong></summary>
+  
 ## Main Steps
 
 To add a new diagram to the client application, follow these steps:
