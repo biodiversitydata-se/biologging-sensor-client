@@ -13,7 +13,7 @@
 
 2. Navigate to the project directory:
     ```bash
-    cd biologging-sensor-client
+    cd biologging-sensor-data
     ```
 
 3. Checkout the develop branch:
