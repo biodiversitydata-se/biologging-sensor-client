@@ -1,7 +1,7 @@
 # Updating the About Page Content
 
 ## Keywords of folders and files
-src, app, about, page.tsx, about.tsx, about.css
+src, app, about, page.tsx, About.tsx, about.css
 
 ## Directory
 ```
@@ -55,16 +55,16 @@ graph TD
 2. Inside the `src` folder, locate the `app` folder.
 3. Within the `app` folder, you'll find the `about` folder containing the relevant files for the About page:
    - `page.tsx`
-   - `about.tsx`
+   - `About.tsx`
    - `about.css`
 
-## Open `about.tsx` for Content Modification
+## Open `About.tsx` for Content Modification
 
-1. Open the `about.tsx` file using a text editor or integrated development environment (IDE).
+1. Open the `About.tsx` file using a text editor or integrated development environment (IDE).
 
 ## Update the Text Content
 
-1. Within the `About` component in `about.tsx`, you'll find paragraphs and headings that you can modify.
+1. Within the `About` component in `About.tsx`, you'll find paragraphs and headings that you can modify.
 2. Update the text content according to your requirements. You can add, remove, or modify paragraphs, headings, and links as necessary.
    - For example, if you want to update the description of SBDI Biologging tools, modify the paragraphs inside the component.
 
