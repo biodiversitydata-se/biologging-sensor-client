@@ -10,7 +10,7 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
 
         if (!graphType) return <div>No visualisation</div>;
 
-        if (graphType === 'A') return <Actogram events={events} />
+        if (graphType === 'A') return <Actogram events={events} sensor={sensor} />
         else if (graphType === 'M') return <MapGraph events={events} />
         else return <LineGraph events={events} sensor={sensor} />
 

@@ -53,11 +53,11 @@ export class LineGraphC {
 
 export class DatasetConfig {
     sensorTypes: string[];
-    customGraph?: {[id: string]: SensorTypeItem};
+    customGraphs?: {[id: string]: SensorTypeItem};
 
     constructor(sensorTypes: string[], customGraphs?: {[id: string]: SensorTypeItem} ) {
         this.sensorTypes = sensorTypes;
-        this.customGraph = customGraphs;
+        this.customGraphs = customGraphs;
     }
 }
 

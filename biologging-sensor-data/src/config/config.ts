@@ -35,6 +35,20 @@ sensorTypes['Tracking radar'] = new SensorTypeItem(['latitude', 'longitude'], 'M
 
 
 // DATASET 
-datasetConfig['geolocator_great_snipes_AL'] = {sensorTypes: ['Acceleration', 'Altimeter']};
+export const greatSnipesGraph: {[id: string]: SensorTypeItem} = {};
+
+const gsa: ActogramConfig[] = [];
+gsa.push(new ActogramConfig('#FFF0F5', '', 0, 0));
+gsa.push(new ActogramConfig('#FFB6C1', '', 1, 10));
+gsa.push(new ActogramConfig('#FFC0CB', '', 11, 20));
+gsa.push(new ActogramConfig('#FF69B4', '', 21, 30));
+gsa.push(new ActogramConfig('#FF1493', '', 31, 40));
+gsa.push(new ActogramConfig('#FF007F', '', 41, 50));
+gsa.push(new ActogramConfig('#FF00FF', '', 51, 60));
+gsa.push(new ActogramConfig('black', '', 61));
+
+greatSnipesGraph['Acceleration'] = new SensorTypeItem(['activity'], 'A', new ActogramC(gsa))
+
+datasetConfig['geolocator_great_snipes_AL'] = {sensorTypes: ['Acceleration', 'Altimeter'], customGraphs: greatSnipesGraph};
 //datasetConfig['dataset_wram_moose_2003'] = {sensorTypes: ['Tracking radar', 'Altimeter']};
 

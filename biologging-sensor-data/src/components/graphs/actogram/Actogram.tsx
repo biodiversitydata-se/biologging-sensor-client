@@ -6,12 +6,16 @@ import { useEffect, useState } from "react";
 import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
 import { S } from "./const";
+import { ActogramC, ActogramConfig } from "@/config/model";
+import { datasetConfig, sensorTypes } from "@/config/config";
 
 
-export default function Actogram({ events }: { events: Event[] }) {
+export default function Actogram({ events, sensor }: { events: Event[], sensor: string }) {
     const [data, setData] = useState<AData[]>();
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     const [days, setDay] = useState<number>(0);
+    const [actogramConfig, setAConfig] = useState<ActogramConfig[] | undefined>();
+
     useEffect(() => {
         if (!events.length) return;
 
@@ -89,13 +93,24 @@ export default function Actogram({ events }: { events: Event[] }) {
 
             setData(items);
             setCounts(monthCounts);
+
+            // set up config
+            const dId = datasetId[0];
+            const customGraphs = datasetConfig[dId]?.customGraphs;
+            if (customGraphs && sensor in customGraphs) {
+                setAConfig((customGraphs[sensor].graph as ActogramC).config);
+            } else {
+                setAConfig((sensorTypes[sensor].graph as ActogramC).config);
+            }
+
+
         };
 
         dataFetch();
     }, [events])
 
     return (
-        <ActogramGraph data={data} mCounts={counts} days={days}></ActogramGraph>
+        <ActogramGraph data={data} mCounts={counts} days={days} config={actogramConfig}></ActogramGraph>
     )
 
 }
