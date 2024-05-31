@@ -44,9 +44,11 @@ export default function SensorsList({ dataset, onSelect }: Args) {
     return (
         <div>
             <h5>Select sensor</h5>
-            {dataset?.sensorType.map((item, index) => {
-                return <div style={selected[item] ? { backgroundColor: "lightblue" } : undefined} key={index} onClick={() => _selectSensor(item)}>{item}</div>
-            })}
+            <div className="vis-list-items">
+                {dataset?.sensorType.map((item, index) => {
+                    return <div style={selected[item] ? { backgroundColor: "lightblue" } : undefined} key={index} onClick={() => _selectSensor(item)}>{item}</div>
+                })}
+            </div>
         </div>
     )
 
