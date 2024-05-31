@@ -15,9 +15,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import axios, { AxiosError } from 'axios';
-import { sensorTypes, valuesMeasured } from '@/config/config';
-import { LineGraphC } from '@/config/model';
+import { AxiosError } from 'axios';
+import { sensorTypes } from '@/config/config';
 
 ChartJS.register(
   CategoryScale,
@@ -58,7 +57,8 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       x: {
         title: {
           display: true,
-          text: (valuesMeasured[sensorTypes[sensor].valuesMeasured[0]] as LineGraphC)?.x,
+          //text: (valuesMeasured[sensorTypes[sensor].valuesMeasured[0]] as LineGraphC)?.x,
+          text: 'Time',
         },
         ticks: {
           callback: function (value: any) {

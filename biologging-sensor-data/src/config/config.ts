@@ -1,7 +1,6 @@
 import { ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, SensorTypeItem } from "./model";
 
 export const datasetConfig: {[id: string] : DatasetConfig} = {};
-export const valuesMeasured: {[id: string] : ActogramConfig|LineGraphC|MapC} = {};
 export const sensorTypes: {[id: string]: SensorTypeItem} = {};
 
 // DEFAULT ACTOGRAM CONFIG
@@ -18,11 +17,6 @@ aData.push(new ActogramConfig('black', '', 61));
 // DEFAULT LINEGRAPHS
 const tempGraph = new LineGraphC('days');
 
-
-const actogram = new ActogramC(aData);
-
-// DEFAULT GRAPHS
-valuesMeasured['activity'] = actogram;
 
 // SENSOR TYPE MAPPING
 sensorTypes['Acceleration'] = new SensorTypeItem(['activity'], 'A', new ActogramC(aData));

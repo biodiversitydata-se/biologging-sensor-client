@@ -2,17 +2,18 @@
 
 import { Dataset } from "@/api/dataset/dataset.interface";
 import DatasetsList from "./DatasetsList";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Event } from "@/api/event/event.typscript";
 import { filterEvents } from "@/api/event/api";
 import SensorsList from "./SensorsList";
 import Visualisation from "./Visualisation";
 import './visualisation.css';
+import { SensorList } from "./interface";
 
 export default function Visualize({ params }: { params: { id: string } }) {
   const [events, setEvent] = useState<Event[]>([]);
   const [dataset, setDataset] = useState<Dataset>();
-  const [selectedSensors, updateSelectedSensors] = useState<string[]>([]);
+  const [selectedSensors, updateSelectedSensors] = useState<SensorList>({});
 
 
   async function _updateEvents(selectedDataset: Dataset) {
@@ -37,7 +38,7 @@ export default function Visualize({ params }: { params: { id: string } }) {
         </div>
         <div className="col-md-6">
           <div className="vis-list">
-            <SensorsList dataset={dataset} onSelect={(sensors: string[]) => updateSelectedSensors(sensors)} />
+            <SensorsList dataset={dataset} onSelect={(sensors: { [id: string]: boolean }) => updateSelectedSensors(sensors)} />
           </div>
         </div>
       </div>

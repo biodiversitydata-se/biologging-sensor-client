@@ -1,55 +1,58 @@
-import { Event } from "@/api/event/event.typscript";
 import { useEffect, useState } from "react";
-import { SensorList } from "./interface";
-import { useSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
 import { Dataset } from "@/api/dataset/dataset.interface";
 import { datasetConfig } from "@/config/config";
+import { SensorList } from "./interface";
 
 interface Args {
     dataset: Dataset | undefined;
-    onSelect: (itm: string[]) => void;
+    onSelect: (itm: SensorList) => void;
 }
 
 export default function SensorsList({ dataset, onSelect }: Args) {
-    const [selected, setSelected] = useState<string[]>([])
+    const [selected, updateSelected] = useState<SensorList>({});
 
     useEffect(() => {
         if (!dataset) {
             return;
         }
 
-        setSelected([]);
-        onSelect([]);
+        updateSelected({});
+        onSelect({});
+
+        const sensors: { [id: string]: boolean } = {};
 
         // defult visualisation for dataset
         const defSensors = datasetConfig[dataset.datasetID]?.sensorTypes;
-        if (defSensors && defSensors.length) {
-            onSelect(defSensors);
-            setSelected(defSensors);
-        }
+
+        // load sensors
+        dataset.sensorType.map((item) => {
+            sensors[item] = defSensors?.includes(item);
+        })
+
+        updateSelected(sensors);
+        onSelect(sensors);
+
+        // defult visualisation for dataset
+        // const defSensors = datasetConfig[dataset.datasetID]?.sensorTypes;
+        // if (defSensors && defSensors.length) {
+        //     onSelect(defSensors);
+        //     setSelected(defSensors);
+        // }
 
     }, [dataset])
 
     function _selectSensor(sensor: string) {
-        const s = [...selected];
-        if (_isSelected(sensor)) {
-            s.splice(s.indexOf(sensor), 1);
-        } else {
-            s.unshift(sensor);
-        }
+        const s = { ...selected };
+        s[sensor] = !s[sensor];
+        updateSelected(s);
         onSelect(s);
-        setSelected(s);
-    }
-
-    function _isSelected(sensor: string): boolean {
-        return selected.indexOf(sensor) > -1;
     }
 
     return (
         <div>
             <h5>Select sensor</h5>
             {dataset?.sensorType.map((item, index) => {
-                return <div style={_isSelected(item) ? { backgroundColor: "lightblue" } : undefined} key={index} onClick={() => _selectSensor(item)}>{item}</div>
+                return <div style={selected[item] ? { backgroundColor: "lightblue" } : undefined} key={index} onClick={() => _selectSensor(item)}>{item}</div>
             })}
         </div>
     )
