@@ -1,4 +1,4 @@
-export type GraphType = 'A' | 'L' | 'M';
+export type GraphType = 'A' | 'L' | 'M' | 'N';
 
 export class SensorTypeItem {
     valuesMeasured: string[];

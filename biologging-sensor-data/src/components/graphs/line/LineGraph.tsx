@@ -78,12 +78,12 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
   useEffect(() => {
     const colors = ['blue', 'green', 'red', 'orange', 'purple'];
-    const valueMeasured = sensorTypes[sensor].valuesMeasured[0];
+    const valueMeasured = sensorTypes[sensor]?.valuesMeasured[0];
 
     const setUnitsOfMeasurement = async () => {
       try {
         const response = await getDataset(events[0].datasetID);
-        const unitOfMeasure = response?.unitsReported[response.valuesMeasured.indexOf(valueMeasured)];
+        const unitOfMeasure = valueMeasured ? response?.unitsReported[response.valuesMeasured.indexOf(valueMeasured)] : '';
         if (unitOfMeasure instanceof AxiosError) {
           setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
           return;

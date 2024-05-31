@@ -32,13 +32,6 @@ export default function SensorsList({ dataset, onSelect }: Args) {
         updateSelected(sensors);
         onSelect(sensors);
 
-        // defult visualisation for dataset
-        // const defSensors = datasetConfig[dataset.datasetID]?.sensorTypes;
-        // if (defSensors && defSensors.length) {
-        //     onSelect(defSensors);
-        //     setSelected(defSensors);
-        // }
-
     }, [dataset])
 
     function _selectSensor(sensor: string) {

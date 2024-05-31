@@ -20,10 +20,11 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
             graphType = sensorTypes[sensor]?.graphType;
         }
 
-        if (!graphType) return <div>No visualisation</div>;
+        //if (!graphType) return <div>No visualisation</div>;
 
         if (graphType === 'A') return <Actogram events={events} sensor={sensor} />
         else if (graphType === 'M') return <MapGraph events={events} />
+        else if (graphType === 'N') return <div>No visualisation available. Download data for analysis</div>
         else return <LineGraph events={events} sensor={sensor} />
 
     }
