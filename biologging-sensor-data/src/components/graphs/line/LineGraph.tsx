@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import 'chartjs-adapter-date-fns';
 import { Event } from '@/api/event/event.typscript';
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
@@ -14,9 +15,11 @@ import {
   Title,
   Tooltip,
   Legend,
+  TimeScale,
 } from 'chart.js';
 import { AxiosError } from 'axios';
 import { sensorTypes } from '@/config/config';
+import { de } from 'date-fns/locale';
 
 ChartJS.register(
   CategoryScale,
@@ -26,22 +29,23 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  TimeScale,
 );
 
 interface LineDataset {
   label: string;
-  data: number[];
+  data: any[];
   backgroundColor: string;
   borderColor: string;
 }
 
 interface LineData {
-  labels: string[],
+  //labels: string[],
   datasets: LineDataset[];
 }
 
 export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
-  const [lineData, setLineData] = useState<LineData>({ labels: [], datasets: [] });
+  const [lineData, setLineData] = useState<LineData>({ datasets: [] });
   const [options, setOptions] = useState({
     responsive: true,
     plugins: {
@@ -60,11 +64,15 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           //text: (valuesMeasured[sensorTypes[sensor].valuesMeasured[0]] as LineGraphC)?.x,
           text: 'Time',
         },
-        ticks: {
-          callback: function (value: any) {
-            return value;
-          }
-        }
+        type: 'time',
+        time: {
+          unit: 'hour',
+        },
+        // ticks: {
+        //   callback: function (value: any) {
+        //     return value;
+        //   }
+        // },
       },
       y: {
         title: {
@@ -130,13 +138,15 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
 
           const records: Record[] = result.results;
 
-          const values: number[] = [];
+          //const values: number[] = [];
+          const values: { x: string, y: number }[] = [];
 
           records.map((itm: Record) => {
             const value = itm.recordValues[valueMeasured];
             if (value) {
               labels.add(String(_setLabel(itm)));
-              values.push(value);
+              //values.push(value);
+              values.push({ x: itm.recordStart, y: itm.recordValues[valueMeasured] });
             }
           });
 
@@ -150,7 +160,7 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
           datasets.push({ label: instrumentSerialNumber, data: values, backgroundColor: colors[i], borderColor: colors[i] });
         }
 
-        setLineData({ labels: Array.from(labels), datasets: datasets });
+        setLineData({ datasets: datasets });
       } catch (error) {
         setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
       }
