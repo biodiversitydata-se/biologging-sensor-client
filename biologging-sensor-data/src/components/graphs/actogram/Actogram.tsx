@@ -1,20 +1,18 @@
 import { Event } from "@/api/event/event.typscript";
 import { filterRecords } from "@/api/record/api";
 import { Record } from "@/api/record/record.interface";
-import { format, setDay } from "date-fns";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
 import { S } from "./const";
-import { ActogramC, ActogramConfig } from "@/config/model";
-import { datasetConfig, sensorTypes } from "@/config/config";
+import { ActogramC } from "@/config/model";
 
 
-export default function Actogram({ events, sensor }: { events: Event[], sensor: string }) {
+export default function Actogram({ events, sensor, config }: { events: Event[], sensor: string, config: ActogramC }) {
     const [data, setData] = useState<AData[]>();
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     const [days, setDay] = useState<number>(0);
-    const [actogramConfig, setAConfig] = useState<ActogramConfig[] | undefined>();
 
     useEffect(() => {
         if (!events.length) return;
@@ -94,23 +92,13 @@ export default function Actogram({ events, sensor }: { events: Event[], sensor: 
             setData(items);
             setCounts(monthCounts);
 
-            // set up config
-            const dId = datasetId[0];
-            const customGraphs = datasetConfig[dId]?.customGraphs;
-            if (customGraphs && sensor in customGraphs) {
-                setAConfig((customGraphs[sensor].graph as ActogramC).config);
-            } else {
-                setAConfig((sensorTypes[sensor].graph as ActogramC).config);
-            }
-
-
         };
 
         dataFetch();
     }, [events])
 
     return (
-        <ActogramGraph data={data} mCounts={counts} days={days} config={actogramConfig}></ActogramGraph>
+        <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
     )
 
 }

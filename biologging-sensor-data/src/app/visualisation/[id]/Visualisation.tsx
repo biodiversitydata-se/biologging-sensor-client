@@ -7,7 +7,7 @@ import { SensorList } from "./interface";
 
 export default function Visualisation({ events, sensors }: { events: Event[], sensors: SensorList }) {
     const SensorTypeDisplay = ({ sensor }: { sensor: string }) => {
-        let graphType;
+        let config;
 
         const dId = events[0]?.datasetID;
 
@@ -15,15 +15,17 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
 
         const customGraphs = datasetConfig[dId]?.customGraphs;
         if (customGraphs && sensor in customGraphs) {
-            graphType = customGraphs[sensor].graphType;
+            config = customGraphs[sensor];
         } else {
-            graphType = sensorTypes[sensor]?.graphType;
+            config = sensorTypes[sensor];
         }
 
-        if (graphType === 'A') return <Actogram events={events} sensor={sensor} />
-        else if (graphType === 'M') return <MapGraph events={events} />
+        const graphType = config.graphType;
+
+        if (graphType === 'A') return <Actogram events={events} sensor={sensor} config={config.actogramC} />
+        else if (graphType === 'M') return <MapGraph events={events} config={config.mapC} />
         else if (graphType === 'N') return <div>No visualisation available. Download data for analysis</div>
-        else return <LineGraph events={events} sensor={sensor} />
+        else return <LineGraph events={events} sensor={sensor} config={config.lineGraphC} />
 
     }
 

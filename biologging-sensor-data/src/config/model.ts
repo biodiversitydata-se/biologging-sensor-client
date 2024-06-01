@@ -3,7 +3,23 @@ export type GraphType = 'A' | 'L' | 'M' | 'N';
 export class SensorTypeItem {
     valuesMeasured: string[];
     graphType: GraphType;
-    graph: LineGraphC|ActogramC|MapC;
+    graph: LineGraphC|ActogramC|MapC|NoVisC;
+
+    get lineGraphC(): LineGraphC {
+        return this.graph as LineGraphC;
+    }
+
+    get actogramC(): ActogramC {
+        return this.graph as ActogramC;
+    }
+
+    get mapC(): MapC {
+        return this.graph as MapC;
+    }
+
+    get noVisC(): NoVisC {
+        return this.graph as NoVisC;
+    }
 
     constructor(valuesMeasured: string[], graphType: GraphType, graph: LineGraphC|ActogramC|MapC) {
         this.valuesMeasured = valuesMeasured;
@@ -36,6 +52,11 @@ export class ActogramC {
 }
 
 export class MapC {
+    constructor() {
+    }
+} 
+
+export class NoVisC {
     constructor() {
     }
 } 

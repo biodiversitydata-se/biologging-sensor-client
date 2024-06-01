@@ -5,10 +5,11 @@ import { Record } from '@/api/record/record.interface';
 import MapComponent from './MapComponent';
 import { useState, useEffect } from 'react';
 import { MapContainer } from 'react-leaflet';
+import { MapC } from '@/config/model';
 
 export type Coordinates = [number, number][];
 
-export default function MapGraph({ events }: { events: Event[] }) {
+export default function MapGraph({ events, config }: { events: Event[], config: MapC }) {
     const [data, setData] = useState<Coordinates[]>([]);
     const [center, setCenter] = useState<[number, number]>([62.3875, 16.325556]);
 

@@ -1,4 +1,4 @@
-import { ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, SensorTypeItem } from "./model";
+import { ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, NoVisC, SensorTypeItem } from "./model";
 
 export const datasetConfig: {[id: string] : DatasetConfig} = {};
 export const sensorTypes: {[id: string]: SensorTypeItem} = {};
@@ -15,7 +15,7 @@ aData.push(new ActogramConfig('#660066', '', 51, 60));
 aData.push(new ActogramConfig('black', '', 61));
 
 // DEFAULT LINEGRAPHS
-const tempGraph = new LineGraphC('days');
+const tempGraph = new LineGraphC('day');
 
 
 // SENSOR TYPE MAPPING
@@ -26,6 +26,7 @@ sensorTypes['Thermometer'] = new SensorTypeItem(['temperature'], 'L', tempGraph)
 sensorTypes['Light sensor'] = new SensorTypeItem(['light level'], 'L', tempGraph);
 sensorTypes['Wet/dry'] = new SensorTypeItem(['contact with water'], 'L', tempGraph);
 sensorTypes['Tracking radar'] = new SensorTypeItem(['latitude', 'longitude'], 'M', new MapC());
+sensorTypes['Wingbeat'] = new SensorTypeItem([''], 'N', new NoVisC());
 
 
 // DATASET 

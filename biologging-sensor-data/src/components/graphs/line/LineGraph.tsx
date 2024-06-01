@@ -19,7 +19,7 @@ import {
 } from 'chart.js';
 import { AxiosError } from 'axios';
 import { sensorTypes } from '@/config/config';
-import { de } from 'date-fns/locale';
+import { LineGraphC } from '@/config/model';
 
 ChartJS.register(
   CategoryScale,
@@ -44,7 +44,7 @@ interface LineData {
   datasets: LineDataset[];
 }
 
-export default function LineGraph({ events, sensor }: { events: Event[], sensor: string }) {
+export default function LineGraph({ events, sensor, config }: { events: Event[], sensor: string, config: LineGraphC }) {
   const [lineData, setLineData] = useState<LineData>({ datasets: [] });
   const [options, setOptions] = useState({
     responsive: true,
@@ -61,12 +61,11 @@ export default function LineGraph({ events, sensor }: { events: Event[], sensor:
       x: {
         title: {
           display: true,
-          //text: (valuesMeasured[sensorTypes[sensor].valuesMeasured[0]] as LineGraphC)?.x,
           text: 'Time',
         },
         type: 'time',
         time: {
-          unit: 'hour',
+          unit: config.x ?? 'day',
         },
         // ticks: {
         //   callback: function (value: any) {
