@@ -7,6 +7,7 @@ import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
 import { S } from "./const";
 import { ActogramC } from "@/config/model";
+import { ActogramLegend } from "./ActogramLegend";
 
 
 export default function Actogram({ events, sensor, config }: { events: Event[], sensor: string, config: ActogramC }) {
@@ -21,7 +22,7 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
             const items: AData[] = [];
             const monthCounts: Map<string, number> = new Map<string, number>();
 
-            const relEvent = events[6];
+            const relEvent = events[0];
             const ids = [relEvent.eventID];
             const datasetId = [relEvent.datasetID];
 
@@ -98,7 +99,19 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
     }, [events])
 
     return (
-        <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
+        <div className="row">
+            <div className="col-md-9">
+                <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
+            </div>
+            <div className="col-md-3" style={{ marginTop: "100px" }}>
+                <ActogramLegend config={config.config} ></ActogramLegend>
+
+
+            </div>
+
+
+        </div>
+
     )
 
 }

@@ -33,14 +33,14 @@ sensorTypes['Wingbeat'] = new SensorTypeItem([''], 'N', new NoVisC());
 export const greatSnipesGraph: {[id: string]: SensorTypeItem} = {};
 
 const gsa: ActogramConfig[] = [];
-gsa.push(new ActogramConfig('#FFF0F5', '', 0, 0));
-gsa.push(new ActogramConfig('#FFB6C1', '', 1, 10));
-gsa.push(new ActogramConfig('#FFC0CB', '', 11, 20));
-gsa.push(new ActogramConfig('#FF69B4', '', 21, 30));
-gsa.push(new ActogramConfig('#FF1493', '', 31, 40));
-gsa.push(new ActogramConfig('#FF007F', '', 41, 50));
-gsa.push(new ActogramConfig('#FF00FF', '', 51, 60));
-gsa.push(new ActogramConfig('black', '', 61));
+gsa.push(new ActogramConfig('#FFF0F5', 'No activity', 0, 0));
+gsa.push(new ActogramConfig('#FFB6C1', 'Small', 1, 10));
+gsa.push(new ActogramConfig('#FFC0CB', 'More medium', 11, 20));
+gsa.push(new ActogramConfig('#FF69B4', 'Md activity', 21, 30));
+gsa.push(new ActogramConfig('#FF1493', 'Somehow active', 31, 40));
+gsa.push(new ActogramConfig('#FF007F', 'Active', 41, 50));
+gsa.push(new ActogramConfig('#FF00FF', 'Very active', 51, 60));
+gsa.push(new ActogramConfig('black', 'Active active', 61));
 
 greatSnipesGraph['Acceleration'] = new SensorTypeItem(['activity'], 'A', new ActogramC(gsa))
 
