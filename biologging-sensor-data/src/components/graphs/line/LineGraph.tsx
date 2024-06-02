@@ -20,6 +20,7 @@ import {
 import { AxiosError } from 'axios';
 import { sensorTypes } from '@/config/config';
 import { LineGraphC } from '@/config/model';
+import ErrorComponent from '@/components/Error';
 
 ChartJS.register(
   CategoryScale,
@@ -45,6 +46,7 @@ interface LineData {
 }
 
 export default function LineGraph({ events, sensor, config }: { events: Event[], sensor: string, config: LineGraphC }) {
+  const [showError, setShowError] = useState<boolean>(false);
   const [lineData, setLineData] = useState<LineData>({ datasets: [] });
   const [options, setOptions] = useState({
     responsive: true,
@@ -81,88 +83,69 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
       },
     },
   });
-  const [error, setError] = useState<string | null>(null); // State to store error message
 
   useEffect(() => {
     const colors = ['blue', 'green', 'red', 'orange', 'purple'];
     const valueMeasured = sensorTypes[sensor]?.valuesMeasured[0];
 
     const setUnitsOfMeasurement = async () => {
-      try {
-        const response = await getDataset(events[0].datasetID);
-        const unitOfMeasure = valueMeasured ? response?.unitsReported[response.valuesMeasured.indexOf(valueMeasured)] : '';
-        if (unitOfMeasure instanceof AxiosError) {
-          setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
-          return;
-        }
+      const response = await getDataset(events[0].datasetID);
+      const unitOfMeasure = valueMeasured ? response?.unitsReported[response.valuesMeasured.indexOf(valueMeasured)] : '';
 
-        setOptions(prevOptions => ({
-          ...prevOptions,
-          scales: {
-            ...prevOptions.scales,
-            y: {
-              ...prevOptions.scales.y,
-              title: {
-                display: true,
-                text: `${sensor?.charAt(0).toUpperCase()}${sensor?.slice(1)} (${unitOfMeasure?.charAt(0)}${unitOfMeasure?.slice(1)})`,
-              },
+      setOptions(prevOptions => ({
+        ...prevOptions,
+        scales: {
+          ...prevOptions.scales,
+          y: {
+            ...prevOptions.scales.y,
+            title: {
+              display: true,
+              text: `${sensor?.charAt(0).toUpperCase()}${sensor?.slice(1)} (${unitOfMeasure?.charAt(0)}${unitOfMeasure?.slice(1)})`,
             },
           },
-        }));
-
-      } catch (error) {
-        setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
-      }
-
+        },
+      }));
     };
 
     const dataFetch = async () => {
-      try {
-        const labels = new Set<string>();
-        const datasets: LineDataset[] = [];
+      const labels = new Set<string>();
+      const datasets: LineDataset[] = [];
 
-        for (let i = 0; i < 5; i++) {
-          const eventIds = [events[i].eventID];
-          const datasetIds = [events[i].datasetID];
-          const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds });
-          if (result instanceof AxiosError) {
-            setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
-            return;
-          }
-
-          if (result instanceof AxiosError && result.response?.status === 404) {
-            setError('Records not found. Please try again later.');
-            return;
-          }
-
-          const records: Record[] = result.results;
-
-          //const values: number[] = [];
-          const values: { x: string, y: number }[] = [];
-
-          records.map((itm: Record) => {
-            const value = itm.recordValues[valueMeasured];
-            if (value) {
-              labels.add(String(_setLabel(itm)));
-              //values.push(value);
-              values.push({ x: itm.recordStart, y: itm.recordValues[valueMeasured] });
-            }
-          });
-
-          const instrumentResponse = await getInstrument(events[i].instrumentID);
-          if (instrumentResponse instanceof AxiosError) {
-            setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
-            return;
-          }
-          const instrumentSerialNumber = instrumentResponse.instrumentSerialNumber;
-
-          datasets.push({ label: instrumentSerialNumber, data: values, backgroundColor: colors[i], borderColor: colors[i] });
+      for (let i = 0; i < 5; i++) {
+        const eventIds = [events[i].eventID];
+        const datasetIds = [events[i].datasetID];
+        const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds });
+        if (result instanceof AxiosError) {
+          setShowError(true);
+          return;
         }
 
-        setLineData({ datasets: datasets });
-      } catch (error) {
-        setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
+        const records: Record[] = result.results;
+
+        //const values: number[] = [];
+        const values: { x: string, y: number }[] = [];
+
+        records.map((itm: Record) => {
+          const value = itm.recordValues[valueMeasured];
+          if (value) {
+            labels.add(String(_setLabel(itm)));
+            //values.push(value);
+            values.push({ x: itm.recordStart, y: itm.recordValues[valueMeasured] });
+          }
+        });
+
+        const instrumentResponse = await getInstrument(events[i].instrumentID);
+        if (instrumentResponse instanceof AxiosError) {
+          setShowError(true);
+          return;
+        }
+        const instrumentSerialNumber = instrumentResponse.instrumentSerialNumber;
+
+        datasets.push({ label: instrumentSerialNumber, data: values, backgroundColor: colors[i], borderColor: colors[i] });
       }
+
+      setLineData({ datasets: datasets });
+      setShowError(false);
     };
 
     setUnitsOfMeasurement();
@@ -178,29 +161,12 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
 
   return (
     <div>
-      <Line options={options} data={lineData} />
-      <h5 style={{ color: '#666666' }}>Total number of records is {events.length}</h5>
+      {showError ? <ErrorComponent /> :
+        <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
+          <Line options={options} data={lineData} />
+          <h5 style={{ color: '#666666' }}>Total number of records is {events.length}</h5>
+        </div>
+      }
     </div>
   )
-
-  return (
-    <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
-      {error ? (
-        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#6691A4', color: '#fff', padding: '20px', borderRadius: '5px', zIndex: 999 }}>
-          {error}
-        </div>
-      ) : (
-        <>
-          {lineData.labels.length > 0 && lineData.datasets.some(dataset => dataset.data.length > 0) ? (
-            <>
-              <Line options={options} data={lineData} />
-              <h5 style={{ color: '#666666' }}>Total number of records is {events.length}</h5>
-            </>
-          ) : (
-            <strong className='mx-auto'>No data available.</strong>
-          )}
-        </>
-      )}
-    </div>
-  );
 }

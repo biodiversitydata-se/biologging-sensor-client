@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './detail.css';
 import { Dataset } from '@/api/dataset/dataset.interface';
 import orcidLogo from "@/assets/images/orcid.logo.icon.svg";
-import { OverviewLink } from '@/components/links';
-import copy from 'copy-to-clipboard'; 
-import { AxiosError } from 'axios';
+import copy from 'copy-to-clipboard';
 
 function Detail({ detail }: { detail: Dataset | null }) {
     const [copyMessage, setCopyMessage] = useState('');
@@ -20,24 +18,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
             }, 2000);
         }
     }, [isCopied]);
-    
-    useEffect(() => {
-        if (detail instanceof AxiosError) {
-            setError('Data cannot be loaded. Please contact biologging@biodiversitydata.se');
-        } else if (detail instanceof AxiosError && detail.response?.status === 404) {
-            setError('Records not found. Please try again later.');
-        } else {
-            setError(null);
-        }
-    }, [detail]);
 
-    if (error) {
-        return (
-            <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#6691A4', color: '#fff', padding: '20px', borderRadius: '5px', zIndex: 999 }}>
-                {error}
-            </div>
-        );
-    }
 
     return (
         <div>
@@ -51,17 +32,17 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <small className="col-md-12">description: </small>
                         <span className="col-md-12">{detail?.datasetDescription}</span>
                         <div>
-                            <small className="col-md-12" style={{marginTop: '3%'}}>Taxon: </small>
+                            <small className="col-md-12" style={{ marginTop: '3%' }}>Taxon: </small>
                             <div>
                                 {detail?.taxonomicCoverage ? (
                                     detail.taxonomicCoverage.map((taxon, index) => (
                                         <div key={index}>
                                             <span className="col-md-12">Scientific Name: {taxon.taxonScientificName}</span>
-                                            <span className="col-md-12" style={{ paddingBottom: '3%'}}>Common Name: <a href={`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}>{taxon.taxonCommonName}</a></span>
+                                            <span className="col-md-12" style={{ paddingBottom: '3%' }}>Common Name: <a href={`https://species.biodiversitydata.se/species/${taxon.taxonGuid}`}>{taxon.taxonCommonName}</a></span>
                                         </div>
                                     ))
                                 ) : (
-                                    <div style={{ paddingBottom: '3%'}}>No taxonomic coverage available.</div>
+                                    <div style={{ paddingBottom: '3%' }}>No taxonomic coverage available.</div>
                                 )}
                             </div>
                         </div>
@@ -71,26 +52,26 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 {detail?.instrumentTypes ? (
                                     detail.instrumentTypes.map((instrument, index) => (
                                         <div key={index}>
-                                            <span className="col-md-12" style={{ paddingBottom: '3%'}}>{instrument}</span>
+                                            <span className="col-md-12" style={{ paddingBottom: '3%' }}>{instrument}</span>
                                         </div>
                                     ))
                                 ) : (
-                                    <div style={{ paddingBottom: '3%'}}>No instrument types available.</div>
+                                    <div style={{ paddingBottom: '3%' }}>No instrument types available.</div>
                                 )}
                             </div>
                         </div>
                         <div>
                             <small className="col-md-12">Sensor Type:  </small>
-                            <span className="col-md-12 capitalize" style={{ paddingBottom: '3%'}}>{detail?.valuesMeasured?.join(', ')}</span>
+                            <span className="col-md-12 capitalize" style={{ paddingBottom: '3%' }}>{detail?.valuesMeasured?.join(', ')}</span>
                         </div>
                         <div>
                             <small className="col-md-12">No. of animals: </small>
-                            <span className="col-md-12" style={{ paddingBottom: '3%'}}>{detail?.animalCount}</span>
+                            <span className="col-md-12" style={{ paddingBottom: '3%' }}>{detail?.animalCount}</span>
                         </div>
 
                         <div>
                             <small className="col-md-12">Total records: </small>
-                            <div className="col-md-12" style={{ paddingBottom: '3%'}}>
+                            <div className="col-md-12" style={{ paddingBottom: '3%' }}>
                                 <span>{detail?.numberOfRecords?.toLocaleString('en-US').replace(/,/g, ' ')}</span>
                             </div>
                         </div>
@@ -113,14 +94,14 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     <div className="col-md-4">
                         <img className="col-md-12" src={detail?.pictureUrl ?? ""} alt="" width={350} />
                     </div>
-                </div>   
+                </div>
 
                 <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-12">
                         <small className="col-md-12">Bibliographic Citation: </small>
                         <div className="col-md-12">
                             {Array.isArray(detail?.bibliographicCitation) && detail.bibliographicCitation.map((citation, index) => (
-                                <div key={index} style={{paddingBottom: '3%'}}>
+                                <div key={index} style={{ paddingBottom: '3%' }}>
                                     <div className='span'>Title: {citation.title}</div>
                                     {citation.DOI && <div className='span'>DOI: <a href={citation.DOI}>{citation.DOI}</a></div>}
                                 </div>
@@ -130,13 +111,13 @@ function Detail({ detail }: { detail: Dataset | null }) {
                 </div>
 
                 <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
-                    
-                        <div className="col-md-10">
-                            <small className="col-md-12">Curator Owner: </small>
-                            <div>
-                                {detail?.curator && detail.curator.map((person, index) => (
+
+                    <div className="col-md-10">
+                        <small className="col-md-12">Curator Owner: </small>
+                        <div>
+                            {detail?.curator && detail.curator.map((person, index) => (
                                 <span key={index}>
-                                    <span className='col-md-2' style={{ paddingBottom: '3%'}}>
+                                    <span className='col-md-2' style={{ paddingBottom: '3%' }}>
                                         {person.webpage ? (
                                             <a href={person.webpage}>
                                                 <span>{person.firstName + ', '}</span>
@@ -149,83 +130,83 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                             </>
                                         )}
                                     </span>
-                    
+
                                     {person.userid ? (
                                         <div className='col-md-5'>
                                             <Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} />
                                             <a href={`https://orcid.org/${person.userid}`}>{`https://orcid.org/${person.userid}`}</a>
                                         </div>
                                     ) : null}
-                                    
-                                    <span className='col-md-5'>{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16" onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
-                                        <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
+
+                                    <span className='col-md-5'>{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy" style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16" onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
+                                        <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
                                     </svg></span>
                                 </span>
-                                ))}
-                            </div>
-    
-                            <small className="col-md-12">Creator: </small>
-                            <div>
-                                {detail?.creator.map((person, index) => (
-                                    <span key={index}>
-                                        <span className="col-md-2" style={{ paddingBottom: '3%'}}>
-                                            {person.webpage ? (
-                                                <a href={person.webpage}>
-                                                    <span>{person.firstName + ', '}</span>
-                                                    <span>{person.lastName}</span>
-                                                </a>
-                                            ) : (
-                                                <>
-                                                    <span>{person.firstName + ', '}</span>
-                                                    <span>{person.lastName}</span>
-                                                </>
-                                            )}
-                                        </span>
-                                        {person.userid ? <a href={`https://orcid.org/${person.userid}`} className="col-md-5"><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} />{`https://orcid.org/${person.userid}`}</a> : null}
-                                        <span className="col-md-4">{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16" onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
-                                                <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
-                                            </svg></span>
-                                        </span>
-                                ))}
-                            </div>
-        
-                            <small className="col-md-12">Contact for questions:</small>
-                            <span>
-                                {detail?.contact.map((person, index) => (
-                                    <div key={index}>
-                                        <span className="col-md-2" style={{ paddingBottom: '3%'}}>
-                                            {person.webpage ? (
-                                                <a href={person.webpage}>
-                                                    <span>{person.firstName + ', '}</span>
-                                                    <span>{person.lastName}</span>
-                                                </a>
-                                            ) : (
-                                                <>
-                                                    <span>{person.firstName + ', '}</span>
-                                                    <span>{person.lastName}</span>
-                                                </>
-                                            )}
-                                        </span>
-                                        {person.userid ? <a href={`https://orcid.org/${person.userid}`} className="col-md-5"><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} />{`https://orcid.org/${person.userid}`}</a> : null}
-                                        <span className="col-md-4">{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy"  style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16"  onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
-                                                <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
-                                            </svg></span>
-                                    </div>
-                                ))}
-                            </span>
-                        
-                            <small className="col-md-12">Institution: </small>
-                            <span className="col-md-12">{detail?.institutionCode}</span>
+                            ))}
                         </div>
-                        <div className="col-md-2">
-                            <p className="span" style={{margin: "0 auto"}}>{copyMessage}</p>
+
+                        <small className="col-md-12">Creator: </small>
+                        <div>
+                            {detail?.creator.map((person, index) => (
+                                <span key={index}>
+                                    <span className="col-md-2" style={{ paddingBottom: '3%' }}>
+                                        {person.webpage ? (
+                                            <a href={person.webpage}>
+                                                <span>{person.firstName + ', '}</span>
+                                                <span>{person.lastName}</span>
+                                            </a>
+                                        ) : (
+                                            <>
+                                                <span>{person.firstName + ', '}</span>
+                                                <span>{person.lastName}</span>
+                                            </>
+                                        )}
+                                    </span>
+                                    {person.userid ? <a href={`https://orcid.org/${person.userid}`} className="col-md-5"><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} />{`https://orcid.org/${person.userid}`}</a> : null}
+                                    <span className="col-md-4">{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy" style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16" onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
+                                        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                                    </svg></span>
+                                </span>
+                            ))}
                         </div>
+
+                        <small className="col-md-12">Contact for questions:</small>
+                        <span>
+                            {detail?.contact.map((person, index) => (
+                                <div key={index}>
+                                    <span className="col-md-2" style={{ paddingBottom: '3%' }}>
+                                        {person.webpage ? (
+                                            <a href={person.webpage}>
+                                                <span>{person.firstName + ', '}</span>
+                                                <span>{person.lastName}</span>
+                                            </a>
+                                        ) : (
+                                            <>
+                                                <span>{person.firstName + ', '}</span>
+                                                <span>{person.lastName}</span>
+                                            </>
+                                        )}
+                                    </span>
+                                    {person.userid ? <a href={`https://orcid.org/${person.userid}`} className="col-md-5"><Image src={orcidLogo} alt="logo" style={{ marginRight: '5px' }} width={18} height={18} />{`https://orcid.org/${person.userid}`}</a> : null}
+                                    <span className="col-md-4">{person.email ? person.email : null}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-copy" style={{ marginLeft: '15px', cursor: 'pointer' }} viewBox="0 0 16 16" onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }}>
+                                        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                                    </svg></span>
+                                </div>
+                            ))}
+                        </span>
+
+                        <small className="col-md-12">Institution: </small>
+                        <span className="col-md-12">{detail?.institutionCode}</span>
+                    </div>
+                    <div className="col-md-2">
+                        <p className="span" style={{ margin: "0 auto" }}>{copyMessage}</p>
+                    </div>
                 </div>
 
                 <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-12">
                         <small className="col-md-12">Geographical Coverage: </small>
-                        <div className="col-md-12" style={{ paddingBottom: '3%'}}>
+                        <div className="col-md-12" style={{ paddingBottom: '3%' }}>
                             {detail?.geographicalCoverage?.geographicalDescription && <div>{detail?.geographicalCoverage.geographicalDescription}</div>}
                         </div>
                         <div>
@@ -237,8 +218,8 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>
                 </div>
 
-                <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%'}}>
-                    <div className="col-md-12" style={{ paddingBottom: '3%'}}>
+                <div className='row container-wrraper' style={{ marginBottom: '20px', paddingTop: '3%', paddingBottom: '3%' }}>
+                    <div className="col-md-12" style={{ paddingBottom: '3%' }}>
                         {detail?.samplingDescription && <div className='col-md-3'><small>Sampling Description:</small><div>{detail?.samplingDescription}</div></div>}
                         {detail?.qualityControl && <div className='col-md-3'><small>Quality Control:</small><div>{detail?.qualityControl}</div></div>}
                         {detail?.relatedIdentifier && <div className='col-md-3'><small>Related Identifier:</small><div>{detail?.relatedIdentifier}</div></div>}
@@ -257,11 +238,11 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>
                 </div>
 
-                <div className='row container-wrraper' style={{paddingTop: '3%', paddingBottom: '3%'}}>
+                <div className='row container-wrraper' style={{ paddingTop: '3%', paddingBottom: '3%' }}>
                     <div className="col-md-12">
                         <div className="col-md-12">
                             {detail?.versions.map((keyword, index) => (
-                                <span key={index}className='col-md-1'>Ver: <a href={`http://canmove-dev.ekol.lu.se/biologgingPublicArchives/${detail.datasetID}/${detail.datasetID}_json_${keyword.number.replace('.', '_')}.zip`} download>{keyword.number}</a></span>
+                                <span key={index} className='col-md-1'>Ver: <a href={`http://canmove-dev.ekol.lu.se/biologgingPublicArchives/${detail.datasetID}/${detail.datasetID}_json_${keyword.number.replace('.', '_')}.zip`} download>{keyword.number}</a></span>
                             ))}
                         </div>
                     </div>

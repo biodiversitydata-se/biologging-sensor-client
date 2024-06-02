@@ -4,22 +4,20 @@ import '../../index.css';
 import { Dataset } from '@/api/dataset/dataset.interface';
 import Detail from './Detail';
 import { getDataset } from '@/api/dataset/api';
+import { AxiosError } from 'axios';
+import ErrorComponent from '@/components/Error';
 
-function DetailPage({ params }: { params: { id: string } }) {
+export default function DetailPage({ params }: { params: { id: string } }) {
   const [detail, setDetailData] = useState<Dataset | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await getDataset(params.id);
-        setDetailData(response);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error('Error fetching data:', error.message);
-        } else {
-          console.error('Unexpected error:', error);
-        }
+      const response = await getDataset(params.id);
+      if (response instanceof AxiosError) {
+        return;
       }
+
+      setDetailData(response);
     };
 
     fetchData();
@@ -27,9 +25,7 @@ function DetailPage({ params }: { params: { id: string } }) {
 
   return (
     <div>
-      <Detail detail={detail} />
+      {detail ? <Detail detail={detail} /> : <ErrorComponent />}
     </div>
   );
 }
-
-export default DetailPage;

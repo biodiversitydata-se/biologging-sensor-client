@@ -8,12 +8,15 @@ import ActogramGraph from "./ActogramGraph";
 import { S } from "./const";
 import { ActogramC } from "@/config/model";
 import { ActogramLegend } from "./ActogramLegend";
+import ErrorComponent from "@/components/Error";
+import { AxiosError } from "axios";
 
 
 export default function Actogram({ events, sensor, config }: { events: Event[], sensor: string, config: ActogramC }) {
     const [data, setData] = useState<AData[]>();
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     const [days, setDay] = useState<number>(0);
+    const [showError, setShowError] = useState<boolean>(false);
 
     useEffect(() => {
         if (!events.length) return;
@@ -34,6 +37,10 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
                 const take = noRecs < 1000 ? noRecs : 1000;
 
                 const result = await filterRecords({ eventIds: ids, datasetIds: datasetId }, { take: take, skip: skip });
+                if (result instanceof AxiosError) {
+                    setShowError(true);
+                    return;
+                }
                 records.push(...result.results);
 
                 skip += 1000;
@@ -92,6 +99,7 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
 
             setData(items);
             setCounts(monthCounts);
+            setShowError(false);
 
         };
 
@@ -99,17 +107,19 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
     }, [events])
 
     return (
-        <div className="row">
-            <div className="col-md-9">
-                <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
-            </div>
-            <div className="col-md-3" style={{ marginTop: "100px" }}>
-                <ActogramLegend config={config.config} ></ActogramLegend>
-
-
-            </div>
-
-
+        <div>
+            {showError ? <ErrorComponent /> :
+                <div>
+                    <div className="row">
+                        <div className="col-md-9">
+                            <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
+                        </div>
+                        <div className="col-md-3" style={{ marginTop: "100px" }}>
+                            <ActogramLegend config={config.config} ></ActogramLegend>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
 
     )

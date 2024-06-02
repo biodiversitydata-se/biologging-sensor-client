@@ -6,12 +6,15 @@ import MapComponent from './MapComponent';
 import { useState, useEffect } from 'react';
 import { MapContainer } from 'react-leaflet';
 import { MapC } from '@/config/model';
+import ErrorComponent from '@/components/Error';
+import { AxiosError } from 'axios';
 
 export type Coordinates = [number, number][];
 
 export default function MapGraph({ events, config }: { events: Event[], config: MapC }) {
     const [data, setData] = useState<Coordinates[]>([]);
     const [center, setCenter] = useState<[number, number]>([62.3875, 16.325556]);
+    const [showError, setShowError] = useState<boolean>(false);
 
     useEffect(() => {
 
@@ -25,6 +28,10 @@ export default function MapGraph({ events, config }: { events: Event[], config: 
 
                 const ids = [events[i].eventID];
                 const result = await filterRecords({ eventIds: ids, datasetIds: [events[i].datasetID] });
+                if (result instanceof AxiosError) {
+                    setShowError(true);
+                    return;
+                }
                 const records: Record[] = result.results;
                 records.slice(0, 100).filter(itm => itm.recordValues.latitude && itm.recordValues.longitude)
                     .map(itm => {
@@ -35,6 +42,7 @@ export default function MapGraph({ events, config }: { events: Event[], config: 
             }
 
             setData(items);
+            setShowError(false);
         };
 
         dataFetch();
@@ -42,9 +50,12 @@ export default function MapGraph({ events, config }: { events: Event[], config: 
 
     return (
         <div>
-            <MapContainer center={center} zoom={5} scrollWheelZoom={true} className='map'>
-                <MapComponent data={data} />
-            </MapContainer>
+            {showError ? <ErrorComponent /> :
+                <div>
+                    <MapContainer center={center} zoom={5} scrollWheelZoom={true} className='map'>
+                        <MapComponent data={data} />
+                    </MapContainer>
+                </div>}
         </div >
     )
 }
