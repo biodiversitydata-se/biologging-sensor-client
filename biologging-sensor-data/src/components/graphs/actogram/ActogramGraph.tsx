@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { ActogramProps } from "./interface";
 import { S } from "./const";
-import { ActogramC } from "@/config/model";
-import { datasetConfig, sensorTypes, valuesMeasured } from "@/config/config";
 
 export default function ActogramGraph({ data, mCounts, days, config }: ActogramProps) {
     const w = 1000;
-    const h = 800;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
@@ -130,8 +127,6 @@ export default function ActogramGraph({ data, mCounts, days, config }: ActogramP
 
 
     function getColor(score: number): string {
-        //const actogramConfig = (valuesMeasured['activity'] as ActogramC).config;
-
         if (!config) return '';
 
         if (score === -10) {
@@ -154,7 +149,7 @@ export default function ActogramGraph({ data, mCounts, days, config }: ActogramP
     }
     return (
         <div>
-            <canvas ref={canvasRef} width={w} height={h} />
+            <canvas ref={canvasRef} width={w} height={days * S + 10 * S} />
         </div>
     )
 }

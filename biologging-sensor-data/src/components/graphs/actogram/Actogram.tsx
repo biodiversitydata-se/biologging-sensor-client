@@ -1,7 +1,7 @@
 import { Event } from "@/api/event/event.typscript";
 import { filterRecords } from "@/api/record/api";
 import { Record } from "@/api/record/record.interface";
-import { format } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
@@ -21,7 +21,7 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
             const items: AData[] = [];
             const monthCounts: Map<string, number> = new Map<string, number>();
 
-            const relEvent = events[0];
+            const relEvent = events[6];
             const ids = [relEvent.eventID];
             const datasetId = [relEvent.datasetID];
 
@@ -35,13 +35,13 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
                 const result = await filterRecords({ eventIds: ids, datasetIds: datasetId }, { take: take, skip: skip });
                 records.push(...result.results);
 
-                skip++;
+                skip += 1000;
                 noRecs -= 1000;
             }
 
             for (let i = 0; i < records.length; i++) {
                 const item = records[i];
-                const date = new Date(item.recordStart);
+                const date = new Date(Date.parse(item.recordStart.slice(0, 19)));
                 const score = item.recordValues.activity.acc_sum;
 
                 // validate if measured correctly 
