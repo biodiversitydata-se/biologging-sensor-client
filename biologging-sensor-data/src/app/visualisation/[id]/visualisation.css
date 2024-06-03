@@ -2,5 +2,11 @@
 .vis-list {
     padding: 10px 10px;
     margin: 5px 5px;
+}
 
+.vis-list-items {
+    height: 160px;
+    max-height: 160px;
+    overflow-y: auto;
+    cursor: pointer;
 }

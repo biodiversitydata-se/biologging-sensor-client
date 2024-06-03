@@ -1,17 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { ActogramProps, AData } from "./interface";
-import { S } from "./const";
+import { ActogramProps } from "./interface";
+import { A_WIDTH, DAY_NUMBER_X, DEF_STROKE_STYLE, D_LINE_OFFSET, FONT_SIZE, MONTH_LABEL_OFFSET, M_LABEL_OFFSET, M_LINE_OFFSET, RIGHT_SIDE_OFFSET, S, T_LABEL_OFFSET } from "./const";
 
-export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
+export default function ActogramGraph({ data, mCounts, days, config }: ActogramProps) {
     const w = 1000;
-    const h = 800;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-
-    const M_OFFSET = 100;
-    const D_OFFSET = 24 * S;
-    const T_OFFSET = 100;
-    const OFFSET = M_OFFSET + D_OFFSET;
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -33,21 +27,21 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
         if (!ctx) return;
         data?.forEach((square) => {
             ctx.fillStyle = getColor(square.value);
-            ctx.strokeStyle = 'black';
-            const x = square.x + M_OFFSET;
-            const y = square.y + T_OFFSET;
+            ctx.strokeStyle = DEF_STROKE_STYLE;
+            const x = square.x + M_LABEL_OFFSET;
+            const y = square.y + T_LABEL_OFFSET;
             ctx.fillRect(x, y, S, S);
         });
     }
 
     function _drawRightSide() {
         if (!ctx) return;
-        const sliced_data = data?.slice(24, data.length);
+        const sliced_data = data?.slice(24, data.length); // remove first day 
         sliced_data?.forEach((square) => {
             ctx.fillStyle = getColor(square.value);
-            ctx.strokeStyle = 'black';
-            const x = square.x + OFFSET;
-            const y = square.y + T_OFFSET - S;
+            ctx.strokeStyle = DEF_STROKE_STYLE;
+            const x = square.x + RIGHT_SIDE_OFFSET;
+            const y = square.y + T_LABEL_OFFSET - S;
             ctx.fillRect(x, Math.floor(y), S, S);
         });
 
@@ -56,29 +50,32 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
     function _drawMonthLabels() {
         if (!ctx) return;
 
-        let y = T_OFFSET;
-        ctx.fillStyle = 'black';
-        ctx.font = '10px Arial';
+        let y = T_LABEL_OFFSET;
+        ctx.fillStyle = DEF_STROKE_STYLE;
+        ctx.font = FONT_SIZE;
 
         // top line
-        _drawLine(50, 100, y, y);
+        _drawLine(M_LINE_OFFSET, M_LABEL_OFFSET, y, y);
 
         mCounts?.forEach((value: number, key: string) => {
             const days = value / 24;
             const mSpace = days * S + S;
             let end = y + mSpace;
 
-            // draw days line
+            // draw days line - every 5 days
+            let day = 5;
             for (let start = y + (5 * S); start < end; start += (5 * S)) {
-                _drawLine(80, 100, start, start);
+                ctx.fillText(day.toString(), DAY_NUMBER_X, start - 5, start);
+                _drawLine(D_LINE_OFFSET, M_LABEL_OFFSET, start, start);
+                day += 5;
             }
 
             // draw text
             const month = key.replace(/[0-9]/g, '');
-            ctx.fillText(month, 50, y + (mSpace / 2) + S / 2);
+            ctx.fillText(month, MONTH_LABEL_OFFSET, y + (mSpace / 2) + S / 2);
 
             // draw bottom line
-            _drawLine(50, 100, end, end);
+            _drawLine(M_LINE_OFFSET, M_LABEL_OFFSET, end, end + 1);
 
             // set new y
             y = end;
@@ -88,13 +85,13 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
 
     function _drawTimeLabels() {
         if (!ctx) return;
-        const y = T_OFFSET - 10;
-        let x = M_OFFSET;
+        const y = T_LABEL_OFFSET - S;
+        let x = M_LABEL_OFFSET;
         const times = ["0:00", "12:00"];
 
         for (let i = 0; i < 5; i++) {
             ctx.fillText(times[i % 2], x, y);
-            _drawLine(x, x, y, y + 10);
+            _drawLine(x, x, y, y + S);
             x += 12 * S;
         }
     }
@@ -102,15 +99,15 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
     function _drawBorderLines() {
         if (!ctx) return;
         // left
-        let x = M_OFFSET;
-        let y1 = T_OFFSET;
-        let y2 = T_OFFSET + (days * S) + S;
+        let x = M_LABEL_OFFSET;
+        let y1 = T_LABEL_OFFSET;
+        let y2 = T_LABEL_OFFSET + (days * S) + S;
         _drawLine(x, x, y1, y2);
 
         //middle 
-        x = OFFSET;
-        y1 = T_OFFSET;
-        y2 = T_OFFSET + (days * S) + 10;
+        x = RIGHT_SIDE_OFFSET;
+        y1 = T_LABEL_OFFSET;
+        y2 = T_LABEL_OFFSET + (days * S) + S;
         _drawLine(x, x, y1, y2);
     }
 
@@ -120,43 +117,34 @@ export default function ActogramGraph({ data, mCounts, days }: ActogramProps) {
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = DEF_STROKE_STYLE;
         ctx.stroke();
 
     }
 
-
     function getColor(score: number): string {
-        if (score == 0) {
-            //return '#FFFFFF';
-            return 'yellow';
-        } else if (score >= 1 && score <= 10) {
-            //return '#66FF66';
-            return 'red';
-        } else if (score >= 11 && score <= 20) {
-            //return '#33FF33';
-            return 'green';
-        } else if (score >= 21 && score <= 30) {
-            // return '#00CC00';
-            return 'blue';
-        } else if (score >= 31 && score <= 40) {
-            //return '#009900';
-            return 'pink';
-        } else if (score >= 41 && score <= 50) {
-            // return '#006600';
-            return '#006600';
-        } else if (score >= 51 && score < 60) {
-            //return '#660066';
-            return 'purple';
-        } else if (score == 60) {
-            return 'black';
+        if (!config) return '';
+
+        if (score === -10) {
+            return 'grey';
         }
 
+        for (let item of config) {
+            if (!item.to && item.from >= score) {
+                return item.color;
+            }
+
+            if (item.from <= score && item.to! >= score) {
+                return item.color;
+            }
+        }
         return 'grey';
     }
+
     return (
         <div>
-            <canvas ref={canvasRef} width={w} height={h} />
+            {/* height - number of days * size of square + top_offset + S*/}
+            <canvas ref={canvasRef} width={A_WIDTH} height={days * S + T_LABEL_OFFSET + S} />
         </div>
     )
 }

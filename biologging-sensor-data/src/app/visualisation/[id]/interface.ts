@@ -1,4 +1,1 @@
-export interface SensorList {
-    sensor: string;
-    selected: boolean;
-}
+export type SensorList = {[id: string]: boolean};

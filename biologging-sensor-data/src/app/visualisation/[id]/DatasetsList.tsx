@@ -1,6 +1,7 @@
 import { getDatasets } from "@/api/dataset/api";
 import { Dataset } from "@/api/dataset/dataset.interface";
 import { useEffect, useState } from "react";
+import './visualisation.css';
 
 
 interface Args {
@@ -51,14 +52,16 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
   return (
     <div>
       <h5>Select dataset</h5>
-      {datasets.map((item, index) => {
-        return <div key={index}
-          style={_isSelected(index) ? { backgroundColor: "lightblue" } : undefined}
-          onClick={() => _selectDataset(index)}
-        >
-          {item.datasetTitle}
-        </div>
-      })}
+      <div className="vis-list-items">
+        {datasets.map((item, index) => {
+          return <div key={index}
+            style={_isSelected(index) ? { backgroundColor: "lightblue" } : undefined}
+            onClick={() => _selectDataset(index)}
+          >
+            {item.datasetTitle}
+          </div>
+        })}
+      </div>
     </div>
   )
 }

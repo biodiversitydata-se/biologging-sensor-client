@@ -1,18 +1,26 @@
 import { Event } from "@/api/event/event.typscript";
 import { filterRecords } from "@/api/record/api";
 import { Record } from "@/api/record/record.interface";
-import { format, setDay } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
-import { S } from "./const";
+import { S, T_LABEL_OFFSET } from "./const";
+import { ActogramC } from "@/config/model";
+import { ActogramLegend } from "./ActogramLegend";
+import ErrorComponent from "@/components/Error";
+import { AxiosError } from "axios";
 
 
-export default function Actogram({ events }: { events: Event[] }) {
+export default function Actogram({ events, sensor, config }: { events: Event[], sensor: string, config: ActogramC }) {
     const [data, setData] = useState<AData[]>();
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     const [days, setDay] = useState<number>(0);
+    const [showError, setShowError] = useState<boolean>(false);
+
     useEffect(() => {
+        if (!events.length) return;
+
         const dataFetch = async () => {
             const items: AData[] = [];
             const monthCounts: Map<string, number> = new Map<string, number>();
@@ -29,15 +37,19 @@ export default function Actogram({ events }: { events: Event[] }) {
                 const take = noRecs < 1000 ? noRecs : 1000;
 
                 const result = await filterRecords({ eventIds: ids, datasetIds: datasetId }, { take: take, skip: skip });
+                if (result instanceof AxiosError) {
+                    setShowError(true);
+                    return;
+                }
                 records.push(...result.results);
 
-                skip++;
+                skip += 1000;
                 noRecs -= 1000;
             }
 
             for (let i = 0; i < records.length; i++) {
                 const item = records[i];
-                const date = new Date(item.recordStart);
+                const date = new Date(Date.parse(item.recordStart.slice(0, 19)));
                 const score = item.recordValues.activity.acc_sum;
 
                 // validate if measured correctly 
@@ -87,13 +99,30 @@ export default function Actogram({ events }: { events: Event[] }) {
 
             setData(items);
             setCounts(monthCounts);
+            setShowError(false);
+
         };
 
         dataFetch();
     }, [events])
 
     return (
-        <ActogramGraph data={data} mCounts={counts} days={days}></ActogramGraph>
+        <div>
+            {showError ? <ErrorComponent /> :
+                <div>
+                    <div className="bold">{sensor}</div>
+                    <div className="row">
+                        <div className="col-md-9">
+                            <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
+                        </div>
+                        <div className="col-md-3" style={{ marginTop: T_LABEL_OFFSET }}>
+                            <ActogramLegend config={config.config} ></ActogramLegend>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
     )
 
 }
