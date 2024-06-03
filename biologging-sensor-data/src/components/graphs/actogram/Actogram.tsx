@@ -5,7 +5,7 @@ import { format, parse, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
-import { S } from "./const";
+import { S, T_LABEL_OFFSET } from "./const";
 import { ActogramC } from "@/config/model";
 import { ActogramLegend } from "./ActogramLegend";
 import ErrorComponent from "@/components/Error";
@@ -110,11 +110,12 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
         <div>
             {showError ? <ErrorComponent /> :
                 <div>
+                    <div className="bold">{sensor}</div>
                     <div className="row">
                         <div className="col-md-9">
                             <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
                         </div>
-                        <div className="col-md-3" style={{ marginTop: "100px" }}>
+                        <div className="col-md-3" style={{ marginTop: T_LABEL_OFFSET }}>
                             <ActogramLegend config={config.config} ></ActogramLegend>
                         </div>
                     </div>
