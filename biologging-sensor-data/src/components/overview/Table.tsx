@@ -67,6 +67,10 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
       }
     ],
     domLayout: 'autoHeight',
+    pagination: true,
+    paginationPageSizeSelector: [5, 10, 20],
+    paginationPageSize: 5,
+    animateRows: false,
   };
 
   const rowData = data.map((item, i) => ({
