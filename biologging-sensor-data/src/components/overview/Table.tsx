@@ -17,11 +17,12 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     setFullData(data);
   }, [data])
 
-  const _selectRow = (i: number) => {
-    const selected = new Array<boolean>(data.length).fill(false);
-    selected[i] = true;
+  const _selectRow = (dataID: string) => {
+    const dataIndex = fullData.findIndex(data => data.dataID === dataID);
+    const selected = new Array<boolean>(fullData.length).fill(false);
+    selected[dataIndex] = true;
     setSelected(selected);
-    onSelect(fullData[i]);
+    onSelect(fullData.find(data => data.datasetID === dataID));
   }
 
   const TemporalCoverageRenderer = ({ value }) => {
@@ -82,6 +83,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     institutionCode: item.institutionCode,
     temporalCoverage: item.temporalCoverage,
     numberOfRecords: item.numberOfRecords.toLocaleString('en-US').replace(/,/g, ' '),
+    dataID: item.datasetID
   }));
 
   const columns = [
@@ -129,16 +131,19 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   return (
     <div className="ag-theme-quartz" style={{ width: '100wh' }}>
       <AgGridReact
-        rowData={rowData}
-        columnDefs={columns}
-        onRowClicked={({ rowIndex: i }) => _selectRow(i)}
-        rowClassRules={{
-          'hover-row': true,
-          'bold-row': (params) => selected[params.rowIndex]
-        }}
-        overlayNoRowsTemplate={ERROR_LOAD_DATA}
-        gridOptions={gridOptions}
-      />
+  rowData={rowData}
+  columnDefs={columns}
+  onRowClicked={({ data: { dataID } }) => _selectRow(dataID)}
+  rowClassRules={{
+    'hover-row': true,
+    'bold-row': (params) => {
+      const dataIndex = fullData.findIndex(data => data.dataID === params.data.dataID);
+      return selected[dataIndex];
+    }
+  }}
+  overlayNoRowsTemplate={ERROR_LOAD_DATA}
+  gridOptions={gridOptions}
+/>
     </div>
   );
 }
