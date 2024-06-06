@@ -77,7 +77,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   const rowData = data.map((item, i) => ({
     datas: console.log(item.numberOfRecords),
     datasetTitle: item.datasetTitle,
-    animalCount: item.animalCount.toLocaleString('en-US').replace(/,/g, ' '),
+    animalCount: item.animalCount,
     taxonomicCoverage: item.taxonomicCoverage,
     instrumentTypes: item?.instrumentTypes?.join(", "),
     institutionCode: item.institutionCode,
@@ -94,6 +94,8 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
       headerName: "Animal count",
       width: 135,
       valueGetter: params => params.data.animalCount,
+      sortable: true,
+      valueFormatter: ({ value }) => value.toLocaleString('en-US').replace(/,/g, ' '),
       cellStyle: { textAlign: "right" }
     },
     {
