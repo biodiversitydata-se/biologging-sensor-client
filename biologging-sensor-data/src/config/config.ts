@@ -27,6 +27,7 @@ sensorTypes['Light sensor'] = new SensorTypeItem(['light level'], 'L', tempGraph
 sensorTypes['Wet/dry'] = new SensorTypeItem(['contact with water'], 'L', tempGraph);
 sensorTypes['Tracking radar'] = new SensorTypeItem(['latitude', 'longitude'], 'M', new MapC());
 sensorTypes['Wingbeat'] = new SensorTypeItem([''], 'N', new NoVisC());
+sensorTypes['Geographic spherical coordinate system'] = new SensorTypeItem(['latitude', 'longitude'], 'M', new MapC());
 
 
 // DATASET 
