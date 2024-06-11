@@ -64,12 +64,10 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
         type: 'time',
         time: {
           unit: config.x ?? 'day',
+          displayFormats: {
+            hour: 'H:mm'
+          }
         },
-        // ticks: {
-        //   callback: function (value: any) {
-        //     return value;
-        //   }
-        // },
       },
       y: {
         title: {
