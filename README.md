@@ -57,6 +57,65 @@ pm2 delete ID
 ```
 ID being the id of the app launched (most of the time : 0 )
 
+# Development and Testing Environment
+
+## Global Packages
+
+- **Node.js**: v20.10.0
+- **npm**: v9.8.1
+
+## Project Dependencies
+
+- **@fortawesome/fontawesome-svg-core**: ^6.5.1
+- **@fortawesome/free-brands-svg-icons**: ^6.5.1
+- **@fortawesome/free-regular-svg-icons**: ^6.5.1
+- **@fortawesome/free-solid-svg-icons**: ^6.5.1
+- **@fortawesome/react-fontawesome**: ^0.2.0
+- **@types/react-leaflet**: ^3.0.0
+- **ag-grid-react**: ^31.2.0
+- **axios**: ^1.6.2
+- **bootstrap**: ^3.4.1
+- **chart.js**: ^4.4.1
+- **chartjs-adapter-date-fns**: ^3.0.0
+- **copy-to-clipboard**: ^3.3.3
+- **date-fns**: ^3.6.0
+- **leaflet**: ^1.9.4
+- **next**: 14.0.3
+- **react**: ^18.2.0
+- **react-chartjs-2**: ^5.2.0
+- **react-dom**: ^18.2.0
+- **react-leaflet**: ^4.2.1
+- **react-router-dom**: ^6.22.3
+
+- **@fortawesome/fontawesome-svg-core**: 6.5.1
+- **@fortawesome/free-brands-svg-icons**: 6.5.1
+- **@fortawesome/free-regular-svg-icons**: 6.5.1
+- **@fortawesome/free-solid-svg-icons**: 6.5.1
+- **@fortawesome/react-fontawesome**: 0.2.0
+- **@types/leaflet**: 1.9.8
+- **@types/node**: 20.11.8
+- **@types/react-dom**: 18.2.18
+- **@types/react-leaflet**: 3.0.0
+- **@types/react**: 18.2.48
+- **ag-grid-react**: 31.2.0
+- **autoprefixer**: 10.4.17
+- **axios**: 1.6.7
+- **bootstrap**: 3.4.1
+- **chart.js**: 4.4.1
+- **chartjs-adapter-date-fns**: 3.0.0
+- **copy-to-clipboard**: 3.3.3
+- **date-fns**: 3.6.0
+- **eslint-config-next**: 14.0.3
+- **eslint**: 8.56.0
+- **leaflet**: 1.9.4
+- **next**: 14.0.3
+- **postcss**: 8.4.33
+- **react-chartjs-2**: 5.2.0
+- **react-dom**: 18.2.0
+- **react-leaflet**: 4.2.1
+- **react-router-dom**: 6.22.3
+- **react**: 18.2.0
+- **typescript**: 5.3.3
 
 
 ## Necessary Documentation
