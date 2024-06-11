@@ -12,7 +12,7 @@ import ErrorComponent from "@/components/Error";
 import { AxiosError } from "axios";
 
 
-export default function Actogram({ events, sensor, config }: { events: Event[], sensor: string, config: ActogramC }) {
+export default function Actogram({ events, valueMeasured, config }: { events: Event[], valueMeasured: string, config: ActogramC }) {
     const [data, setData] = useState<AData[]>();
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     const [days, setDay] = useState<number>(0);
@@ -28,6 +28,11 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
             const relEvent = events[0];
             const ids = [relEvent.eventID];
             const datasetId = [relEvent.datasetID];
+
+            // check if value measured present in events
+            if (!relEvent.valuesMeasured.some(itm => itm === valueMeasured)) {
+                return;
+            }
 
             // load data
             const records: Record[] = [];

@@ -22,7 +22,7 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
 
         const graphType = config.graphType;
 
-        if (graphType === 'A') return <Actogram events={events} sensor={sensor} config={config.actogramC} />
+        if (graphType === 'A') return <Actogram events={events} valueMeasured={config.valuesMeasured[0]} config={config.actogramC} />
         else if (graphType === 'M') return <MapGraph events={events} config={config.mapC} />
         else if (graphType === 'N') return <div>No visualisation available. Download data for analysis</div>
         else return <LineGraph events={events} sensor={sensor} config={config.lineGraphC} />
