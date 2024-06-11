@@ -30,10 +30,13 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
     }
 
     return (
-        <div>
+        <div className="container">
             {
-                Object.keys(sensors).map((key, index) => (
-                    sensors[key] ? <SensorTypeDisplay key={index} sensor={key} /> : null
+                Object.keys(sensors).filter((itm) => sensors[itm]).map((sensor, index) => (
+                    <div style={{ marginBottom: '40px' }}>
+                        <h4 className="bold">{sensor}</h4>
+                        {sensors[sensor] ? <SensorTypeDisplay key={index} sensor={sensor} /> : null}
+                    </div>
                 ))
             }
         </div>

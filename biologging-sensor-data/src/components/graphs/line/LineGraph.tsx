@@ -54,10 +54,6 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
       legend: {
         position: 'bottom' as const,
       },
-      title: {
-        display: true,
-        text: sensor.toUpperCase(),
-      },
     },
     scales: {
       x: {
@@ -162,7 +158,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
   return (
     <div>
       {showError ? <ErrorComponent /> :
-        <div className="mx-auto" style={{ marginBottom: '20px', marginLeft: '220px' }}>
+        <div>
           <Line options={options} data={lineData} />
           <h5 style={{ color: '#666666' }}>Total number of records is {events.length}</h5>
         </div>

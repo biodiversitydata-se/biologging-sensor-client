@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './Table.css';
 import { Dataset } from "@/api/dataset/dataset.interface";
 import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
-import { AxiosError } from 'axios';
 import { ERROR_LOAD_DATA } from '@/constants';
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
@@ -60,6 +59,8 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
       resizable: false,
       sortable: true,
       filter: true,
+      autoHeaderHeight: true,
+      wrapHeaderText: true,
     },
     defaultSortModel: [
       {
@@ -72,10 +73,11 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     paginationPageSizeSelector: [5, 10, 20],
     paginationPageSize: 5,
     animateRows: false,
+    suppressMenuHide: true,
+    unSortIcon: true,
   };
 
   const rowData = data.map((item, i) => ({
-    datas: console.log(item.numberOfRecords),
     datasetTitle: item.datasetTitle,
     animalCount: item.animalCount,
     taxonomicCoverage: item.taxonomicCoverage,
@@ -87,7 +89,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   }));
 
   const columns = [
-    { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title", sortable: true, flex: 1 },
+    { field: "datasetTitle", cellRenderer: "agTextCellRenderer", headerName: "Title", sortable: true, flex: 1, tooltipField: "datasetTitle", },
     {
       field: "animalCount",
       cellRenderer: "agTextCellRenderer",
@@ -106,8 +108,8 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
       width: 130,
       valueGetter: (params) => params.data.taxonomicCoverage[0].taxonCommonName,
     },
-    { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type", flex: 1 },
-    { field: "institutionCode", cellRenderer: "agTextCellRenderer", width: 130, headerName: "Institution" },
+    { field: "instrumentTypes", cellRenderer: "agTextCellRenderer", headerName: "Instrument type", flex: 1, tooltipField: "instrumentTypes", },
+    { field: "institutionCode", cellRenderer: "agTextCellRenderer", headerName: "Institution", tooltipField: "institutionCode", },
     {
       field: "temporalCoverage",
       headerName: "Dates",
@@ -133,19 +135,20 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   return (
     <div className="ag-theme-quartz" style={{ width: '100wh' }}>
       <AgGridReact
-  rowData={rowData}
-  columnDefs={columns}
-  onRowClicked={({ data: { dataID } }) => _selectRow(dataID)}
-  rowClassRules={{
-    'hover-row': true,
-    'bold-row': (params) => {
-      const dataIndex = fullData.findIndex(data => data.dataID === params.data.dataID);
-      return selected[dataIndex];
-    }
-  }}
-  overlayNoRowsTemplate={ERROR_LOAD_DATA}
-  gridOptions={gridOptions}
-/>
+        rowData={rowData}
+        columnDefs={columns}
+        onRowClicked={({ data: { dataID } }) => _selectRow(dataID)}
+        tooltipShowDelay={500}
+        rowClassRules={{
+          'hover-row': true,
+          'bold-row': (params) => {
+            const dataIndex = fullData.findIndex(data => data.dataID === params.data.dataID);
+            return selected[dataIndex];
+          }
+        }}
+        overlayNoRowsTemplate={ERROR_LOAD_DATA}
+        gridOptions={gridOptions}
+      />
     </div>
   );
 }

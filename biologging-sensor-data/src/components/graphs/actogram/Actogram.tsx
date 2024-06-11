@@ -1,7 +1,7 @@
 import { Event } from "@/api/event/event.typscript";
 import { filterRecords } from "@/api/record/api";
 import { Record } from "@/api/record/record.interface";
-import { format, parse, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { AData } from "./interface";
 import ActogramGraph from "./ActogramGraph";
@@ -110,7 +110,6 @@ export default function Actogram({ events, sensor, config }: { events: Event[], 
         <div>
             {showError ? <ErrorComponent /> :
                 <div>
-                    <div className="bold">{sensor}</div>
                     <div className="row">
                         <div className="col-md-9">
                             <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
