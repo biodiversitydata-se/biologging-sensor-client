@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import 'chartjs-adapter-date-fns';
-import { Event } from '@/api/event/event.typscript';
+import { Event } from '@/api/event/event';
 import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
-import { Record } from '@/api/record/record.interface';
+import { Record } from '@/api/record/record';
 import { getInstrument } from '@/api/instrument/api';
 import { getDataset } from '@/api/dataset/api';
 import {
@@ -16,10 +16,11 @@ import {
   Tooltip,
   Legend,
   TimeScale,
+  ChartOptions,
 } from 'chart.js';
 import { AxiosError } from 'axios';
 import { sensorTypes } from '@/config/config';
-import { LineGraphC } from '@/config/model';
+import { AcceptedXUnits, LineGraphC } from '@/config/model';
 import ErrorComponent from '@/components/Error';
 
 ChartJS.register(
@@ -41,14 +42,13 @@ interface LineDataset {
 }
 
 interface LineData {
-  //labels: string[],
   datasets: LineDataset[];
 }
 
 export default function LineGraph({ events, sensor, config }: { events: Event[], sensor: string, config: LineGraphC }) {
   const [showError, setShowError] = useState<boolean>(false);
   const [lineData, setLineData] = useState<LineData>({ datasets: [] });
-  const [options, setOptions] = useState({
+  const [options, setOptions] = useState<ChartOptions<'line'>>({
     responsive: true,
     plugins: {
       legend: {
@@ -63,7 +63,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
         },
         type: 'time',
         time: {
-          unit: config.x ?? 'day',
+          unit: config.x ?? AcceptedXUnits.Days,
           displayFormats: {
             hour: 'H:mm'
           }
@@ -91,7 +91,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
         scales: {
           ...prevOptions.scales,
           y: {
-            ...prevOptions.scales.y,
+            ...prevOptions.scales!.y,
             title: {
               display: true,
               text: `${sensor?.charAt(0).toUpperCase()}${sensor?.slice(1)} (${unitOfMeasure?.charAt(0)}${unitOfMeasure?.slice(1)})`,
@@ -102,7 +102,6 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
     };
 
     const dataFetch = async () => {
-      const labels = new Set<string>();
       const datasets: LineDataset[] = [];
 
       for (let i = 0; i < 5; i++) {
@@ -116,14 +115,11 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
 
         const records: Record[] = result.results;
 
-        //const values: number[] = [];
         const values: { x: string, y: number }[] = [];
 
         records.map((itm: Record) => {
           const value = itm.recordValues[valueMeasured];
           if (value) {
-            labels.add(String(_setLabel(itm)));
-            //values.push(value);
             values.push({ x: itm.recordStart, y: itm.recordValues[valueMeasured] });
           }
         });
@@ -146,19 +142,12 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
     dataFetch();
   }, [events, sensor]);
 
-  function _setLabel(itm: Record): string {
-    const date = new Date(itm.recordStart);
-    date.setHours(date.getHours() + Math.round(date.getMinutes() / 60));
-    date.setMinutes(0, 0, 0);
-    return String(date);
-  }
-
   return (
     <div>
       {showError ? <ErrorComponent /> :
         <div>
           <Line options={options} data={lineData} />
-          <h5 style={{ color: '#666666' }}>Total number of records is {events.length}</h5>
+          <h5>Total number of records is {events.length}</h5>
         </div>
       }
     </div>

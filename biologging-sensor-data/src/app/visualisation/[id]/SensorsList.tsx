@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Dataset } from "@/api/dataset/dataset.interface";
 import { datasetConfig } from "@/config/config";
 import { SensorList } from "./interface";
+import { Dataset } from "@/api/dataset/dataset";
 
 interface Args {
     dataset: Dataset | undefined;

@@ -1,4 +1,4 @@
-import { ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, NoVisC, SensorTypeItem } from "./model";
+import { AcceptedXUnits, ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, NoVisC, SensorTypeItem } from "./model";
 
 export const datasetConfig: {[id: string] : DatasetConfig} = {};
 export const sensorTypes: {[id: string]: SensorTypeItem} = {};
@@ -15,7 +15,7 @@ aData.push(new ActogramConfig('#660066', '', 51, 60));
 aData.push(new ActogramConfig('black', '', 61));
 
 // DEFAULT LINEGRAPHS
-const tempGraph = new LineGraphC('day');
+const tempGraph = new LineGraphC();
 
 
 // SENSOR TYPE MAPPING

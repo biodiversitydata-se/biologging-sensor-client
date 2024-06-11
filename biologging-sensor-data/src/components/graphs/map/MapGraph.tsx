@@ -1,7 +1,7 @@
-import { Event } from '@/api/event/event.typscript';
+import { Event } from '@/api/event/event';
 import './MapGraph.css';
 import { filterRecords } from '@/api/record/api';
-import { Record } from '@/api/record/record.interface';
+import { Record } from '@/api/record/record';
 import MapComponent from './MapComponent';
 import { useState, useEffect } from 'react';
 import { MapContainer } from 'react-leaflet';

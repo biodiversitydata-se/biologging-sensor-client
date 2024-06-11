@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import OverviewTable from "../components/overview/Table";
 import OverviewSnippet from "../components/overview/Snippet";
-import { Dataset } from "@/api/dataset/dataset.interface";
 import { getDatasets } from "@/api/dataset/api";
 import { AxiosError } from "axios";
+import { Dataset } from "@/api/dataset/dataset";
 
 export default function Overview() {
   const [data, setData] = useState<Dataset[]>([]);

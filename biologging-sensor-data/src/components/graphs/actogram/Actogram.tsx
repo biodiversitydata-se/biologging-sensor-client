@@ -1,6 +1,6 @@
-import { Event } from "@/api/event/event.typscript";
+import { Event } from "@/api/event/event";
 import { filterRecords } from "@/api/record/api";
-import { Record } from "@/api/record/record.interface";
+import { Record } from "@/api/record/record";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { AData } from "./interface";

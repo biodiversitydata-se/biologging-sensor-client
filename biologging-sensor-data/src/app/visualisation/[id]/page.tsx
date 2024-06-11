@@ -1,14 +1,14 @@
 'use client'
 
-import { Dataset } from "@/api/dataset/dataset.interface";
 import DatasetsList from "./DatasetsList";
 import { useState } from "react";
-import { Event } from "@/api/event/event.typscript";
 import { filterEvents } from "@/api/event/api";
 import SensorsList from "./SensorsList";
 import Visualisation from "./Visualisation";
 import './visualisation.css';
 import { SensorList } from "./interface";
+import { Dataset } from "@/api/dataset/dataset";
+import { Event } from "@/api/event/event";
 
 export default function Visualize({ params }: { params: { id: string } }) {
   const [events, setEvent] = useState<Event[]>([]);

@@ -54,9 +54,9 @@ graph TD
 1. Navigate to the `src` folder of your project.
 2. Inside the `src` folder, locate the `app` folder.
 3. Within the `app` folder, you'll find the `about` folder containing the relevant files for the About page:
-   - `page.tsx`
-   - `About.tsx`
-   - `about.css`
+   - `page.tsx` - Added to register the page for routing
+   - `About.tsx` - The main content of the "About" page
+   - `about.css` - Styling for the "About" page
 
 ## Open `About.tsx` for Content Modification
 

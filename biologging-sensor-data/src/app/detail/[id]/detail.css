@@ -18,3 +18,8 @@ small {
 .capitalize {
     text-transform: capitalize;
 }
+
+.copyIcon {
+    margin-left: 15px;
+    cursor: pointer;
+}

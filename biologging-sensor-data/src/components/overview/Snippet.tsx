@@ -1,4 +1,4 @@
-import { Dataset } from "@/api/dataset/dataset.interface";
+import { Dataset } from "@/api/dataset/dataset";
 import { DetailLink, VisualisationLink } from "../links";
 import './Snippet.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +7,7 @@ import { faChartLine, faCircleInfo, faDownload } from "@fortawesome/free-solid-s
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
     const downloadDataset = () => {
         const baseUrl = "http://canmove-dev.ekol.lu.se/biologgingPublicArchives/";
-        const version = data.versions[0].number.replace(".","_");
+        const version = data!.versions[0].number.replace(".", "_");
         const downloadUrl = `${baseUrl}${data?.datasetID}/${data?.datasetID}_json_${version}.zip`;
 
         window.open(downloadUrl);
@@ -43,18 +43,18 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                     <div className="col-md-2">
                         <div className="row" style={{ display: "flex", justifyContent: "space-between" }}>
                             <DetailLink datasetId={data?.datasetID}>
-                                <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" size="3x"/>
+                                <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" size="3x" />
                             </DetailLink>
-                                    
-                                <div style={{ marginLeft: "10px" }}>
-                                    <VisualisationLink datasetId={data?.datasetID}>
-                                        <FontAwesomeIcon icon={faChartLine} className="snippet-icon" size="3x"/>
-                                    </VisualisationLink>
-                                </div>
 
-                                {data?.numberOfRecords && data?.numberOfRecords > 0 ? (
-                                 <div style={{ marginLeft: "10px" }}>
-                                    <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset(data?.datasetID || '')} size="3x" style={{ color: "#1E4B75" }} />
+                            <div style={{ marginLeft: "10px" }}>
+                                <VisualisationLink datasetId={data?.datasetID}>
+                                    <FontAwesomeIcon icon={faChartLine} className="snippet-icon" size="3x" />
+                                </VisualisationLink>
+                            </div>
+
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 ? (
+                                <div style={{ marginLeft: "10px" }}>
+                                    <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
 
                                 </div>
                             ) : null}

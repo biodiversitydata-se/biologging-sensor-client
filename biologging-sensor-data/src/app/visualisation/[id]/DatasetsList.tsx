@@ -1,7 +1,7 @@
 import { getDatasets } from "@/api/dataset/api";
-import { Dataset } from "@/api/dataset/dataset.interface";
 import { useEffect, useState } from "react";
 import './visualisation.css';
+import { Dataset } from "@/api/dataset/dataset";
 
 
 interface Args {

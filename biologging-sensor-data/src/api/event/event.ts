@@ -1,4 +1,4 @@
-import { Taxon } from "../dataset/dataset.interface";
+import { Taxon } from "../dataset/dataset";
 
 export interface Event{
     eventID: string;	

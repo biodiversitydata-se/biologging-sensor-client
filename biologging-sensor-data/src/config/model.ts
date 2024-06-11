@@ -66,7 +66,7 @@ export class LineGraphC {
     x?: string;
     y?: string;
 
-    constructor(x?: string, y?: string) {
+    constructor(x?: AcceptedXUnits, y?: string) {
         this.x = x;
         this.y = y;
     }
@@ -80,5 +80,22 @@ export class DatasetConfig {
         this.sensorTypes = sensorTypes;
         this.customGraphs = customGraphs;
     }
+}
+
+/**
+ * Accepted units for X axis for line graph.
+ * 
+ * Source: https://www.chartjs.org/docs/latest/axes/cartesian/time.html#display-formats
+ */
+export enum AcceptedXUnits {
+    Miliseconds = 'millisecond',
+    Seconds = 'second',
+    Minutes = 'minute',
+    Hours = 'hour',
+    Days = 'day',
+    Week = 'week',
+    Month = 'month',
+    Quarter = 'quarter',
+    Year = 'year'
 }
 
