@@ -85,7 +85,6 @@ ID being the id of the app launched (most of the time : 0 )
 - **react-chartjs-2**: ^5.2.0
 - **react-dom**: ^18.2.0
 - **react-leaflet**: ^4.2.1
-- **react-router-dom**: ^6.22.3
 
 - **@fortawesome/fontawesome-svg-core**: 6.5.1
 - **@fortawesome/free-brands-svg-icons**: 6.5.1
@@ -113,7 +112,6 @@ ID being the id of the app launched (most of the time : 0 )
 - **react-chartjs-2**: 5.2.0
 - **react-dom**: 18.2.0
 - **react-leaflet**: 4.2.1
-- **react-router-dom**: 6.22.3
 - **react**: 18.2.0
 - **typescript**: 5.3.3
 
