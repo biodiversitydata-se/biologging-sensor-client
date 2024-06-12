@@ -21,3 +21,61 @@ code {
 .bottom-margin {
   margin-bottom: 20px;
 }
+
+.error-component {
+  background-color: #6691A4;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* SNIPPET */
+.snippet-wrapper {
+  height: 120px;
+  margin-top: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.snippet {
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.snippet-content {
+  background-color: #fafafa;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+
+
+/*VISUALISATION*/
+.vis-list {
+  padding: 10px 10px;
+  margin: 5px 5px;
+}
+
+.vis-list-items {
+  height: 160px;
+  max-height: 160px;
+  overflow-y: auto;
+  cursor: pointer;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.mb-40 {
+  margin-bottom: 40px;
+}

@@ -5,7 +5,6 @@ import { useState } from "react";
 import { filterEvents } from "@/api/event/api";
 import SensorsList from "./SensorsList";
 import Visualisation from "./Visualisation";
-import './visualisation.css';
 import { SensorList } from "./interface";
 import { Dataset } from "@/api/dataset/dataset";
 import { Event } from "@/api/event/event";
@@ -42,7 +41,7 @@ export default function Visualize({ params }: { params: { id: string } }) {
           </div>
         </div>
       </div>
-      <div className="col-md-10" style={{ textAlign: 'center' }}>
+      <div className="col-md-10 text-align-center">
         <Visualisation events={events} sensors={selectedSensors} />
       </div>
     </div>

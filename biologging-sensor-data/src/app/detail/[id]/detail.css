@@ -10,9 +10,12 @@ small {
     float: none;
 }
 
-.container-wrraper {
+.container-wraper {
     border: 10px solid #e8e8e8;
     border-radius: 35px;
+    margin-bottom: 20px;
+    padding-top: 3%;
+    padding-bottom: 3%;
 }
 
 .capitalize {
@@ -22,4 +25,24 @@ small {
 .copyIcon {
     margin-left: 15px;
     cursor: pointer;
+}
+
+.copy-msg {
+    margin: 0 auto;
+}
+
+.margin-top {
+    margin-top: 40px;
+}
+
+.mt-3p {
+    margin-top: 3%;
+}
+
+.pb-3p {
+    padding-bottom: 3%;
+}
+
+Image {
+    margin-right: 5px;
 }

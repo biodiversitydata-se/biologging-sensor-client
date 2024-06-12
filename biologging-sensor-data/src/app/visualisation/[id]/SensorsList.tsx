@@ -26,7 +26,7 @@ export default function SensorsList({ dataset, onSelect }: Args) {
 
         // load sensors
         dataset.sensorType.map((item) => {
-            sensors[item] = defSensors?.includes(item);
+            sensors[item] = defSensors?.includes(item) ?? false;
         })
 
         updateSelected(sensors);

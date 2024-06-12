@@ -1,6 +1,5 @@
 import { getDatasets } from "@/api/dataset/api";
 import { useEffect, useState } from "react";
-import './visualisation.css';
 import { Dataset } from "@/api/dataset/dataset";
 
 

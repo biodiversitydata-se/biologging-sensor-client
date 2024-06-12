@@ -16,7 +16,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
     return (
         <div>
-            <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
+            <div className="snippet">
                 <div>
                     Dataset overview:
                 </div>
@@ -31,7 +31,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
             </div>
 
-            <div style={{ backgroundColor: "#fafafa", paddingLeft: "15px", paddingRight: "15px" }}>
+            <div className="snippet-content">
                 <div className="row">
                     <div className="col-md-2 bold">Title:</div>
                     <div className="col-md-8">{data?.datasetTitle}</div>
@@ -46,14 +46,14 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                                 <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" size="3x" />
                             </DetailLink>
 
-                            <div style={{ marginLeft: "10px" }}>
+                            <div className="ml-10">
                                 <VisualisationLink datasetId={data?.datasetID}>
                                     <FontAwesomeIcon icon={faChartLine} className="snippet-icon" size="3x" />
                                 </VisualisationLink>
                             </div>
 
                             {data?.numberOfRecords && data?.numberOfRecords > 0 ? (
-                                <div style={{ marginLeft: "10px" }}>
+                                <div className="ml-10">
                                     <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
 
                                 </div>

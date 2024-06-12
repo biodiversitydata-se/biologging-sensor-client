@@ -28,7 +28,7 @@ export default function Overview() {
     <div className="container">
       <OverviewTable data={data} onSelect={(itm) => setSelected(itm)} />
 
-      <div className="container" style={{ height: "120px", marginTop: "20px", paddingLeft: "15px", paddingRight: "15px" }}>
+      <div className="container snippet-wrapper">
         {selected && <OverviewSnippet data={selected} />}
       </div>
     </div>
