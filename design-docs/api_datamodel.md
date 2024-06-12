@@ -57,13 +57,13 @@ graph TD
   <summary><strong>See Further Details</strong></summary>
   
 ## API Directory Structure
-
 The API directory typically follows a structured layout, containing subdirectories for different data types such as dataset, event, instrument, organism, project, and record. Changes to the API data model may necessitate modifications to files or interfaces within these specific subdirectories.
 
-## API Files and Interfaces
+Each object from the database is represented in specific folder in *src/api*. The folder usually has two files:
+- ***object*.ts**: interface of the object, copying the response object received from the server 
+- **api.ts** : handles requests
 
-### Key Files
-Within each subdirectory, key files such as `interface.ts` play a crucial role in defining the API data model. These files contain TypeScript interfaces that outline the structure of data entities, including fields and their corresponding types.
+Additionally to other folderts, file **apiService.ts** is present in the directory.
 
 ### Specific Subdirectories
 
@@ -76,25 +76,30 @@ Each subdirectory under the API directory manages interactions for different typ
 - **project:** Manages project-specific API interactions.
 - **record:** Handles record-related API data.
 
-### Contents of `interface.ts`
+### apiService.ts
+This file is located in *src/api*. It handles the logic for making a request for the server. In the file, there is implementd the request method and then the method is called within the api file of the object.  Any **new request method** should be properly implemented in the file.
 
-The `interface.ts` file within each subdirectory contains TypeScript interfaces that define the structure of specific data types. Here are some common interfaces:
+### Making a request for object
+To make a request for specific object from the server, it should be placed in *src/api/"object"/api.ts*. Then for each request, a method should be implemented. For example:
 
-- **Item:** Represents the main item structure with relevant fields.
-- **Contact:** Represents contact information with fields for `firstName`, `lastName`, `email`, `userid`, and `webpage`.
-- **Taxon:** Represents taxonomic coverage including fields for `taxonScientificName`, `taxonCommonName`, and `dyntexaId`.
-- **GeographicWENS:** Represents geographical coverage with coordinates and a description.
-- **RangeDateTime:** Represents temporal coverage with `startDatetime` and `endDatetime`.
-- **Reference:** Represents bibliographic citation with `DOI` and `title`.
+GET methods example for object:
 
-## Steps to Update
+```
+export const newGetMethod = async (param: string): Promise<any> => {
+    return await get<any>(`URL/${param}`);
+}
+```
 
-When changes occur in the API data model (e.g., adding new fields or modifying existing ones), developers need to follow these steps:
+POST methods example for object:
+```
+export const newPostMethod = async (data?: any): Promise<any> => {
+    return await post<any>("url", data);
+}
+```
 
-1. **Identification:** Identify the affected interfaces/files within the appropriate subdirectories.
+### Updating object fields
+**Adding new field** - adding new field should not break any existing structure. Feel free to add it in the src/api/dataset/dataset.ts and use it in the application. 
 
-2. **Modification:** Update the identified interfaces/files to reflect the changes in the data model. This may involve adding new fields, modifying existing ones, or creating new interfaces if necessary.
-
-3. **Maintaining Layout:** Ensure that the layout remains intact by adhering to consistent naming conventions and maintaining the overall structure of the data model files.
+**Modification of field** - Depending on the editor you use, you can try to rename the field which should update the name in all components. Else you have to do it manually, so find the usage of the field in project and change it. 
 
 </details>

@@ -1,7 +1,7 @@
-import { AcceptedXUnits, ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, NoVisC, SensorTypeItem } from "./model";
+import { ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, NoVisC, ConfigItem } from "./model";
 
 export const datasetConfig: {[id: string] : DatasetConfig} = {};
-export const sensorTypes: {[id: string]: SensorTypeItem} = {};
+export const sensorTypes: {[id: string]: ConfigItem} = {};
 
 // DEFAULT ACTOGRAM CONFIG
 const aData: ActogramConfig[] = [];
@@ -19,19 +19,19 @@ const tempGraph = new LineGraphC();
 
 
 // SENSOR TYPE MAPPING
-sensorTypes['Acceleration'] = new SensorTypeItem(['activity'], 'A', new ActogramC(aData));
-sensorTypes['Altimeter'] = new SensorTypeItem(['altitude'], 'L', tempGraph );
-sensorTypes['Pressure gauge'] = new SensorTypeItem(['pressure'], 'L', tempGraph);
-sensorTypes['Thermometer'] = new SensorTypeItem(['temperature'], 'L', tempGraph);
-sensorTypes['Light sensor'] = new SensorTypeItem(['light level'], 'L', tempGraph);
-sensorTypes['Wet/dry'] = new SensorTypeItem(['contact with water'], 'L', tempGraph);
-sensorTypes['Tracking radar'] = new SensorTypeItem(['latitude', 'longitude'], 'M', new MapC());
-sensorTypes['Wingbeat'] = new SensorTypeItem([''], 'N', new NoVisC());
-sensorTypes['Geographic spherical coordinate system'] = new SensorTypeItem(['latitude', 'longitude'], 'M', new MapC());
+sensorTypes['Acceleration'] = new ConfigItem(['activity'], 'A', new ActogramC(aData));
+sensorTypes['Altimeter'] = new ConfigItem(['altitude'], 'L', tempGraph );
+sensorTypes['Pressure gauge'] = new ConfigItem(['pressure'], 'L', tempGraph);
+sensorTypes['Thermometer'] = new ConfigItem(['temperature'], 'L', tempGraph);
+sensorTypes['Light sensor'] = new ConfigItem(['light level'], 'L', tempGraph);
+sensorTypes['Wet/dry'] = new ConfigItem(['contact with water'], 'L', tempGraph);
+sensorTypes['Tracking radar'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
+sensorTypes['Wingbeat'] = new ConfigItem([''], 'N', new NoVisC());
+sensorTypes['Geographic spherical coordinate system'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 
 
 // DATASET 
-export const greatSnipesGraph: {[id: string]: SensorTypeItem} = {};
+export const greatSnipesGraph: {[id: string]: ConfigItem} = {};
 
 const gsa: ActogramConfig[] = [];
 gsa.push(new ActogramConfig('#FFF0F5', 'No activity', 0, 0));
@@ -43,8 +43,8 @@ gsa.push(new ActogramConfig('#FF007F', 'Active', 41, 50));
 gsa.push(new ActogramConfig('#FF00FF', 'Very active', 51, 60));
 gsa.push(new ActogramConfig('black', 'Active active', 61));
 
-greatSnipesGraph['Acceleration'] = new SensorTypeItem(['activity'], 'A', new ActogramC(gsa))
+greatSnipesGraph['Acceleration'] = new ConfigItem(['activity'], 'A', new ActogramC(gsa))
 
-datasetConfig['geolocator_great_snipes_AL'] = {sensorTypes: ['Acceleration', 'Altimeter'], customGraphs: greatSnipesGraph};
+datasetConfig['geolocator_great_snipes_AL'] = {defaultSensors: ['Acceleration', 'Altimeter'], customGraphs: greatSnipesGraph};
 //datasetConfig['dataset_wram_moose_2003'] = {sensorTypes: ['Tracking radar', 'Altimeter']};
 

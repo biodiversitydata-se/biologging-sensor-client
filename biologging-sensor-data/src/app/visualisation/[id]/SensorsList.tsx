@@ -22,7 +22,7 @@ export default function SensorsList({ dataset, onSelect }: Args) {
         const sensors: { [id: string]: boolean } = {};
 
         // defult visualisation for dataset
-        const defSensors = datasetConfig[dataset.datasetID]?.sensorTypes;
+        const defSensors = datasetConfig[dataset.datasetID]?.defaultSensors;
 
         // load sensors
         dataset.sensorType.map((item) => {

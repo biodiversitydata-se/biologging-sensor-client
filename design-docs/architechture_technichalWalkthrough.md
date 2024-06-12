@@ -174,23 +174,6 @@ Root Directory
 # Summary of API Directory
 
 ## General Structure
-### `api.ts`
-This file defines the API functions for interacting with the specific type of data-related endpoints:
-
-- **getItems**: Fetches all items (datasets, events, instruments, organisms, projects, or records).
-- **getItem**: Fetches a specific item by ID.
-- **filterItems**: Filters items based on provided criteria.
-
-### `interface.ts`
-This file contains TypeScript interfaces that define the structure of the specific type of data:
-
-- **Item**: Represents the main item structure with relevant fields.
-- **Contact**: Represents contact information with fields for `firstName`, `lastName`, `email`, `userid`, and `webpage`.
-- **Taxon**: Represents taxonomic coverage including fields for `taxonScientificName`, `taxonCommonName`, and `dyntaxaId`.
-- **GeographicWENS**: Represents geographical coverage with coordinates and a description.
-- **RangeDateTime**: Represents temporal coverage with `startDatetime` and `endDateTime`.
-- **Reference**: Represents bibliographic citation with `DOI` and `title`.
-
 ## Specific Subdirectories
 Each subdirectory under `api` handles interactions for different types of data and includes the following two key files:
 - **dataset**: Handles dataset-related API interactions.
@@ -201,6 +184,20 @@ Each subdirectory under `api` handles interactions for different types of data a
 - **record**: Handles record-related API data.
 
 Each subdirectory follows the same structure but is tailored to handle its specific type of data interactions and definitions.
+
+
+### `api.ts`
+This file defines the API functions for interacting with the specific type of data-related endpoints.
+
+### `object.ts`
+This file contains TypeScript interfaces that define the structure of the specific type of data:
+
+- **Item**: Represents the main item structure with relevant fields.
+- **Contact**: Represents contact information with fields for `firstName`, `lastName`, `email`, `userid`, and `webpage`.
+- **Taxon**: Represents taxonomic coverage including fields for `taxonScientificName`, `taxonCommonName`, and `dyntaxaId`.
+- **GeographicWENS**: Represents geographical coverage with coordinates and a description.
+- **RangeDateTime**: Represents temporal coverage with `startDatetime` and `endDateTime`.
+- **Reference**: Represents bibliographic citation with `DOI` and `title`.
 
 ### `apiService.ts`
 This file provides the core functions for making HTTP requests using Axios:
@@ -220,6 +217,7 @@ This file provides the core functions for making HTTP requests using Axios:
     - Includes optional parameters, defaulting to `{ take: 100 }`.
     - Returns the response data if the request is successful.
     - Catches any errors during the request and returns the error as an `AxiosError` type.
+- any new method for HTTp request should be included in this file and then used in specific subdirectory for an API call
 
   
 </details>

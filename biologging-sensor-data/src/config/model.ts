@@ -1,6 +1,6 @@
 export type GraphType = 'A' | 'L' | 'M' | 'N';
 
-export class SensorTypeItem {
+export class ConfigItem {
     valuesMeasured: string[];
     graphType: GraphType;
     graph: LineGraphC|ActogramC|MapC|NoVisC;
@@ -62,7 +62,6 @@ export class NoVisC {
 } 
 
 export class LineGraphC {
-
     x?: string;
     y?: string;
 
@@ -73,11 +72,11 @@ export class LineGraphC {
 }
 
 export class DatasetConfig {
-    sensorTypes: string[];
-    customGraphs?: {[id: string]: SensorTypeItem};
+    defaultSensors?: string[];
+    customGraphs?: {[id: string]: ConfigItem};
 
-    constructor(sensorTypes: string[], customGraphs?: {[id: string]: SensorTypeItem} ) {
-        this.sensorTypes = sensorTypes;
+    constructor(defaultSensors: string[], customGraphs?: {[id: string]: ConfigItem} ) {
+        this.defaultSensors = defaultSensors;
         this.customGraphs = customGraphs;
     }
 }
