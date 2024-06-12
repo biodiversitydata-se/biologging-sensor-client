@@ -1,4 +1,4 @@
-import { ERROR_LOAD_DATA } from "@/constants";
+import { ERROR_LOAD_DATA } from "@/config/constants";
 
 export default function ErrorComponent() {
     return (

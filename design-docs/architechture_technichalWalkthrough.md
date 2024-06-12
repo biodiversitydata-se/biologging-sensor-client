@@ -190,14 +190,7 @@ Each subdirectory follows the same structure but is tailored to handle its speci
 This file defines the API functions for interacting with the specific type of data-related endpoints.
 
 ### `object.ts`
-This file contains TypeScript interfaces that define the structure of the specific type of data:
-
-- **Item**: Represents the main item structure with relevant fields.
-- **Contact**: Represents contact information with fields for `firstName`, `lastName`, `email`, `userid`, and `webpage`.
-- **Taxon**: Represents taxonomic coverage including fields for `taxonScientificName`, `taxonCommonName`, and `dyntaxaId`.
-- **GeographicWENS**: Represents geographical coverage with coordinates and a description.
-- **RangeDateTime**: Represents temporal coverage with `startDatetime` and `endDateTime`.
-- **Reference**: Represents bibliographic citation with `DOI` and `title`.
+This file contains TypeScript interfaces that define the structure of the specific type of data.
 
 ### `apiService.ts`
 This file provides the core functions for making HTTP requests using Axios:
@@ -226,14 +219,38 @@ This file provides the core functions for making HTTP requests using Axios:
   <summary><strong>app</strong></summary>
   Contains the main application structure and pages:
 
+#### index.css
+Contains global styles for the application
 
-***About*** Sub-folder includes:
-- **Description**: Renders information about SBDI Biologging tools and its role in managing data from animal sensor systems.
-- **API Details**: Provides links to the Biologging Open API and its data model.
-- **Contact Information**: Offers contact details for inquiries and contributions.
+#### layout.tsx
+The layout for the application, containing all necessary imports, styles and exteernal libraries that are to be included. 
 
-***Details*** Sub-folder includes:
-- **Overview**: Displays detailed information about a specific dataset and available dataset versions with download links.
+#### page.tsx
+Represent the homepage of the application.
+
+#### Overview.tsx
+A child of the homepage that containg the overview of datasets - so the table and snippet.
+
+
+#### About
+- url: /about
+- **page.tsx** - root file to register page in route
+- **About.tsx** - actual content of the about page (so if the content is modified it should be here)
+- **about.css** - styling for the About page
+
+#### Details
+- url: /detail/dataset_id
+- **page.tsx** - root file to register page in route, also handles errors (for example, the API for detail is not working)
+- **Detail.tsx** - content of the detail page
+- **detail.css** - some styling for detail page
+
+#### Visualisation
+- url: visualisation/datasetId
+- **page.tsx** - root file to register page in route, containing basic skeleton for the visualisation page, which includes other components
+- **DatasetList.tsx** - responsible for loading and selecting datasets on the page
+- **SensorList.tsx** - responsible for loading and selecting sensors on the page
+- **Visualisation.tsx** - responsible for displaying graphs
+- **interface.ts** - contains interface for sensors
 
 </details>
 

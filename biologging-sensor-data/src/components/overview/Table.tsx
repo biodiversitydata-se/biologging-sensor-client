@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
-import './Table.css';
+import './table.css';
 import { Dataset } from "@/api/dataset/dataset";
 import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
-import { ERROR_LOAD_DATA } from '@/constants';
+import { ERROR_LOAD_DATA } from '@/config/constants';
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
   const [selected, setSelected] = useState<boolean[]>([]);

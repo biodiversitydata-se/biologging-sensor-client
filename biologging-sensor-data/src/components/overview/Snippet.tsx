@@ -1,6 +1,6 @@
 import { Dataset } from "@/api/dataset/dataset";
 import { DetailLink, VisualisationLink } from "../links";
-import './Snippet.css';
+import './snippet.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faCircleInfo, faDownload } from "@fortawesome/free-solid-svg-icons";
 

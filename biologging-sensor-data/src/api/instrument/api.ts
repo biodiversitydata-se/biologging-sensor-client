@@ -1,9 +1,8 @@
-import { get } from '../apiService';
-
-const ENDPOINT = 'instruments';
+import { INSTRUMENT_ENPOINT } from '@/config/constants';
+import { get, post } from '../apiService';
 
 export const getInstruments = async (): Promise<any> => {
-    return await get<any>(ENDPOINT);
+    return await get<any>(INSTRUMENT_ENPOINT);
 }
 
 export const getInstrument = async (id: string): Promise<any> => {
@@ -11,6 +10,6 @@ export const getInstrument = async (id: string): Promise<any> => {
 }
 
 export const filterInstruments = async (data?: any): Promise<any> => {
-    return await post<any>(ENDPOINT, data);
+    return await post<any>(INSTRUMENT_ENPOINT, data);
 }
 

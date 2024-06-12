@@ -1,4 +1,4 @@
-import { TEST_URL_BASE } from "@/constants";
+import { TEST_URL_BASE } from "@/config/constants";
 import Link from "next/link";
 import { ReactNode } from "react";
 

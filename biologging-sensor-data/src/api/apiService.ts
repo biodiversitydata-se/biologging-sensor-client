@@ -1,6 +1,5 @@
+import { BASE_URL } from "@/config/constants";
 import axios, { AxiosError, AxiosResponse } from "axios";
-
-const BASE_URL = 'http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/';
 
 type ApiResponse<T> = T | AxiosError;
 
