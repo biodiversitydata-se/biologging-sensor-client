@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
-import './table.css';
+import { useEffect, useState } from 'react';
 import { Dataset } from "@/api/dataset/dataset";
 import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
@@ -100,6 +99,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
         headerName: "Total records",
         width: 130,
         valueGetter: (params: any) => params.data.numberOfRecords,
+        valueFormatter: (props: any) => props.value.toLocaleString('en-US').replace(/,/g, ' '),
         cellStyle: { textAlign: "right" }
       },
     ]
@@ -107,7 +107,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
   )
 
   return (
-    <div className="ag-theme-quartz" style={{ width: '100wh' }}>
+    <div className="ag-theme-quartz">
       <AgGridReact
         gridOptions={gridOptions}
         rowData={fullData}
