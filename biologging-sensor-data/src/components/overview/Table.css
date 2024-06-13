@@ -1,13 +1,3 @@
-.overview 
-{
-    overflow-y: scroll;
-    height: 100vh;
-}
-
-tr {
-    cursor: pointer;
-}
-
 .container {
     width: 100%;
 }
