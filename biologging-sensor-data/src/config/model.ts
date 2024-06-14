@@ -43,11 +43,20 @@ export class ActogramConfig {
 
 }
 
+interface ActogramAdditionals {
+    color?: string;
+    value?: number;
+}
+
 export class ActogramC {
     config: ActogramConfig[];
+    errorCase?: ActogramAdditionals;
+    notMeasuredCase?: ActogramAdditionals;
 
-    constructor(config: ActogramConfig[]) {
+    constructor(config: ActogramConfig[], errorCase?: ActogramAdditionals, notMeasuredCase?: ActogramAdditionals) {
         this.config = config;
+        this.errorCase = errorCase;
+        this.notMeasuredCase = notMeasuredCase;
     }
 }
 

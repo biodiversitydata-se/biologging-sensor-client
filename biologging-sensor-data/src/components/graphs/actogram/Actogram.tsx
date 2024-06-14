@@ -19,12 +19,18 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
     const [days, setDay] = useState<number>(0);
     const [showError, setShowError] = useState<boolean>(false);
     const [loaded, setLoaded] = useState<boolean>(false);
+    const [errorValue, setErrorValue] = useState<number>(-1);
+    const [notMeasuredValue, setNotMeasuredValue] = useState<number>(-2);
 
     useEffect(() => {
         if (!events.length) return;
 
         const dataFetch = async () => {
             setLoaded(false);
+
+            const errorV = config.errorCase?.value ?? -1;
+            const notMeasuredV = config.notMeasuredCase?.value ?? -2;
+
             const items: AData[] = [];
             const monthCounts: Map<string, number> = new Map<string, number>();
 
@@ -58,9 +64,17 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
             for (let i = 0; i < records.length; i++) {
                 const item = records[i];
                 const date = new Date(Date.parse(item.recordStart.slice(0, 19)));
-                const score = item.recordValues.activity.acc_sum;
+                let score = item.recordValues.activity.acc_sum;
 
                 // validate if measured correctly 
+                let sum = 0;
+                for (let i = 0; i < 6; i++) {
+                    sum += i * (item.recordValues.activity[`acc_${i}`]);
+                }
+
+                if (sum.toString() !== score) {
+                    score = errorV;
+                }
 
                 // make key for dictionary
                 const currentMonth = format(date, 'LLLL');
@@ -73,7 +87,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
                         const itm: AData = {
                             x: (j * S),
                             y: 0,
-                            value: -10, // not masure value for now
+                            value: notMeasuredV, // not masure value for now
                         }
 
                         items.push(itm);
@@ -109,7 +123,8 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
             setCounts(monthCounts);
             setShowError(false);
             setLoaded(true);
-
+            setNotMeasuredValue(notMeasuredV);
+            setErrorValue(errorV);
         };
 
         dataFetch();
@@ -126,7 +141,13 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
                     <div>
                         <div className="row">
                             {<div className="col-md-9">
-                                <ActogramGraph data={data} mCounts={counts} days={days} config={config.config} />
+                                <ActogramGraph
+                                    data={data}
+                                    mCounts={counts}
+                                    days={days}
+                                    config={config}
+                                    errorValue={errorValue}
+                                    notMeasuredValue={notMeasuredValue} />
                             </div>}
                             {loaded && <div className="col-md-3" style={{ marginTop: T_LABEL_OFFSET }}>
                                 <ActogramLegend config={config.config} ></ActogramLegend>

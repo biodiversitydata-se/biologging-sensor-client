@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ActogramProps } from "./interface";
 import { A_WIDTH, DAY_NUMBER_X, DEF_STROKE_STYLE, D_LINE_OFFSET, FONT_SIZE, MONTH_LABEL_OFFSET, M_LABEL_OFFSET, M_LINE_OFFSET, RIGHT_SIDE_OFFSET, S, T_LABEL_OFFSET } from "./const";
 
-export default function ActogramGraph({ data, mCounts, days, config }: ActogramProps) {
-    const w = 1000;
+export default function ActogramGraph({ data, mCounts, days, config, errorValue, notMeasuredValue }: ActogramProps) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
@@ -125,11 +124,15 @@ export default function ActogramGraph({ data, mCounts, days, config }: ActogramP
     function getColor(score: number): string {
         if (!config) return '';
 
-        if (score === -10) {
-            return 'grey';
+        if (score === errorValue) {
+            return config.errorCase?.color ?? 'yellow';
         }
 
-        for (let item of config) {
+        if (score === notMeasuredValue) {
+            return config.notMeasuredCase?.color ?? 'grey';
+        }
+
+        for (let item of config.config) {
             if (!item.to && item.from >= score) {
                 return item.color;
             }
@@ -138,7 +141,7 @@ export default function ActogramGraph({ data, mCounts, days, config }: ActogramP
                 return item.color;
             }
         }
-        return 'grey';
+        return '';
     }
 
     return (
