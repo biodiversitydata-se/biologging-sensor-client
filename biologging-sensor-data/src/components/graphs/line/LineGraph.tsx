@@ -22,6 +22,7 @@ import { AxiosError } from 'axios';
 import { sensorTypes } from '@/config/config';
 import { AcceptedXUnits, LineGraphC } from '@/config/model';
 import ErrorComponent from '@/components/Error';
+import Loader from '@/components/Loader';
 
 ChartJS.register(
   CategoryScale,
@@ -47,6 +48,7 @@ interface LineData {
 
 export default function LineGraph({ events, sensor, config }: { events: Event[], sensor: string, config: LineGraphC }) {
   const [showError, setShowError] = useState<boolean>(false);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [lineData, setLineData] = useState<LineData>({ datasets: [] });
   const [options, setOptions] = useState<ChartOptions<'line'>>({
     responsive: true,
@@ -83,6 +85,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
     const valueMeasured = sensorTypes[sensor]?.valuesMeasured[0];
 
     const setUnitsOfMeasurement = async () => {
+      setLoaded(false);
       const response = await getDataset(events[0].datasetID);
       const unitOfMeasure = valueMeasured ? response?.unitsReported[response.valuesMeasured.indexOf(valueMeasured)] : '';
 
@@ -102,6 +105,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
     };
 
     const dataFetch = async () => {
+      setLoaded(false);
       const datasets: LineDataset[] = [];
 
       for (let i = 0; i < 5; i++) {
@@ -136,20 +140,24 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
 
       setLineData({ datasets: datasets });
       setShowError(false);
+      setLoaded(true);
     };
 
     setUnitsOfMeasurement();
     dataFetch();
-  }, [events, sensor]);
+  }, [events]);
 
   return (
     <div>
-      {showError ? <ErrorComponent /> :
+      {
+        !loaded && <Loader />
+      }
+      {loaded && (showError ? <ErrorComponent /> :
         <div>
           <Line options={options} data={lineData} />
           <h5>Total number of records is {events.length}</h5>
         </div>
-      }
+      )}
     </div>
   )
 }

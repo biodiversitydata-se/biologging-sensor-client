@@ -10,6 +10,7 @@ import { ActogramC } from "@/config/model";
 import { ActogramLegend } from "./ActogramLegend";
 import ErrorComponent from "@/components/Error";
 import { AxiosError } from "axios";
+import Loader from "@/components/Loader";
 
 
 export default function Actogram({ events, valueMeasured, config }: { events: Event[], valueMeasured: string, config: ActogramC }) {
@@ -17,11 +18,13 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
     const [counts, setCounts] = useState<Map<string, number>>(new Map<string, number>());
     const [days, setDay] = useState<number>(0);
     const [showError, setShowError] = useState<boolean>(false);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     useEffect(() => {
         if (!events.length) return;
 
         const dataFetch = async () => {
+            setLoaded(false);
             const items: AData[] = [];
             const monthCounts: Map<string, number> = new Map<string, number>();
 
@@ -105,6 +108,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
             setData(items);
             setCounts(monthCounts);
             setShowError(false);
+            setLoaded(true);
 
         };
 
@@ -113,17 +117,23 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
 
     return (
         <div>
-            {showError ? <ErrorComponent /> :
-                <div>
-                    <div className="row">
-                        <div className="col-md-9">
-                            <ActogramGraph data={data} mCounts={counts} days={days} config={config.config}></ActogramGraph>
-                        </div>
-                        <div className="col-md-3" style={{ marginTop: T_LABEL_OFFSET }}>
-                            <ActogramLegend config={config.config} ></ActogramLegend>
+            {
+                !loaded && <Loader />
+            }
+            {
+                loaded &&
+                    showError ? <ErrorComponent /> :
+                    <div>
+                        <div className="row">
+                            {<div className="col-md-9">
+                                <ActogramGraph data={data} mCounts={counts} days={days} config={config.config} />
+                            </div>}
+                            {loaded && <div className="col-md-3" style={{ marginTop: T_LABEL_OFFSET }}>
+                                <ActogramLegend config={config.config} ></ActogramLegend>
+                            </div>}
                         </div>
                     </div>
-                </div>
+
             }
         </div>
 

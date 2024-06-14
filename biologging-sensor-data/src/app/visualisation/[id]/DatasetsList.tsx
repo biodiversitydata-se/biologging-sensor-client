@@ -1,6 +1,7 @@
 import { getDatasets } from "@/api/dataset/api";
 import { useEffect, useState } from "react";
 import { Dataset } from "@/api/dataset/dataset";
+import Loader from "@/components/Loader";
 
 
 interface Args {
@@ -12,9 +13,11 @@ interface Args {
 export default function DatasetsList({ initDataset, onSelect }: Args) {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [selected, setSelected] = useState<Dataset>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchDataset = async () => {
+      setLoading(true);
       const response = await getDatasets();
 
       const sorted: Dataset[] = response.sort((a: Dataset, b: Dataset) =>
@@ -22,6 +25,7 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
       );
 
       setDatasets(sorted);
+      setLoading(false);
     }
 
     fetchDataset();
@@ -35,7 +39,6 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
       setSelected(dataset)
       onSelect(dataset);
     }
-
   }, [datasets])
 
   function _selectDataset(i: number) {
@@ -51,6 +54,9 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
   return (
     <div>
       <h5>Select dataset</h5>
+      {
+        loading ? <Loader /> : null
+      }
       <div className="vis-list-items">
         {datasets.map((item, index) => {
           return <div key={index}

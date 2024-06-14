@@ -37,7 +37,7 @@ export default function Visualize({ params }: { params: { id: string } }) {
         </div>
         <div className="col-md-6">
           <div className="vis-list">
-            <SensorsList dataset={dataset} onSelect={(sensors: { [id: string]: boolean }) => updateSelectedSensors(sensors)} />
+            <SensorsList dataset={dataset} onSelect={(sensors: SensorList) => updateSelectedSensors(sensors)} />
           </div>
         </div>
       </div>
