@@ -247,8 +247,8 @@ A child of the homepage that containg the overview of datasets - so the table an
 #### Visualisation
 - url: visualisation/datasetId
 - **page.tsx** - root file to register page in route, containing basic skeleton for the visualisation page, which includes other components
-- **DatasetList.tsx** - responsible for loading and selecting datasets on the page
-- **SensorList.tsx** - responsible for loading and selecting sensors on the page
+- **DatasetList.tsx** - responsible for loading and selecting datasets on the page, displays dataset
+- **SensorList.tsx** - responsible for loading and selecting sensors on the page, displays sensor list
 - **Visualisation.tsx** - responsible for displaying graphs
 - **interface.ts** - contains interface for sensors
 
@@ -264,52 +264,28 @@ A child of the homepage that containg the overview of datasets - so the table an
 <details>
   <summary><strong>components</strong></summary>
 
-### ***The overview of each subfolder's components, their functionalities, props, dependencies, and usage.***
-
+# Graphs
 ## 1. `actogram` Subfolder
-**Description**: This subfolder contains components dedicated to visualizing actogram data, representing activity patterns over time. 
-
-### Actogram Component
-- **Description**: Fetches actogram data and renders a graph displaying activity patterns.
-- **Props**: Accepts an array of event objects (`events`).
-- **Dependencies**: Utilizes React, date-fns for date manipulation, and custom API modules for data fetching.
-- **Usage**: `<Actogram events={events} />`
-
-### ActogramGraph Component
-- **Description**: Renders the actogram graph based on provided data.
-- **Props**: Receives data arrays (`data`), a map of month counts (`mCounts`), and the total number of days (`days`).
-- **Dependencies**: Utilizes React and react-chartjs-2 for graph rendering.
-- **Usage**: `<ActogramGraph data={data} mCounts={mCounts} days={days} />`
+- contains components dedicated to visualizing actogram data. 
+- Utilizes React and react-chartjs-2 for graph rendering. Utilizes React, date-fns for date manipulation, and custom API modules for data fetching.
+- **Actogram.tsx** - the main parent for displaying the actogram, fetches data and creates appropriate strctures for visualisation
+- **ActogramGraph.tsx** - responsible for rendering the graph
+- **ActogramLegend.tsx** - provides legend for actogram
+- **const.ts** - constant values used for configuring sizings and text of the actogram
+- **interface.ts** - some interfaces used in actogram
 
 ## 2. `line` Subfolder
-### **Description**: Contains components for displaying line graphs.
-
-### LineGraph Component
-- **Description**: Fetches data and renders a line graph displaying sensor data over time.
-- **Props**: Accepts an array of event objects (`events`) and the name of the sensor (`sensor`).
-- **Dependencies**: Requires React, react-chartjs-2, and custom API modules.
-- **Usage**: `<LineGraph events={events} sensor={sensor} />`
+- contains components for displaying line graphs
+- requires React, react-chartjs-2, and custom API modules.
+- **LineGraph.tsx** - responsible for fetching data and rendering line graph displaying sensor data over time.
 
 ## 3. `map` Subfolder
-**Description**: Houses components for displaying geographical data on maps, facilitating the visualization of spatial information.
-
-### MapGraph Component
-- **Description**: Fetches geographical data and renders a map with markers and polylines.
-- **Props**: Receives an array of event objects (`events`).
-- **Dependencies**: Depends on React, react-leaflet, and custom API modules for data retrieval.
-- **Usage**: `<MapGraph events={events} />`
-
-### MapComponent Component
-- **Description**: Renders the Leaflet map and coordinates the rendering of markers and polylines.
-- **Props**: Accepts an array of coordinate arrays (`data`).
-- **Dependencies**: Utilizes React, react-leaflet, and leaflet library.
-- **Usage**: `<MapComponent data={data} />`
-
-### Polylines Component
-- **Description**: Renders polylines on the map based on provided coordinate data.
-- **Props**: Receives an array of coordinate arrays (`coords`).
-- **Dependencies**: Requires React, react-leaflet, and leaflet library.
-- **Usage**: `<Polylines coords={coords} />`
+- components for displaying geographical data on maps
+- depends on React, react-leaflet, leaflet and custom API modules for data retrieval
+- **MapComponent.tsx** - renders map based on the input data, which are coordinates
+- **mapgraph.css** - styling for the map
+- **MapGraph.tsx** - responsible for fetching data and renders a map with markers and polylines
+- **Polylines.tsx** - styiling and rendering of each polyline based on the input data
 
 
 # Overview
@@ -355,46 +331,19 @@ This file contains the implementation of a snippet component (`OverviewSnippet`)
 
 </details>
 
-<details>
-  <summary><strong>hooks</strong></summary>
-  
-
-## Description:
-The `hooks` folder contains custom hooks and context providers used for managing sensor selection in visualizations.
-
-## Files:
-
-#### Description:
-This file exports a custom hook `useSensorSelection` and a context provider `SensorSelectionProvider` for managing sensor selection.
-
-#### Dependencies:
-- React: For building the user interface.
-
-#### Components/Interfaces:
-- `SensorSelectionContext`: Context for managing sensor selection state.
-- `useSensorSelection`: Custom hook for accessing sensor selection context.
-- `SensorSelectionProvider`: Context provider component for managing sensor selection state.
-
-#### Features:
-- Context management: Provides a context and custom hook for managing sensor selection state across components.
-- Sensor selection update: Allows components to update the selected sensors and trigger re-renders when sensor selection changes.
-
-
-</details>
-
 
 # Tech Stack and Libraries Used in this project
 
 <details>
   <summary><strong>Tech Stack</strong></summary>
 
-- **Frontend Framework:** React.js with TypeScript
-- **Styling:** CSS (potentially with CSS-in-JS libraries)
+- **Frontend Framework:** Next.js with TypeScript
+- **Styling:** CSS, Bootstrap 3
 - **Data Visualization:** react-chartjs-2 for rendering charts/graphs, react-leaflet for mapping, potentially supplemented by Leaflet library
-- **State Management:** React Context API (for managing sensor selection)
 - **HTTP Requests:** Axios for making API requests
 - **Date Manipulation:** date-fns for handling dates
 - **Grid Component:** ag-Grid for displaying large datasets efficiently in tabular format
+- **Progress Indicators** - react-spinners package providing spinners when data are being loaded
 
 </details>
 
@@ -415,7 +364,7 @@ This file exports a custom hook `useSensorSelection` and a context provider `Sen
 <details>
   <summary><strong>Reasons for Usage</strong></summary>
 
-- **React.js with TypeScript:** The tech team (Khosiyat, Yuliia, Zuzanna) chose it because of the strong community support, and the ability to build complex UIs with ease while ensuring type safety.
+- **Next.js with TypeScript:** The tech team (Khosiyat, Yuliia, Zuzana) chose it because of the strong community support, and the ability to build complex UIs with ease while ensuring type safety.
 - **react-chartjs-2:** The reasons for choosing this library are: 1) Integration with React. 2) Active Development and Community Support 3) Easy 4) MIT License.
 [see the Decision-making process to select alternative visualization libraries](https://github.com/biodiversitydata-se/biologging-sensor-client/blob/develop/design-docs/Decision-Making-Process-Visualization-Librarires-Document.md)
 - **react-leaflet and Leaflet:** Suggested by the tech team of Lund University. During the product development process, we, the tech team, saw this library offer powerful mapping capabilities with extensive customization options, ideal for visualizing geographical data.
@@ -433,4 +382,4 @@ The project architecture consists of a well-organized directory structure featur
 
 The components directory includes subfolders for graphs (`actogram`, `line`, and `map`) and overview components, each designed for specific data visualization and table representation purposes. Custom hooks for managing sensor selections are housed in the hooks directory.
 
-The tech stack leverages **React.js** with **TypeScript** for the frontend, supported by libraries like **react-chartjs-2** for **charts**__, **react-leaflet** for **maps**__, **Axios** for **HTTP requests**__, **date-fns** for **date handling**__, and **ag-Grid** for efficient **data tables**__. The chosen libraries ensure robust, type-safe, and efficient handling of complex data visualization and interactions.
+The tech stack leverages **Next.js** with **TypeScript** for the frontend, supported by libraries like **react-chartjs-2** for **charts**__, **react-leaflet** for **maps**__, **Axios** for **HTTP requests**__, **date-fns** for **date handling**__, and **ag-Grid** for efficient **data tables**__. The chosen libraries ensure robust, type-safe, and efficient handling of complex data visualization and interactions.

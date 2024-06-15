@@ -96,7 +96,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
                     </div>
                     <div className="col-md-4">
-                        <img className="col-md-12" src={detail?.pictureUrl ?? ""} alt="" width={350} />
+                        <Image className="col-md-12" src={detail?.pictureUrl ?? ""} alt="" width={350} />
                     </div>
                 </div>
 

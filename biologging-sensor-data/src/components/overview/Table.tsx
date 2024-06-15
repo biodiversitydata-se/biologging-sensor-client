@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Dataset } from "@/api/dataset/dataset";
+import { Dataset, RangeDateTime } from "@/api/dataset/dataset";
 import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
@@ -12,7 +12,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     setFullData(data);
   }, [data])
 
-  const gridOptions = {
+  const gridOptions: any = {
     defaultColDef: {
       resizable: false,
       sortable: true,
@@ -52,7 +52,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     )
   }
 
-  const [columnsDef, setColumnsDef] = useState(
+  const [columnsDef, setColumnsDef] = useState<any>(
     [
       {
         field: "datasetTitle",
@@ -93,6 +93,11 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
         cellRenderer: TemporalCoverageRenderer,
         autoHeight: true,
         width: 130,
+        comparator: (valueA: RangeDateTime, valueB: RangeDateTime) => {
+          const dateA = new Date(valueA.startDatetime);
+          const dateB = new Date(valueB.startDatetime);
+          return dateA.getTime() - dateB.getTime();
+        }
       },
       {
         field: "numberOfRecords",

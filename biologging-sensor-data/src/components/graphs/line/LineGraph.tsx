@@ -65,7 +65,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
         },
         type: 'time',
         time: {
-          unit: config.x ?? AcceptedXUnits.Days,
+          unit: config.x as AcceptedXUnits ?? AcceptedXUnits.Days,
           displayFormats: {
             hour: 'H:mm'
           }
