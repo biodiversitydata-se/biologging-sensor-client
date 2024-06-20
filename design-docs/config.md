@@ -1,24 +1,10 @@
-_This file be improved by Zuzanna_
-
-# Updating the About Page Content
-
-_Task given by Mathieu: All the configuration files (path/content) containing data that can easily be changed before an application restart (URL of the API, colors of the graphs, dedicated behaviour for datasets, etc)_
-
-
-## Keywords of folders and files
-keywords is added here
+# Config 
 
 ## Directory
-file path is added here
 ```
-biologging-sensor-client\biologging-sensor-data\
+biologging-sensor-client\biologging-sensor-data\src\config
 
 ```
-
-
-
-<details>
-  <summary><strong>See Further Details</strong></summary>
 
 The directory for configuration contains 3 files:
 ## model.ts
@@ -125,5 +111,3 @@ datasetConfig['animal_1_id'] = {customGraphs: greatSnipesGraph};
 This file groups all values that can be changed throughout the whole project. Modification of constants here will affect all components in the project which use the constant. The file contains data for 
 - url paths for API
 - messages displayed in components
-
-</details>

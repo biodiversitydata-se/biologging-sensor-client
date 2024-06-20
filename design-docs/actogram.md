@@ -1,3 +1,25 @@
+# Actogram
+Located in "src/graph/actogram". 
+
+## Actogram rendering
+To visualize the actogram, it is drawn on the `<canvas>`. This means that every square of the actogram has its specific (x, y) position. 
+
+In **Actogram.tsx**, data is prepared by putting records for fetched event into appropriate structure. The structure includes x coordinate, y coordinate and the score for the recorded value. 
+
+### Calculating X position
+
+### Calculating Y position
+
+### Sizing and positioning of the actogram
+
+### Data in config file
+Some configuration can be done using config file. Configurable items are:
+- color of the graph,
+- not measure value and its color,
+- error measured value and its color
+
+
+
 ### Actogram Component
 - **Description**: Fetches actogram data and renders a graph displaying activity patterns.
 - **Props**: Accepts an array of event objects (`events`).
