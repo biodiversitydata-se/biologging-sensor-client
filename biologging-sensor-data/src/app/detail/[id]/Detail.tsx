@@ -96,7 +96,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
                     </div>
                     <div className="col-md-4">
-                        <Image className="col-md-12" src={detail?.pictureUrl ?? ""} alt="" width={350} />
+                        <img className="col-md-12" src={detail?.pictureUrl ?? ""} alt="" width={350} />
                     </div>
                 </div>
 
@@ -137,7 +137,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                                     {person.ORCID ? (
                                         <div className='col-md-5'>
-                                            <Image src={orcidLogo} alt="logo" width={18} height={18} />
+                                            <img src={orcidLogo} alt="logo" width={18} height={18} />
                                             <a href={`https://orcid.org/${person.ORCID}`}>{`https://orcid.org/${person.ORCID}`}</a>
                                         </div>
                                     ) : null}
@@ -167,7 +167,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                             </>
                                         )}
                                     </span>
-                                    {person.ORCID ? <a href={`https://orcid.org/${person.ORCID}`} className="col-md-5"><Image src={orcidLogo} alt="logo" width={18} height={18} />{`https://orcid.org/${person.ORCID}`}</a> : null}
+                                    {person.ORCID ? <a href={`https://orcid.org/${person.ORCID}`} className="col-md-5"><img src={orcidLogo} alt="logo" width={18} height={18} />{`https://orcid.org/${person.ORCID}`}</a> : null}
                                     <span className="col-md-4">
                                         {person.email ? person.email : null}
                                         <FontAwesomeIcon icon={faCopy} className='copyIcon' onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }} />
@@ -193,7 +193,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                             </>
                                         )}
                                     </span>
-                                    {person.ORCID ? <a href={`https://orcid.org/${person.ORCID}`} className="col-md-5"><Image src={orcidLogo} alt="logo" width={18} height={18} />{`https://orcid.org/${person.ORCID}`}</a> : null}
+                                    {person.ORCID ? <a href={`https://orcid.org/${person.ORCID}`} className="col-md-5"><img src={orcidLogo} alt="logo" width={18} height={18} />{`https://orcid.org/${person.ORCID}`}</a> : null}
                                     <span className="col-md-4">
                                         {person.email ? person.email : null}
                                         <FontAwesomeIcon icon={faCopy} className='copyIcon' onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }} />
