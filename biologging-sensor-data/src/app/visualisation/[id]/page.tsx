@@ -1,48 +1,49 @@
 'use client'
 
-import { Dataset } from "@/api/dataset/dataset.interface";
 import DatasetsList from "./DatasetsList";
-import { useEffect, useState } from "react";
-import { Event } from "@/api/event/event.typscript";
+import { useState } from "react";
 import { filterEvents } from "@/api/event/api";
 import SensorsList from "./SensorsList";
-import { SensorSelectionProvider } from "@/hooks/sensorSelectContext/sensorSelectContext";
 import Visualisation from "./Visualisation";
-import './visualisation.css';
+import { SensorList } from "./interface";
+import { Dataset } from "@/api/dataset/dataset";
+import { Event } from "@/api/event/event";
 
 export default function Visualize({ params }: { params: { id: string } }) {
   const [events, setEvent] = useState<Event[]>([]);
+  const [dataset, setDataset] = useState<Dataset>();
+  const [selectedSensors, updateSelectedSensors] = useState<SensorList>({});
 
 
-  async function _updateEvents(d: Dataset) {
-    if (!d) {
+  async function _updateEvents(selectedDataset: Dataset) {
+    if (!selectedDataset) {
       return;
     }
-    const id = [d.datasetID];
+
+    setDataset(selectedDataset);
+    const id = [selectedDataset.datasetID];
     const result = await filterEvents({ datasetIds: id });
 
     setEvent(result.results.slice(0, 30));
   }
 
   return (
-    <div className="container-fluid mt-n3">
-      <SensorSelectionProvider>
-        <div className="row">
-          <div className="col-md-6">
-            <div className="vis-list">
-              <DatasetsList initDataset={params.id} onSelect={(itm: Dataset) => _updateEvents(itm)} />
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="vis-list">
-              <SensorsList events={events} />
-            </div>
+    <div className="container mt-n3">
+      <div className="row">
+        <div className="col-md-6">
+          <div className="vis-list">
+            <DatasetsList initDataset={params.id} onSelect={(itm: Dataset) => _updateEvents(itm)} />
           </div>
         </div>
-        <div className="col-md-10" style={{ textAlign: 'center' }}>
-          <Visualisation events={events} />
+        <div className="col-md-6">
+          <div className="vis-list">
+            <SensorsList dataset={dataset} onSelect={(sensors: SensorList) => updateSelectedSensors(sensors)} />
+          </div>
         </div>
-      </SensorSelectionProvider>
+      </div>
+      <div className="col-md-10 text-align-center">
+        <Visualisation events={events} sensors={selectedSensors} />
+      </div>
     </div>
   )
 }

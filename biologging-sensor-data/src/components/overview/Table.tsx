@@ -1,57 +1,127 @@
 import { useEffect, useState } from 'react';
-import './Table.css';
-import { Dataset } from "@/api/dataset/dataset.interface";
+import { Dataset, RangeDateTime } from "@/api/dataset/dataset";
+import { AgGridReact } from 'ag-grid-react'; // AG Grid Component
+import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
+import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
+import { ERROR_LOAD_DATA } from '@/config/constants';
 
 export default function OverviewTable({ data, onSelect }: { data: Dataset[], onSelect: (item: Dataset) => void }) {
-  const [selected, setSelected] = useState<boolean[]>([]);
+  const [fullData, setFullData] = useState<Dataset[]>([]);
 
   useEffect(() => {
-    const selected = new Array<boolean>(data.length).fill(false);
-    setSelected(selected);
+    setFullData(data);
   }, [data])
 
-  function _selectRow(dataset: Dataset, i: number) {
-    const selected = new Array<boolean>(data.length).fill(false);
-    selected[i] = true;
-    setSelected(selected);
+  const gridOptions: any = {
+    defaultColDef: {
+      resizable: false,
+      sortable: true,
+      filter: true,
+      autoHeaderHeight: true,
+      wrapHeaderText: true,
+    },
+    defaultSortModel: [
+      {
+        colId: "createdDate",
+        sort: "desc", // This will sort the createdDate column in descending order by default
+      }
+    ],
+    domLayout: 'autoHeight',
+    pagination: true,
+    paginationPageSizeSelector: [5, 10, 20],
+    paginationPageSize: 5,
+    animateRows: false,
+    suppressMenuHide: true,
+    unSortIcon: true,
+  };
 
-    onSelect(dataset);
+  const _selectRow = (data: Dataset) => {
+    onSelect(data);
   }
 
-  return (
-    <div className="container overview">
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Animal count</th>
-            <th>Taxon</th>
-            <th>Instrument type</th>
-            <th>Institution</th>
-            <th>Dates</th>
-            <th>Total records</th>
-          </tr>
-        </thead>
+  const TemporalCoverageRenderer = (props: any) => {
+    const date = props.value;
+    return (
+      <div>
+        {date.startDatetime?.slice(0, 10)}
+        {date.endDateTime ?
+          <div> to {date.endDateTime.slice(0, 10)} </div>
+          : null
+        }
+      </div>
+    )
+  }
 
-        <tbody>
-          {data.map((item, i) => (
-            <tr key={i} onClick={() => { _selectRow(item, i) }} className="cursor-pointer" style={selected[i] ? { fontWeight: "bold" } : undefined}>
-              <td>{item.datasetTitle}</td>
-              <td>{item.animalCount}</td>
-              <td>{item.taxonomicCoverage.map(itm => (
-                <div onClick={(e) => e.stopPropagation()}>
-                  <a target="_blank" href={`https://species.biodiversitydata.se/species/${itm.taxonGuid}`}>{itm.taxonCommonName}</a>
-                </div>
-              ))}</td>
-              <td>{item?.instrumentTypes?.join(", ")}</td>
-              <td>{item.institutionCode}</td>
-              <td>{item.temporalCoverage?.startDatetime?.slice(0, 10)} {item.temporalCoverage?.endDateTime ? <span>- {item.temporalCoverage?.endDateTime.slice(0, 10)} </span> : null}</td>
-              <td>{item.numberOfRecords}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div >
+  const [columnsDef, setColumnsDef] = useState<any>(
+    [
+      {
+        field: "datasetTitle",
+        headerName: "Title",
+        sortable: true,
+        flex: 1,
+        tooltipField: "datasetTitle",
+      },
+      {
+        field: "animalCount",
+        headerName: "Animal count",
+        width: 135,
+        sortable: true,
+        valueFormatter: (props: any) => props.value.toLocaleString('en-US').replace(/,/g, ' '),
+        cellStyle: { textAlign: "right" }
+      },
+      {
+        field: 'taxonomicCoverage',
+        autoHeight: true,
+        headerName: "Taxon",
+        width: 130,
+        valueGetter: (params: any) => params.data.taxonomicCoverage[0].taxonCommonName,
+      },
+      {
+        field: "instrumentTypes",
+        headerName: "Instrument type",
+        flex: 1,
+        tooltipField: "instrumentTypes",
+      },
+      {
+        field: "institutionCode",
+        headerName: "Institution",
+        tooltipField: "institutionCode",
+      },
+      {
+        field: "temporalCoverage",
+        headerName: "Dates",
+        cellRenderer: TemporalCoverageRenderer,
+        autoHeight: true,
+        width: 130,
+        comparator: (valueA: RangeDateTime, valueB: RangeDateTime) => {
+          const dateA = new Date(valueA.startDatetime);
+          const dateB = new Date(valueB.startDatetime);
+          return dateA.getTime() - dateB.getTime();
+        }
+      },
+      {
+        field: "numberOfRecords",
+        headerName: "Total records",
+        width: 130,
+        valueGetter: (params: any) => params.data.numberOfRecords,
+        valueFormatter: (props: any) => props.value.toLocaleString('en-US').replace(/,/g, ' '),
+        cellStyle: { textAlign: "right" }
+      },
+    ]
+
   )
 
+  return (
+    <div className="ag-theme-quartz">
+      <AgGridReact
+        gridOptions={gridOptions}
+        rowData={fullData}
+        columnDefs={columnsDef}
+        onRowClicked={(e) => _selectRow(e.data!)}
+        tooltipShowDelay={500}
+        rowSelection='single'
+        overlayNoRowsTemplate={ERROR_LOAD_DATA}
+      />
+    </div>
+  );
 }

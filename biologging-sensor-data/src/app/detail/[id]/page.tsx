@@ -1,25 +1,34 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import '../../index.css';
-import { Dataset } from '@/api/dataset/dataset.interface';
 import Detail from './Detail';
 import { getDataset } from '@/api/dataset/api';
+import { AxiosError } from 'axios';
+import ErrorComponent from '@/components/Error';
+import { Dataset } from '@/api/dataset/dataset';
+import Loader from '@/components/Loader';
 
-function DetailPage({ params }: { params: { id: string } }) {
+/**
+ * For including "detail" page in routing. 
+ */
+export default function DetailPage({ params }: { params: { id: string } }) {
   const [detail, setDetailData] = useState<Dataset | null>(null);
+  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await getDataset(params.id);
-        setDetailData(response);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error('Error fetching data:', error.message);
-        } else {
-          console.error('Unexpected error:', error);
-        }
+      setLoading(true);
+      const response = await getDataset(params.id);
+      if (response instanceof AxiosError) {
+        setLoading(false);
+        setError(true);
+        return;
       }
+
+      setError(false);
+      setDetailData(response);
+      setLoading(false);
     };
 
     fetchData();
@@ -27,9 +36,12 @@ function DetailPage({ params }: { params: { id: string } }) {
 
   return (
     <div>
-      <Detail detail={detail} />
+      {
+        loading ? <Loader />
+          : error
+            ? <ErrorComponent />
+            : <Detail detail={detail} />
+      }
     </div>
   );
 }
-
-export default DetailPage;

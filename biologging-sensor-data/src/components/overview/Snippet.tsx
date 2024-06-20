@@ -1,14 +1,22 @@
-import { Dataset } from "@/api/dataset/dataset.interface";
+import { Dataset } from "@/api/dataset/dataset";
 import { DetailLink, VisualisationLink } from "../links";
-import './Snippet.css';
+import './snippet.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-
+import { faChartLine, faCircleInfo, faDownload } from "@fortawesome/free-solid-svg-icons";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
+    const downloadDataset = () => {
+        const baseUrl = "http://canmove-dev.ekol.lu.se/biologgingPublicArchives/";
+        const version = data!.versions[0].number.replace(".", "_");
+        const downloadUrl = `${baseUrl}${data?.datasetID}/${data?.datasetID}_json_${version}.zip`;
+
+        window.open(downloadUrl);
+    };
+
+
     return (
         <div>
-            <div style={{ backgroundColor: "#f2f2f2", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "15px", paddingRight: "15px" }}>
+            <div className="snippet">
                 <div>
                     Dataset overview:
                 </div>
@@ -23,10 +31,10 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
             </div>
 
-            <div style={{ backgroundColor: "#fafafa", paddingLeft: "15px", paddingRight: "15px" }}>
+            <div className="snippet-content">
                 <div className="row">
                     <div className="col-md-2 bold">Title:</div>
-                    <div className="col-md-9">{data?.datasetTitle}</div>
+                    <div className="col-md-8">{data?.datasetTitle}</div>
                 </div>
 
                 <div className="row">
@@ -35,24 +43,30 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                     <div className="col-md-2">
                         <div className="row" style={{ display: "flex", justifyContent: "space-between" }}>
                             <DetailLink datasetId={data?.datasetID}>
-                                <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" />
+                                <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" size="3x" />
                             </DetailLink>
 
-                            {data?.numberOfRecords && data?.numberOfRecords > 0 ?
-                                <div style={{ marginLeft: "20px" }}>
-                                    <VisualisationLink datasetId={data?.datasetID}>
-                                        <FontAwesomeIcon icon={faChartLine} className="snippet-icon" />
-                                    </VisualisationLink>
+                            <div className="ml-10">
+                                <VisualisationLink datasetId={data?.datasetID}>
+                                    <FontAwesomeIcon icon={faChartLine} className="snippet-icon" size="3x" />
+                                </VisualisationLink>
+                            </div>
+
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 ? (
+                                <div className="ml-10">
+                                    <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
+
                                 </div>
-                                : null
-                            }
+                            ) : null}
+
                         </div>
                     </div>
                 </div>
 
+
                 <div className="row">
                     <div className="col-md-2 bold">Instruments:</div>
-                    <div className="col-md-9">{data?.instrumentTypes?.join(", ")}</div>
+                    <div className="col-md-10">{Array.isArray(data?.instrumentTypes) ? data.instrumentTypes.join(", ") : data?.instrumentTypes}</div>
                 </div>
 
                 <div className="row">

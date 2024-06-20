@@ -1,32 +1,53 @@
-import { Event } from "@/api/event/event.typscript";
+import Actogram from "@/components/graphs/actogram/Actogram";
 import LineGraph from "@/components/graphs/line/LineGraph";
 import MapGraph from "@/components/graphs/map/MapGraph";
-import { handleSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext"
-import { useEffect, useState } from "react";
+import { datasetConfig, sensorTypes } from "@/config/config";
+import { SensorList } from "./interface";
+import { Event } from "@/api/event/event";
 
-export default function Visualisation({ events }: { events: Event[] }) {
-    const { sensors } = handleSensorSelection();
-    const [isMap, setMap] = useState<boolean>(false);
-    const [sensorSelected, setSelected] = useState<boolean>(false)
+/**
+ * Content of "Visualisation" page
+ */
+export default function Visualisation({ events, sensors }: { events: Event[], sensors: SensorList }) {
+    const SensorTypeDisplay = ({ sensor }: { sensor: string }) => {
+        let config;
 
-    useEffect(() => {
-        setMap(sensors.filter(item => item.sensor === 'latitude' && item.selected || item.sensor === 'longitude' && item.selected).length == 2);
-        setSelected(sensors.filter(itm => itm.selected).length > 0);
-    }, [sensors])
+        const dId = events[0]?.datasetID;
+
+        if (!dId) return null;
+
+        const customGraphs = datasetConfig[dId]?.customGraphs;
+        if (customGraphs && sensor in customGraphs) {
+            config = customGraphs[sensor];
+        } else {
+            config = sensorTypes[sensor];
+        }
+
+        const graphType = config.graphType;
+
+        switch (graphType) {
+            case 'A':
+                return <Actogram events={events} valueMeasured={config.valuesMeasured[0]} config={config.actogramC} />;
+            case 'M':
+                return <MapGraph events={events} config={config.mapC} />
+            case 'N':
+                return <div>No visualisation available. Download data for analysis</div>
+            default:
+                return <LineGraph events={events} sensor={sensor} config={config.lineGraphC} />
+        }
+
+    }
 
     return (
-        <div>
+        <div className="container">
             {
-                sensorSelected ?
-                    (isMap ?
-                        <MapGraph events={events} />
-                        : sensors
-                            .filter(itm => itm.selected)
-                            .map((itm, index) => { return <LineGraph key={index} events={events} sensor={itm.sensor} /> }))
-                    : null
+                Object.keys(sensors).filter((itm) => sensors[itm]).map((sensor, index) => (
+                    <div className="mb-40" key={index}>
+                        <h4 className="bold">{sensor}</h4>
+                        {sensors[sensor] ? <SensorTypeDisplay key={index} sensor={sensor} /> : null}
+                    </div>
+                ))
             }
-
-
         </div>
     )
 }

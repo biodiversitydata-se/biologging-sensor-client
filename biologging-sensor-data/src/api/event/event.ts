@@ -1,4 +1,4 @@
-import { Taxon } from "../dataset/dataset.interface";
+import { Taxon } from "../dataset/dataset";
 
 export interface Event{
     eventID: string;	
@@ -16,4 +16,6 @@ export interface Event{
     dateCreated: string;
     dateUpdated: string;
     valuesMeasured: string[];
+    numberOfRecords: number;
+
 }

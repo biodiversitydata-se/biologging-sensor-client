@@ -1,7 +1,7 @@
-import { useEffect, Fragment } from "react";
-import { useMap, TileLayer, Polyline, Marker, Circle } from "react-leaflet";
+import { useEffect } from "react";
+import { useMap, TileLayer } from "react-leaflet";
 import { Coordinates } from "./MapGraph";
-import { DivIcon, latLngBounds } from "leaflet";
+import { latLngBounds } from "leaflet";
 import Polylines from "./Polylines";
 
 export default function MapComponent({ data }: { data: Coordinates[] }) {
