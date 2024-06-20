@@ -7,7 +7,7 @@ import { MapContainer } from 'react-leaflet';
 import { MapC } from '@/config/model';
 import ErrorComponent from '@/components/Error';
 import { AxiosError } from 'axios';
-import './mapgraph.css';
+import './MapGraph.css';
 
 export type Coordinates = [number, number][];
 
