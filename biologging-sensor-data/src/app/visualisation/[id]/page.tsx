@@ -9,6 +9,11 @@ import { SensorList } from "./interface";
 import { Dataset } from "@/api/dataset/dataset";
 import { Event } from "@/api/event/event";
 
+/**
+ * Main page for visualisations
+ * @param 
+ * @returns 
+ */
 export default function Visualize({ params }: { params: { id: string } }) {
   const [events, setEvent] = useState<Event[]>([]);
   const [dataset, setDataset] = useState<Dataset>();

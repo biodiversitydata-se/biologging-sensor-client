@@ -9,6 +9,11 @@ interface Args {
     onSelect: (itm: SensorList) => void;
 }
 
+/**
+ * Listing and selecting sensors
+ * @param 
+ * @returns 
+ */
 export default function SensorsList({ dataset, onSelect }: Args) {
     const [selected, updateSelected] = useState<SensorList>({});
     const [loading, setLoading] = useState<boolean>(false);
@@ -25,8 +30,9 @@ export default function SensorsList({ dataset, onSelect }: Args) {
 
         const sensors: SensorList = {};
 
-        // defult visualisation for dataset
+        // set up defult visualisation for dataset
         const defSensors = datasetConfig[dataset.datasetID]?.defaultSensors;
+        console.log(dataset.datasetID)
 
         // load sensors
         dataset.sensorType.map((item) => {

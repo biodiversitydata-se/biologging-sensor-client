@@ -4,6 +4,7 @@ export const datasetConfig: {[id: string] : DatasetConfig} = {};
 export const sensorTypes: {[id: string]: ConfigItem} = {};
 
 // DEFAULT ACTOGRAM CONFIG
+// TODO: add labels
 const aData: ActogramConfig[] = [];
 aData.push(new ActogramConfig('#FFFFFF', '', 0, 0));
 aData.push(new ActogramConfig('#66FF66', '', 1, 10));
@@ -14,37 +15,25 @@ aData.push(new ActogramConfig('#006600', '', 41, 50));
 aData.push(new ActogramConfig('#660066', '', 51, 60));
 aData.push(new ActogramConfig('black', '', 61));
 
-// DEFAULT LINEGRAPHS
-const tempGraph = new LineGraphC();
 
 
 // SENSOR TYPE MAPPING
 sensorTypes['Acceleration'] = new ConfigItem(['activity'], 'A', new ActogramC(aData));
-sensorTypes['Altimeter'] = new ConfigItem(['altitude'], 'L', tempGraph );
-sensorTypes['Pressure gauge'] = new ConfigItem(['pressure'], 'L', tempGraph);
-sensorTypes['Thermometer'] = new ConfigItem(['temperature'], 'L', tempGraph);
-sensorTypes['Light sensor'] = new ConfigItem(['light level'], 'L', tempGraph);
-sensorTypes['Wet/dry'] = new ConfigItem(['contact with water'], 'L', tempGraph);
+sensorTypes['Altimeter'] = new ConfigItem(['altitude'], 'L', new LineGraphC() );
+sensorTypes['Pressure gauge'] = new ConfigItem(['pressure'], 'L', new LineGraphC());
+sensorTypes['Thermometer'] = new ConfigItem(['temperature'], 'L', new LineGraphC());
+sensorTypes['Light sensor'] = new ConfigItem(['light level'], 'L', new LineGraphC());
+sensorTypes['Wet/dry'] = new ConfigItem(['contact with water'], 'L', new LineGraphC());
 sensorTypes['Tracking radar'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 sensorTypes['Wingbeat'] = new ConfigItem([''], 'N', new NoVisC());
 sensorTypes['Geographic spherical coordinate system'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 
 
-// DATASET 
-export const greatSnipesGraph: {[id: string]: ConfigItem} = {};
+// SPECIFIC DATSET
+datasetConfig['geolocator_great_snipes_AL'] = {defaultSensors: ['Acceleration', 'Altimeter']};
+datasetConfig['dataset_wram_moose_2003'] = {defaultSensors: ['Geographic spherical coordinate system', 'Thermometer']};
+datasetConfig['LU_trackingradar_Falsterbo_springs_2010-11'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
+datasetConfig['LU_trackingradar_Falsterbo_autumns_2009-12'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
+datasetConfig['LU_trackingradar_Lundfixed_2006-13'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
 
-const gsa: ActogramConfig[] = [];
-gsa.push(new ActogramConfig('#FFF0F5', 'No activity', 0, 0));
-gsa.push(new ActogramConfig('#FFB6C1', 'Small', 1, 10));
-gsa.push(new ActogramConfig('#FFC0CB', 'More medium', 11, 20));
-gsa.push(new ActogramConfig('#FF69B4', 'Md activity', 21, 30));
-gsa.push(new ActogramConfig('#FF1493', 'Somehow active', 31, 40));
-gsa.push(new ActogramConfig('#FF007F', 'Active', 41, 50));
-gsa.push(new ActogramConfig('#FF00FF', 'Very active', 51, 60));
-gsa.push(new ActogramConfig('black', 'Active active', 61));
-
-greatSnipesGraph['Acceleration'] = new ConfigItem(['activity'], 'A', new ActogramC(gsa))
-
-datasetConfig['geolocator_great_snipes_AL'] = {defaultSensors: ['Acceleration', 'Altimeter'], customGraphs: greatSnipesGraph};
-//datasetConfig['dataset_wram_moose_2003'] = {sensorTypes: ['Tracking radar', 'Altimeter']};
 

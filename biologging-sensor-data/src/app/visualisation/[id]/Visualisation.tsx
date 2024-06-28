@@ -23,7 +23,11 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
             config = sensorTypes[sensor];
         }
 
-        const graphType = config.graphType;
+        const graphType = config?.graphType;
+
+        if (graphType === undefined) {
+            return <div>Graph not configured</div>
+        }
 
         switch (graphType) {
             case 'A':

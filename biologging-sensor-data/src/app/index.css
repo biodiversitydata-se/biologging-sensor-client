@@ -79,3 +79,13 @@ code {
 .mb-40 {
   margin-bottom: 40px;
 }
+
+/* ACTOGRAM STYLES */
+.legend-color {
+  height: 15px;
+
+}
+
+.legend-label {
+  text-align: left;
+}

@@ -5,6 +5,10 @@ import { getDatasets } from "@/api/dataset/api";
 import { AxiosError } from "axios";
 import { Dataset } from "@/api/dataset/dataset";
 
+/**
+ * Homepage, providing overview of datasets
+ * @returns 
+ */
 export default function Overview() {
   const [data, setData] = useState<Dataset[]>([]);
   const [selected, setSelected] = useState<Dataset>();

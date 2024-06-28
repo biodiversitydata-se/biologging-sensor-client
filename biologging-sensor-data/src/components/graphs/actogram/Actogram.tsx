@@ -11,6 +11,7 @@ import { ActogramLegend } from "./ActogramLegend";
 import ErrorComponent from "@/components/Error";
 import { AxiosError } from "axios";
 import Loader from "@/components/Loader";
+import { A_ERROR_VALUE, A_NO_MEASURED_VALUE } from "@/config/constants";
 
 
 export default function Actogram({ events, valueMeasured, config }: { events: Event[], valueMeasured: string, config: ActogramC }) {
@@ -28,12 +29,14 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
         const dataFetch = async () => {
             setLoaded(false);
 
-            const errorV = config.errorCase?.value ?? -1;
-            const notMeasuredV = config.notMeasuredCase?.value ?? -2;
+            // set error and not measred values from config
+            const errorV = config.errorCase?.value ?? A_ERROR_VALUE;
+            const notMeasuredV = config.notMeasuredCase?.value ?? A_NO_MEASURED_VALUE;
 
             const items: AData[] = [];
             const monthCounts: Map<string, number> = new Map<string, number>();
 
+            // take first event
             const relEvent = events[0];
             const ids = [relEvent.eventID];
             const datasetId = [relEvent.datasetID];
@@ -82,7 +85,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
                 const currentHour = date.getHours();
                 const dayKey: string = currentMonth + currentYear;
 
-                if (i === 0) { // first entry,pad with empty until the hour
+                if (i === 0) { // first entry, pad with empty until the current hour
                     for (let j = 0; j < currentHour; j++) {
                         const itm: AData = {
                             x: (j * S),
@@ -94,6 +97,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
                     }
                 }
 
+                // create new data point with proper coordinates
                 const itm: AData = {
                     x: (currentHour * S),
                     y: S * Math.floor(items.length / 24),
@@ -150,7 +154,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
                                     notMeasuredValue={notMeasuredValue} />
                             </div>}
                             {loaded && <div className="col-md-3" style={{ marginTop: T_LABEL_OFFSET }}>
-                                <ActogramLegend config={config.config} ></ActogramLegend>
+                                <ActogramLegend config={config} ></ActogramLegend>
                             </div>}
                         </div>
                     </div>

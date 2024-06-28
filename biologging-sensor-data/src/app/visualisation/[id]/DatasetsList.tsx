@@ -9,7 +9,11 @@ interface Args {
   onSelect: (itm: Dataset) => void;
 }
 
-
+/**
+ * To display and choose dataset from list 
+ * @param 
+ * @returns 
+ */
 export default function DatasetsList({ initDataset, onSelect }: Args) {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [selected, setSelected] = useState<Dataset>();

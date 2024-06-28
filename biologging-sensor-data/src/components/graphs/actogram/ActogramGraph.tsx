@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { ActogramProps } from "./interface";
 import { A_WIDTH, DAY_NUMBER_X, DEF_STROKE_STYLE, D_LINE_OFFSET, FONT_SIZE, MONTH_LABEL_OFFSET, M_LABEL_OFFSET, M_LINE_OFFSET, RIGHT_SIDE_OFFSET, S, T_LABEL_OFFSET } from "./const";
+import { A_ERROR_COLOR, A_NO_MEASURED_COLOR } from "@/config/constants";
 
 export default function ActogramGraph({ data, mCounts, days, config, errorValue, notMeasuredValue }: ActogramProps) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
     useEffect(() => {
+        // needs to be setup when component is initiated
         const canvas = canvasRef.current;
         const context = canvas?.getContext('2d');
         if (context) setCtx(context);
@@ -35,7 +37,7 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
 
     function _drawRightSide() {
         if (!ctx) return;
-        const sliced_data = data?.slice(24, data.length); // remove first day 
+        const sliced_data = data?.slice(24, data.length); // remove first day to shift it
         sliced_data?.forEach((square) => {
             ctx.fillStyle = getColor(square.value);
             ctx.strokeStyle = DEF_STROKE_STYLE;
@@ -125,11 +127,11 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
         if (!config) return '';
 
         if (score === errorValue) {
-            return config.errorCase?.color ?? 'yellow';
+            return config.errorCase?.color ?? A_ERROR_COLOR;
         }
 
         if (score === notMeasuredValue) {
-            return config.notMeasuredCase?.color ?? 'grey';
+            return config.notMeasuredCase?.color ?? A_NO_MEASURED_COLOR;
         }
 
         for (let item of config.config) {

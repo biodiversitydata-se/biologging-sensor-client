@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import { MoonLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 const override: CSSProperties = {
     display: "block",
@@ -11,7 +11,7 @@ const override: CSSProperties = {
 export default function Loader() {
 
     return (
-        <MoonLoader
+        <ClipLoader
             size={30}
             cssOverride={override}
         />

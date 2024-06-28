@@ -1,3 +1,4 @@
+// VALUES FOR ACTOGRAM GRAPH SETTINGS
 // SIZINGS
 export const S = 10; // size of the square
 export const M_LABEL_OFFSET = 100; // X position for starting left column of actogram, for month labels
