@@ -32,7 +32,7 @@ export function VisualisationLink({ datasetId, children }: LinkProps) {
                 id: datasetId
             },
         }}
-            as={`${baseUrl}visualisation/${datasetId}`}
+            as={`${baseUrl}visualisation/graphs`}
         >
             {children}
         </Link>
