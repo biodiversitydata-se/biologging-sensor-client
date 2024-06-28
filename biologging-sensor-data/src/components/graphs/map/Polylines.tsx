@@ -1,4 +1,4 @@
-import { Circle, Marker, Polyline } from "react-leaflet";
+import { Circle, Polyline } from "react-leaflet";
 import { Coordinates } from "./MapGraph";
 import { DivIcon } from "leaflet";
 

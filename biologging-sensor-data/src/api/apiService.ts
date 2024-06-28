@@ -1,6 +1,5 @@
+import { BASE_URL } from "@/config/constants";
 import axios, { AxiosError, AxiosResponse } from "axios";
-
-const BASE_URL = 'http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/';
 
 type ApiResponse<T> = T | AxiosError;
 
@@ -13,13 +12,13 @@ export const get = async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     }
 };
 
-export const post = async <T>(endpoint: string, body: any): Promise<ApiResponse<T>> => {
+export const post = async <T>(endpoint: string, body: any, params?: any): Promise<ApiResponse<T>> => {
     try {
         const response: AxiosResponse<T> = await axios.post<T>(`${BASE_URL}${endpoint}`, body, {
             headers: {
                 'Content-Type': 'application/json',
               },
-              params: {
+              params: params ?? {
                 take: 100,
               },
         });

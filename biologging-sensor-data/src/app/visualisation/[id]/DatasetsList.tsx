@@ -1,6 +1,7 @@
 import { getDatasets } from "@/api/dataset/api";
-import { Dataset } from "@/api/dataset/dataset.interface";
 import { useEffect, useState } from "react";
+import { Dataset } from "@/api/dataset/dataset";
+import Loader from "@/components/Loader";
 
 
 interface Args {
@@ -8,13 +9,19 @@ interface Args {
   onSelect: (itm: Dataset) => void;
 }
 
-
+/**
+ * To display and choose dataset from list 
+ * @param 
+ * @returns 
+ */
 export default function DatasetsList({ initDataset, onSelect }: Args) {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [selected, setSelected] = useState<Dataset>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchDataset = async () => {
+      setLoading(true);
       const response = await getDatasets();
 
       const sorted: Dataset[] = response.sort((a: Dataset, b: Dataset) =>
@@ -22,6 +29,7 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
       );
 
       setDatasets(sorted);
+      setLoading(false);
     }
 
     fetchDataset();
@@ -35,7 +43,6 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
       setSelected(dataset)
       onSelect(dataset);
     }
-
   }, [datasets])
 
   function _selectDataset(i: number) {
@@ -51,14 +58,19 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
   return (
     <div>
       <h5>Select dataset</h5>
-      {datasets.map((item, index) => {
-        return <div key={index}
-          style={_isSelected(index) ? { backgroundColor: "lightblue" } : undefined}
-          onClick={() => _selectDataset(index)}
-        >
-          {item.datasetTitle}
-        </div>
-      })}
+      {
+        loading ? <Loader /> : null
+      }
+      <div className="vis-list-items">
+        {datasets.map((item, index) => {
+          return <div key={index}
+            style={_isSelected(index) ? { backgroundColor: "lightblue" } : undefined}
+            onClick={() => _selectDataset(index)}
+          >
+            {item.datasetTitle}
+          </div>
+        })}
+      </div>
     </div>
   )
 }

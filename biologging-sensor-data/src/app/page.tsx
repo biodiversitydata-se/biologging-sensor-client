@@ -5,9 +5,9 @@ import './index.css'
 export default function Home() {
   return (
     <>
-    <main>
-      <Overview/>
-    </main>
+      <main>
+        <Overview />
+      </main>
     </>
   )
 }

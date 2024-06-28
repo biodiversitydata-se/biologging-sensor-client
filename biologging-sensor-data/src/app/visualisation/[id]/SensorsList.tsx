@@ -1,50 +1,69 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { datasetConfig } from "@/config/config";
 import { SensorList } from "./interface";
-import { handleSensorSelection } from "@/hooks/sensorSelectContext/sensorSelectContext";
-import { Dataset } from "@/api/dataset/dataset.interface";
+import { Dataset } from "@/api/dataset/dataset";
+import Loader from "@/components/Loader";
 
-interface Props {
-    selectedDataset: Dataset | null;
+interface Args {
+    dataset: Dataset | undefined;
+    onSelect: (itm: SensorList) => void;
 }
 
-export default function SensorsList({ selectedDataset }: Props) {
-    const { sensors, updateSensors } = handleSensorSelection();
+/**
+ * Listing and selecting sensors
+ * @param 
+ * @returns 
+ */
+export default function SensorsList({ dataset, onSelect }: Args) {
+    const [selected, updateSelected] = useState<SensorList>({});
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        if (selectedDataset) {
-            const values: SensorList[] = selectedDataset.sensorTypes.map(item => ({
-                sensor: item,
-                selected: false,
-            }));
-            updateSensors(values);
+        setLoading(true);
+        if (!dataset) {
+            setLoading(false);
+            return;
         }
-    }, [selectedDataset])
 
-    function _selectSensor(i: number) {
-        const updatedSensors = sensors.map((sensor, index) => {
-            if (index === i) {
-                return {
-                    ...sensor,
-                    selected: !sensor.selected
-                };
-            }
-            return sensor;
-        });
-        updateSensors(updatedSensors);
+        updateSelected({});
+        onSelect({});
+
+        const sensors: SensorList = {};
+
+        // set up defult visualisation for dataset
+        const defSensors = datasetConfig[dataset.datasetID]?.defaultSensors;
+        console.log(dataset.datasetID)
+
+        // load sensors
+        dataset.sensorType.map((item) => {
+            sensors[item] = defSensors?.includes(item) ?? false;
+        })
+
+        updateSelected(sensors);
+        onSelect(sensors);
+        setLoading(false);
+
+    }, [dataset])
+
+    function _selectSensor(sensor: string) {
+        const s = { ...selected };
+        s[sensor] = !s[sensor];
+        updateSelected(s);
+        onSelect(s);
     }
 
     return (
         <div>
             <h5>Select sensor</h5>
-            {sensors.map((item, index) => (
-                <div
-                    style={item.selected ? { backgroundColor: "lightblue" } : undefined}
-                    key={index}
-                    onClick={() => _selectSensor(index)}
-                >
-                    {item.sensor}
-                </div>
-            ))}
+            {
+                loading ? <Loader /> : null
+            }
+            <div className="vis-list-items">
+                {dataset?.sensorType.map((item, index) => {
+                    return <div style={selected[item] ? { backgroundColor: "lightblue" } : undefined} key={index} onClick={() => _selectSensor(item)}>{item}</div>
+                })}
+            </div>
         </div>
-    );
+    )
+
 }

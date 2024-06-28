@@ -1,4 +1,5 @@
 export interface Dataset {
+    _id: string;
     datasetID: string;
     projectID: string;
     datasetTitle: string;
@@ -13,7 +14,9 @@ export interface Dataset {
     resourceCitation: string;
     onlineUrl: string;
     bibliographicCitation: Reference;
-    sensorTypes: string[];
+    sensorType: string[];
+    valuesMeasured: string[];
+    unitsReported: string[];
     instrumentTypes: string[];
     taxonomicCoverage: Taxon[];
     embargoEndDate: string;
@@ -25,21 +28,21 @@ export interface Dataset {
     qualityControl: string;
     relatedIdentifier: string;
     relationType: string;
-    version: string;
+    versions: Version[];
     sensitiveData: boolean;
+    isFinalized: boolean;
+    pictureUrl: string;
     dateCreated: string;
     dateUpdated: string;
     numberOfRecords: number;
-    isFinalized: boolean;
-    valuesMeasured: string[];
 }
 
 export interface Contact {
     firstName: string;	
     lastName: string;
     email: string;
-    userid: string;
     webpage: string;
+    ORCID: string;
 }
 
 export interface Taxon {
@@ -67,4 +70,10 @@ export interface RangeDateTime {
 export interface Reference {
     DOI: string;
     title: string;	
+}
+
+export interface Version {
+    date: string;
+    log: string;
+    number: string;
 }

@@ -1,5 +1,11 @@
 import { post } from "../apiService";
 
-export const filterRecords = async (data?: any): Promise<any> => {
-    return await post<any>("records", data);
+/**
+ * Filter records
+ * @param data 
+ * @param params 
+ * @returns 
+ */
+export const filterRecords = async (data?: any, params?: any): Promise<any> => {
+    return await post<any>("records", data, params);
 }
