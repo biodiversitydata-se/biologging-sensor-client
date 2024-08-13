@@ -89,3 +89,7 @@ code {
 .legend-label {
   text-align: left;
 }
+
+.ag-icon-filter {
+  color: red;
+}

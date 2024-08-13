@@ -1,4 +1,4 @@
-import { Circle, Polyline } from "react-leaflet";
+import { Circle, Polyline, Tooltip } from "react-leaflet";
 import { Coordinates } from "./MapGraph";
 import { DivIcon } from "leaflet";
 
@@ -48,6 +48,7 @@ export default function Polylines({ coords }: { coords: Coordinates }) {
         return s;
     }
 
+console.log(coords)
     return (
         <div>
             <Polyline positions={coords} pathOptions={{ color: color }} />
@@ -57,7 +58,9 @@ export default function Polylines({ coords }: { coords: Coordinates }) {
                     center={x}
                     radius={_getRadius(i, coords.length)}
                     pathOptions={i === coords.length - 1 ? { color: 'black', fillOpacity: 1, fillColor: color } : { color: color, fillOpacity: 1 }}
-                />
+                    >
+                    <Tooltip>Lat : {coords[i][0]} - Long : {coords[i][1]}</Tooltip>
+                </Circle>
             ))}
 
         </div>
