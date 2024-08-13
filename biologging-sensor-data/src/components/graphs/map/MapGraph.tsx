@@ -55,6 +55,9 @@ export default function MapGraph({ events, config }: { events: Event[], config: 
                     <MapContainer center={center} zoom={5} scrollWheelZoom={true} className='map'>
                         <MapComponent data={data} />
                     </MapContainer>
+                    <div id="mapLegend">
+                        <h5>The black dot is the final point of a track.</h5>
+                    </div>
                 </div>}
         </div >
     )
