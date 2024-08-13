@@ -60,6 +60,7 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
         sortable: true,
         flex: 1,
         tooltipField: "datasetTitle",
+        filterParams: { buttons: ["clear"]}
       },
       {
         field: "animalCount",
@@ -67,7 +68,8 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
         width: 135,
         sortable: true,
         valueFormatter: (props: any) => props.value.toLocaleString('en-US').replace(/,/g, ' '),
-        cellStyle: { textAlign: "right" }
+        cellStyle: { textAlign: "right" },
+        filterParams: { buttons: ["clear"]}
       },
       {
         field: 'taxonomicCoverage',
@@ -75,17 +77,20 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
         headerName: "Taxon",
         width: 130,
         valueGetter: (params: any) => params.data.taxonomicCoverage[0].taxonCommonName,
+        filterParams: { buttons: ["clear"]}
       },
       {
         field: "instrumentTypes",
         headerName: "Instrument type",
         flex: 1,
         tooltipField: "instrumentTypes",
+        filterParams: { buttons: ["clear"]}
       },
       {
         field: "institutionCode",
         headerName: "Institution",
         tooltipField: "institutionCode",
+        filterParams: { buttons: ["clear"]}
       },
       {
         field: "temporalCoverage",
@@ -97,15 +102,17 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
           const dateA = new Date(valueA.startDatetime);
           const dateB = new Date(valueB.startDatetime);
           return dateA.getTime() - dateB.getTime();
-        }
+        },
+        filterParams: { buttons: ["clear"]}
       },
       {
         field: "numberOfRecords",
         headerName: "Total records",
         width: 130,
-        valueGetter: (params: any) => params.data.numberOfRecords,
+        /*valueGetter: (params: any) => params.data.numberOfRecords,*/ /* remove to display the "greater than" filter */
         valueFormatter: (props: any) => props.value.toLocaleString('en-US').replace(/,/g, ' '),
-        cellStyle: { textAlign: "right" }
+        cellStyle: { textAlign: "right" },
+        filterParams: { buttons: ["clear"]}
       },
     ]
 
