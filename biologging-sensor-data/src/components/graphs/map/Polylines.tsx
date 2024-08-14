@@ -48,7 +48,6 @@ export default function Polylines({ coords }: { coords: Coordinates }) {
         return s;
     }
 
-console.log(coords)
     return (
         <div>
             <Polyline positions={coords} pathOptions={{ color: color }} />
