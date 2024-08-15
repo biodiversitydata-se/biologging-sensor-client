@@ -57,6 +57,25 @@ pm2 delete ID
 ```
 ID being the id of the app launched (most of the time : 0 )
 
+## PRODUCTION
+
+```
+npm run build
+npm start
+```
+
+or with pm2 :
+
+```
+pm2 --name biologging-client start npm -- start
+```
+
+so far problems encountered :
+https://github.com/biodiversitydata-se/biologging-sensor-client/issues/102
+
+to be solved :
+not working on port 3000 to get a proper url. try with htaccess and apache2 with RewriteRule ?
+
 # Development and Testing Environment
 
 ## Global Packages
