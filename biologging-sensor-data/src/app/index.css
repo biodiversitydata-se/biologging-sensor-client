@@ -22,6 +22,10 @@ code {
   margin-bottom: 20px;
 }
 
+#auth-header-buttons {
+  text-align: right;
+}
+
 .error-component {
   background-color: #6691A4;
   color: white;

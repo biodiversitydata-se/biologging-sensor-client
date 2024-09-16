@@ -30,12 +30,15 @@ const Banner = () => {
                       </div>
                     </div>
                   </div>
-                  <div id="auth-header-buttons"
-                    className="item--inner builder-item--button hide-on-mobile hide-on-tablet ::loginStatus::"
-                    data-section="header_button" data-item-id="button">
-                    <a target="_new" href="https://biodiversitydata.se"
-                      className="item--button customify-btn customify-builder-btn is-icon-before">
-                      <i className="fas fa-external-link-alt"></i>&nbsp; <span data-i18n="nav.link-to-sbdi">SBDI Home</span></a>
+                  <div className="customify-col-6_md-6_sm-6 builder-first--search_box builder-item--group"
+                    data-push-left="">
+                    <div id="auth-header-buttons"
+                      className="item--inner builder-item--button hide-on-mobile hide-on-tablet ::loginStatus::"
+                      data-section="header_button" data-item-id="button">
+                      <a target="_new" href="https://biodiversitydata.se"
+                        className="item--button customify-btn customify-builder-btn is-icon-before">
+                        <i className="fas fa-external-link-alt"></i>&nbsp; <span data-i18n="nav.link-to-sbdi">SBDI Home</span></a>
+                    </div>
                   </div>
                 </div>
               </div>
