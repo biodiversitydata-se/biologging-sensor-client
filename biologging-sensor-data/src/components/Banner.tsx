@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { AboutLink, OverviewLink, VisualisationLink } from "./links";
+import { HomeLink, DatasetsLink, VisualisationLink } from "./links";
 
 const Banner = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,15 +69,13 @@ const Banner = () => {
                       className="site-navigation primary-menu primary-menu-bottom nav-menu-desktop primary-menu-desktop style-plain">
                       <ul id="menu-nested-pages-main-menu" className="primary-menu-ul menu nav-menu">
                         <li>
-                          <OverviewLink>Dataset Listing</OverviewLink>
+                          <HomeLink>Swedish Biologging Portal</HomeLink>
                         </li>
-
+                        <li>
+                          <DatasetsLink>Dataset Listing</DatasetsLink>
+                        </li>
                         <li>
                           <VisualisationLink datasetId="all">Dataset Visualisation</VisualisationLink>
-                        </li>
-
-                        <li>
-                          <AboutLink>About</AboutLink>
                         </li>
                       </ul>
                     </nav>
@@ -107,16 +105,15 @@ const Banner = () => {
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav navbar-right">
                 {/* ...your links... */}
-                <li>
-                  <OverviewLink>Dataset Listing</OverviewLink>
-                </li>
 
+                <li>
+                  <HomeLink>Swedish Biologging Portal</HomeLink>
+                </li>
+                <li>
+                  <DatasetsLink>Dataset Listing</DatasetsLink>
+                </li>
                 <li>
                   <VisualisationLink datasetId="all">Dataset Visualisation</VisualisationLink>
-                </li>
-
-                <li>
-                  <AboutLink>About</AboutLink>
                 </li>
               </ul>
             </div>

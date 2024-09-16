@@ -71,7 +71,7 @@ Add any new stylesheet links required for SBDI styling within the <head> section
 If you need to change the layout of the header, such as repositioning elements or adding/removing components, you would edit the JSX structure within the `Banner.tsx` file. This includes modifying the nested div elements, adding new components, or removing existing ones.
 
 ### Link Updates:
-If there are changes to the navigation links or their destinations, you would update the `OverviewLink`, `VisualisationLink`, and `AboutLink` components defined in the `links.tsx` file. Ensure that the `href` attributes of the `Link` components point to the correct URLs based on the SBDI guidelines.
+If there are changes to the navigation links or their destinations, you would update the `HomeLink`, `DatasetOverviewLink` and `VisualisationLink` components defined in the `links.tsx` file. Ensure that the `href` attributes of the `Link` components point to the correct URLs based on the SBDI guidelines.
 
 ## Updating Footer Component (`Footer.tsx`):
 

@@ -39,24 +39,24 @@ export function VisualisationLink({ datasetId, children }: LinkProps) {
     )
 }
 
-export function OverviewLink({ children }: LinkProps) {
+export function DatasetsLink({ children }: LinkProps) {
     return (
         <Link href={{
             pathname: `/`,
         }}
-            as={baseUrl}
+            as={`${baseUrl}datasetOverview`}
         >
             {children}
         </Link>
     )
 }
 
-export function AboutLink({ children }: LinkProps) {
+export function HomeLink({ children }: LinkProps) {
     return (
         <Link href={{
-            pathname: `/about`,
+            pathname: `/`,
         }}
-            as={`${baseUrl}about`}
+            as={baseUrl}
         >
             {children}
         </Link>
