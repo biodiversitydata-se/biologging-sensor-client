@@ -25,7 +25,7 @@ export default function Home() {
             </div>
 
             <div className="container">
-                <div className="row">
+                <div className="col-md-offset-1 col-md-10">
                     <div className="col-md-4">
                         <p>
                             Browse our datasets list<br /><br />
