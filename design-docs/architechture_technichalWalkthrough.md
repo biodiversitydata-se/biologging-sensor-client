@@ -197,14 +197,14 @@ This file provides the core functions for making HTTP requests using Axios:
 - **get**: 
   - **Purpose**: Performs a GET request to the specified endpoint.
   - **Implementation**: 
-    - Constructs the full URL using the base URL (`BASE_URL`) and the given endpoint.
+    - Constructs the full URL using the base URL (`BASE_API_URL`) and the given endpoint.
     - Uses Axios to send a GET request to this URL.
     - Returns the response data if the request is successful.
     - Catches any errors during the request and returns the error as an `AxiosError` type.
 - **post**: 
   - **Purpose**: Performs a POST request to the specified endpoint with an optional request body and parameters.
   - **Implementation**: 
-    - Constructs the full URL using the base URL (`BASE_URL`) and the given endpoint.
+    - Constructs the full URL using the base URL (`BASE_API_URL`) and the given endpoint.
     - Uses Axios to send a POST request to this URL with the provided body and optional parameters.
     - Sets the `Content-Type` header to `application/json`.
     - Includes optional parameters, defaulting to `{ take: 100 }`.
