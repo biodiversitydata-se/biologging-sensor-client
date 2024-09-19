@@ -6,6 +6,9 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BASE_API_URL } from "@/config/constants";
 import { API_DATAMODEL_URL } from "@/config/constants";
+import IMG_HOMEPAGE_API from "@/assets/images/homepage_api.png";
+import IMG_HOMEPAGE_DATASET_LISTING from "@/assets/images/homepage_dataset_listing.png";
+import IMG_HOMEPAGE_VISUALISATION_GRAPH from "@/assets/images/homepage_visualisation_graph.png";
 
 /**
  * Content of "Home" page
@@ -27,18 +30,21 @@ export default function Home() {
             <div className="container">
                 <div className="col-md-offset-1 col-md-10">
                     <div className="col-md-4">
+                        <img className="img-homepage" src={IMG_HOMEPAGE_DATASET_LISTING.src} />
                         <p>
                             Browse our datasets list<br /><br />
                             <a className="btn btn-primary" id="dataset_link" href="/datasetOverview" role="button">DATASETS</a>
                         </p>
                     </div>
                     <div className="col-md-4">
+                        <img className="img-homepage" src={IMG_HOMEPAGE_VISUALISATION_GRAPH.src} />
                         <p>
                             Eyeball the data with our visualization tools<br /><br />
                             <a className="btn btn-primary"  id="visualisation_link" href="/visualisation/all" role="button">GRAPHS</a>
                         </p>
                     </div>
                     <div className="col-md-4">
+                        <img className="img-homepage" src={IMG_HOMEPAGE_API.src} />
                         <p>
                             Use our API to fetch the data<br /><br />
                             <a className="btn btn-primary"  id="api_link" href={BASE_API_URL} target="_blank" role="button">API</a>

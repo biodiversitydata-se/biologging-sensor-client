@@ -22,6 +22,10 @@ code {
   margin-bottom: 20px;
 }
 
+.img-homepage {
+  with:100%;
+}
+
 #auth-header-buttons {
   text-align: right;
 }
