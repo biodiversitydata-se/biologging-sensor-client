@@ -74,7 +74,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                     <div className="col-md-9">{data?.valuesMeasured?.join(", ")}</div>
                 </div>
 
-                {!data.isPublic && data?.embargoEndDate ? ( 
+                {!data?.isPublic && data?.embargoEndDate ? ( 
                 <div className="row">
                     <div className="col-md-2 bold">Embargo end date:</div>
                     <div className="col-md-9">{data.embargoEndDate}</div>
