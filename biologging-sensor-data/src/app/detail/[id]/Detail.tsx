@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './detail.css';
 import orcidLogo from "@/assets/images/orcid.logo.icon.svg";
 import copy from 'copy-to-clipboard';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dataset, Taxon } from '@/api/dataset/dataset';
 
@@ -248,7 +248,15 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     <div className="col-md-12">
                         <div className="col-md-12">
                             {detail?.versions.map((keyword, index) => (
-                                <span key={index} className='col-md-1'>Ver: <a href={`http://canmove-dev.ekol.lu.se/biologgingPublicArchives/${detail.datasetID}/${detail.datasetID}_json_${keyword.number.replace('.', '_')}.zip`} download>{keyword.number}</a></span>
+                                <span key={index} className='col-md-2'>Ver: 
+                                    {detail.isPublic ? (
+                                    <a href={`http://canmove-dev.ekol.lu.se/biologgingPublicArchives/${detail.datasetID}/${detail.datasetID}_json_${keyword.number.replace('.', '_')}.zip`} download> {keyword.number}
+                                    &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} />
+                                    </a>
+                                    ) : (
+                                    <span> {keyword.number}</span>
+                                    ) }
+                                </span>
                             ))}
                         </div>
                     </div>

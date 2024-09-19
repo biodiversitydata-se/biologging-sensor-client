@@ -52,7 +52,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                                 </VisualisationLink>
                             </div>
 
-                            {data?.numberOfRecords && data?.numberOfRecords > 0 ? (
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.isPublic ? (
                                 <div className="ml-10">
                                     <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
 
@@ -73,6 +73,13 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                     <div className="col-md-2 bold">Sensors:</div>
                     <div className="col-md-9">{data?.valuesMeasured?.join(", ")}</div>
                 </div>
+
+                {!data.isPublic && data?.embargoEndDate ? ( 
+                <div className="row">
+                    <div className="col-md-2 bold">Embargo end date:</div>
+                    <div className="col-md-9">{data.embargoEndDate}</div>
+                </div>
+                ) : null}
             </div>
         </div>
     )
