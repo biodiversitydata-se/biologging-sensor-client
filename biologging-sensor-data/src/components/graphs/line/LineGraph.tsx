@@ -56,6 +56,21 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
       legend: {
         position: 'bottom' as const,
       },
+      tooltip: {
+        callbacks: {
+          
+          title: function(context) {
+            let date = new Date(context[0].raw.x); // get the date
+            let title = date.toISOString();;
+            return title;
+          },
+          
+          label: function(context) {
+            let label = [context.dataset.label , sensor + " : "+context.formattedValue+" "+context.dataset.unit];
+            return label;
+          }
+        }
+      }
     },
     scales: {
       x: {
@@ -83,6 +98,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
   useEffect(() => {
     const colors = ['blue', 'green', 'red', 'orange', 'purple'];
     const valueMeasured = sensorTypes[sensor]?.valuesMeasured[0];
+    let unitMeasured = "unit error";
 
     const setUnitsOfMeasurement = async () => {
       setLoaded(false);
@@ -133,9 +149,32 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
           setShowError(true);
           return;
         }
-        const instrumentSerialNumber = instrumentResponse.instrumentSerialNumber;
+        // tag ID + scientifcName
+        const labelInstrumentTaxon = Object.keys(events[i].eventTaxon)[0] + " - " + instrumentResponse.instrumentSerialNumber;
 
-        datasets.push({ label: instrumentSerialNumber, data: values, backgroundColor: colors[i], borderColor: colors[i] });
+        // get unit index
+        let unit;
+        let okIndex;
+        instrumentResponse?.sensors?.forEach(function (sensorData, sensorValue) {
+          // get the right sensor
+          if (Array.isArray(sensorData.sensorType)) {
+            sensorData.sensorType.forEach(function (valueS, indexS) {
+              if (sensor == valueS) {
+                unitMeasured=sensorData?.unitsReported[indexS];
+              }
+            });
+
+          }
+          else {
+            if (sensor == sensorData.sensorType) {
+              unitMeasured=sensorData?.unitsReported[0];
+            }
+          }
+          
+        });
+
+
+        datasets.push({ label: labelInstrumentTaxon, data: values, backgroundColor: colors[i], borderColor: colors[i], unit: unitMeasured });
       }
 
       setLineData({ datasets: datasets });
@@ -155,7 +194,9 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
       {loaded && (showError ? <ErrorComponent /> :
         <div>
           <Line options={options} data={lineData} />
-          <h5>Total number of records is {events.length}</h5>
+          <h5>{sensor} data for a random selection of XX(5) animals (tag IDs in legend). 
+          Each line displays a series of the first XX measurements, starting at sensor deployment. 
+          Use mouse over a measurement to read {sensor} value, tag ID, date/time. </h5>
         </div>
       )}
     </div>
