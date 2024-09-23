@@ -40,6 +40,7 @@ interface LineDataset {
   data: any[];
   backgroundColor: string;
   borderColor: string;
+  unit: string;
 }
 
 interface LineData {
@@ -58,17 +59,36 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
       },
       tooltip: {
         callbacks: {
-          
-          title: function(context) {
-            let date = new Date(context[0].raw.x); // get the date
-            let title = date.toISOString();;
-            return title;
-          },
-          
           label: function(context) {
-            let label = [context.dataset.label , sensor + " : "+context.formattedValue+" "+context.dataset.unit];
+            let label;
+            let unit;
+
+            if (typeof context?.dataset === "object" && context?.dataset !== null && "unit" in context.dataset)
+              unit = String(context.dataset?.unit);
+            label = [context.dataset.label , sensor + " : "+context.formattedValue+" "+unit].toString();
             return label;
+          },
+          title: function(context) {
+            let title;
+            try {
+              if (typeof context[0]?.raw === "object" && context[0]?.raw !== null && "x" in context[0]?.raw) {
+                let date = new Date(String(context[0]?.raw?.x)); // get the date
+                title = date.toISOString();
+              }
+              else {
+                title = "dateError";
+              }
+            }
+            catch (e) {
+              title = "dateError";
+              if (e instanceof Error) {
+                  console.log(e.message)
+              }
+            }
+            return title;
           }
+          
+          
         }
       }
     },
@@ -155,10 +175,10 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
         // get unit index
         let unit;
         let okIndex;
-        instrumentResponse?.sensors?.forEach(function (sensorData, sensorValue) {
+        instrumentResponse?.sensors?.forEach(function (sensorData:any, sensorValue:any) {
           // get the right sensor
           if (Array.isArray(sensorData.sensorType)) {
-            sensorData.sensorType.forEach(function (valueS, indexS) {
+            sensorData.sensorType.forEach(function (valueS:any, indexS:any) {
               if (sensor == valueS) {
                 unitMeasured=sensorData?.unitsReported[indexS];
               }
