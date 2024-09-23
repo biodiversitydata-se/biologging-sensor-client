@@ -65,7 +65,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
 
             if (typeof context?.dataset === "object" && context?.dataset !== null && "unit" in context.dataset)
               unit = String(context.dataset?.unit);
-            label = [context.dataset.label , sensor + " : "+context.formattedValue+" "+unit].toString();
+            label = [String(context.dataset.label) , sensor + " : "+context.formattedValue+" "+unit];
             return label;
           },
           title: function(context) {
