@@ -50,7 +50,7 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
 
     return (
         <div>
-            <h4 className="bold">{sensor}</h4>
+            <h4 className="bold">Animal track</h4>
             {showError ? <ErrorComponent /> :
                 <div>
                     <MapContainer center={center} zoom={5} scrollWheelZoom={true} className='map'>

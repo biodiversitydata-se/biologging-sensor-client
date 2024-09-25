@@ -50,8 +50,9 @@ interface LineData {
 
 export default function LineGraph({ events, sensor, config }: { events: Event[], sensor: string, config: LineGraphC }) {
 
-  const graphTitle = '[' + sensor + '] data : ' + sensorTypes[sensor]?.valuesMeasured[0];
-
+  let graphTitle = sensorTypes[sensor]?.valuesMeasured[0];
+  graphTitle = graphTitle.charAt(0).toUpperCase() + graphTitle.slice(1);
+  
   const [showError, setShowError] = useState<boolean>(false);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [lineData, setLineData] = useState<LineData>({ datasets: [] });

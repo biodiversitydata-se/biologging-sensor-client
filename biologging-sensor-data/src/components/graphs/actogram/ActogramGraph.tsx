@@ -148,7 +148,7 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
 
     return (
         <div>
-            <h4 className="bold">[Acceleration] data : activity</h4>
+            <h4 className="bold">Activity</h4>
             {/* height - number of days * size of square + top_offset + S*/}
             <canvas ref={canvasRef} width={A_WIDTH} height={days * S + T_LABEL_OFFSET + S} />
         </div>
