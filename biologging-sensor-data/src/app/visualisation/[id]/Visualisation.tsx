@@ -33,7 +33,7 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
             case 'A':
                 return <Actogram events={events} valueMeasured={config.valuesMeasured[0]} config={config.actogramC} />;
             case 'M':
-                return <MapGraph events={events} config={config.mapC} />
+                return <MapGraph events={events} sensor={sensor} config={config.mapC} />
             case 'N':
                 return <div>No visualisation available. Download data for analysis</div>
             default:
@@ -47,7 +47,6 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
             {
                 Object.keys(sensors).filter((itm) => sensors[itm]).map((sensor, index) => (
                     <div className="mb-40" key={index}>
-                        <h4 className="bold">{sensor}</h4>
                         {sensors[sensor] ? <SensorTypeDisplay key={index} sensor={sensor} /> : null}
                     </div>
                 ))

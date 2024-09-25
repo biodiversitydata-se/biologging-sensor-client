@@ -11,7 +11,7 @@ import './MapGraph.css';
 
 export type Coordinates = [number, number][];
 
-export default function MapGraph({ events, config }: { events: Event[], config: MapC }) {
+export default function MapGraph({ events, sensor, config }: { events: Event[], sensor: string, config: MapC }) {
     const [data, setData] = useState<Coordinates[]>([]);
     const [center, setCenter] = useState<[number, number]>([62.3875, 16.325556]);
     const [showError, setShowError] = useState<boolean>(false);
@@ -50,6 +50,7 @@ export default function MapGraph({ events, config }: { events: Event[], config: 
 
     return (
         <div>
+            <h4 className="bold">{sensor}</h4>
             {showError ? <ErrorComponent /> :
                 <div>
                     <MapContainer center={center} zoom={5} scrollWheelZoom={true} className='map'>

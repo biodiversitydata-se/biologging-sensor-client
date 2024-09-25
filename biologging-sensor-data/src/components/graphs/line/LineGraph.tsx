@@ -49,6 +49,9 @@ interface LineData {
 }
 
 export default function LineGraph({ events, sensor, config }: { events: Event[], sensor: string, config: LineGraphC }) {
+
+  const graphTitle = '[' + sensor + '] data : ' + sensorTypes[sensor]?.valuesMeasured[0];
+
   const [showError, setShowError] = useState<boolean>(false);
   const [loaded, setLoaded] = useState<boolean>(false);
   const [lineData, setLineData] = useState<LineData>({ datasets: [] });
@@ -120,7 +123,6 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
     const colors = ['blue', 'green', 'red', 'orange', 'purple'];
     const valueMeasured = sensorTypes[sensor]?.valuesMeasured[0];
     let unitMeasured = "unit error";
-
     const setUnitsOfMeasurement = async () => {
       setLoaded(false);
       const response = await getDataset(events[0].datasetID);
@@ -209,6 +211,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
 
   return (
     <div>
+      <h4 className="bold">{graphTitle}</h4>
       {
         !loaded && <Loader />
       }
