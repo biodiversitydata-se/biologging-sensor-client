@@ -11,8 +11,13 @@ export const INSTRUMENT_ENPOINT = 'instruments';
 // ERROR MSG
 export const ERROR_LOAD_DATA = 'Data cannot be loaded. Please contact us at biologging@biodiversitydata.se';
 
+export const MAX_RECORD_VALUES = 50;
+
 // ACTOGRAM VALUES
 export const A_ERROR_VALUE = -1;
 export const A_ERROR_COLOR = "yellow";
 export const A_NO_MEASURED_VALUE = -2;
 export const A_NO_MEASURED_COLOR = "grey";
+
+// LINEGRAPH VALUES
+export const NB_LINES = 5;

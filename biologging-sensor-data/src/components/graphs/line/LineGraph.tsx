@@ -23,6 +23,7 @@ import { sensorTypes } from '@/config/config';
 import { AcceptedXUnits, LineGraphC } from '@/config/model';
 import ErrorComponent from '@/components/Error';
 import Loader from '@/components/Loader';
+import { NB_LINES, MAX_RECORD_VALUES } from "@/config/constants";
 
 ChartJS.register(
   CategoryScale,
@@ -144,10 +145,10 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
       setLoaded(false);
       const datasets: LineDataset[] = [];
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < NB_LINES; i++) { // get all the lines as defined in NB_LINES
         const eventIds = [events[i].eventID];
         const datasetIds = [events[i].datasetID];
-        const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds });
+        const result = await filterRecords({ eventIds: eventIds, datasetIds: datasetIds, recordValueTypes: [valueMeasured] });
         if (result instanceof AxiosError) {
           setShowError(true);
           return;
@@ -214,8 +215,8 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
       {loaded && (showError ? <ErrorComponent /> :
         <div>
           <Line options={options} data={lineData} />
-          <h5>{sensor} data for a random selection of XX(5) animals (tag IDs in legend). 
-          Each line displays a series of the first XX measurements, starting at sensor deployment. 
+          <h5>{sensor} data for a random selection of {NB_LINES} animals (tag IDs in legend). 
+          Each line displays a series of the first {MAX_RECORD_VALUES} measurements, starting at sensor deployment. 
           Use mouse over a measurement to read {sensor} value, tag ID, date/time. </h5>
         </div>
       )}

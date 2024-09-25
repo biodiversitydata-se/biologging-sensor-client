@@ -29,6 +29,7 @@ export default function Visualize({ params }: { params: { id: string } }) {
     const id = [selectedDataset.datasetID];
     const result = await filterEvents({ datasetIds: id });
 
+    // keep only the first 30 lines. WHY ??
     setEvent(result.results.slice(0, 30));
   }
 

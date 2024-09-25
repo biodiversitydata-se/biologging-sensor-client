@@ -1,4 +1,4 @@
-import { BASE_API_URL } from "@/config/constants";
+import { BASE_API_URL, MAX_RECORD_VALUES } from "@/config/constants";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 type ApiResponse<T> = T | AxiosError;
@@ -19,7 +19,7 @@ export const post = async <T>(endpoint: string, body: any, params?: any): Promis
                 'Content-Type': 'application/json',
               },
               params: params ?? {
-                take: 100,
+                take: MAX_RECORD_VALUES,
               },
         });
         return response.data;
