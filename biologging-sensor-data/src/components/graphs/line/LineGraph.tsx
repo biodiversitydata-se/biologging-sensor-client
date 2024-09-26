@@ -174,7 +174,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
           return;
         }
         // tag ID + scientifcName
-        const labelInstrumentTaxon = Object.keys(events[i].eventTaxon)[0] + " - " + instrumentResponse.instrumentSerialNumber;
+        const labelInstrumentTaxon = events[i].eventTaxon[0].taxonScientificName + " - " + instrumentResponse.instrumentSerialNumber;
 
         // get unit index
         let unit;
