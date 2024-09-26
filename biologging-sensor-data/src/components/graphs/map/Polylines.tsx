@@ -1,9 +1,16 @@
 import { Circle, Polyline, Tooltip } from "react-leaflet";
-import { Coordinates } from "./MapGraph";
+import { Coordinates, CoordinatesExtended } from "./MapGraph";
 import { DivIcon } from "leaflet";
 
-export default function Polylines({ coords }: { coords: Coordinates }) {
+export default function Polylines({ coords }: { coords: CoordinatesExtended }) {
     const color = _getColor();
+
+    // remove the text data to get only the coordinates
+    let coordsOnly = new Array();;
+    coords.forEach((point, indexD) => {
+        coordsOnly[indexD]=[point[0], point[1]];
+
+    });
 
     const markerIcon = new DivIcon({
         html: '<i class="fas fa-minus"></i>',
@@ -50,11 +57,11 @@ export default function Polylines({ coords }: { coords: Coordinates }) {
 
     return (
         <div>
-            <Polyline positions={coords} pathOptions={{ color: color }} />
+            <Polyline positions={coordsOnly} pathOptions={{ color: color }} />
             {coords.map((x, i) => (
                 <Circle
                     key={i}
-                    center={x}
+                    center={x as unknown as [number, number]}
                     radius={_getRadius(i, coords.length)}
                     pathOptions={i === coords.length - 1 ? { color: 'black', fillOpacity: 1, fillColor: color } : { color: color, fillOpacity: 1 }}
                     >

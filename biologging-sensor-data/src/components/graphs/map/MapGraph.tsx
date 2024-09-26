@@ -11,10 +11,12 @@ import { AxiosError } from 'axios';
 import './MapGraph.css';
 import { NB_LINES, MAX_RECORD_VALUES } from "@/config/constants";
 
-export type Coordinates = [number, number, srting, string][];
+export type Coordinates = [number, number][];
+// to store extra data with the coordinates (tag ID, taxon, ,..)
+export type CoordinatesExtended = [number, number, string[]][];
 
 export default function MapGraph({ events, sensor, config }: { events: Event[], sensor: string, config: MapC }) {
-    const [data, setData] = useState<Coordinates[]>([]);
+    const [data, setData] = useState<CoordinatesExtended[]>([]);
     const [center, setCenter] = useState<[number, number]>([62.3875, 16.325556]);
     const [showError, setShowError] = useState<boolean>(false);
 
@@ -26,7 +28,7 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
             const items = [];
 
             for (let i = 0; i < NB_LINES; i++) {
-                const c: Coordinates = [];
+                const c: CoordinatesExtended = [];
 
                 const ids = [events[i].eventID];
                 const result = await filterRecords({ eventIds: ids, datasetIds: [events[i].datasetID], recordValueTypes: ["latitude"] });
@@ -48,7 +50,7 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
                 records.slice(0, MAX_RECORD_VALUES).filter(itm => itm.recordValues.latitude && itm.recordValues.longitude)
                     .map(itm => {
                         // for some reason, we can add som extra information oin ONE (not more) field, and an array works to store several info.
-                        const coor: [number, number] = [+itm.recordValues.latitude, +itm.recordValues.longitude, [itm.recordStart.toString(), labelInstrumentTaxon]];
+                        const coor: [number, number, string[]] = [+itm.recordValues.latitude, +itm.recordValues.longitude, [itm.recordStart.toString(), labelInstrumentTaxon]];
                         c.push(coor);
                     })
                 items.push(c);
