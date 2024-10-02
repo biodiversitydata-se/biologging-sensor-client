@@ -6,3 +6,17 @@
     background: transparent;
     border: none;
 }
+
+.mapLegendBox{
+    text-align:right;
+    font-size:14px;
+    color: black;
+}
+
+.mapCircleLegend {
+  height: 8px;
+  width: 8px;
+  background-color: #000;
+  border-radius: 50%;
+  display: inline-block;
+}

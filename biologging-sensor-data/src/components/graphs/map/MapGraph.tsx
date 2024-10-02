@@ -20,6 +20,30 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
     const [center, setCenter] = useState<[number, number]>([62.3875, 16.325556]);
     const [showError, setShowError] = useState<boolean>(false);
 
+    function _getColor(i: number): string {
+        const colors: string[] = [
+            "#FF5733",
+            "#33FF57",
+            "#3366FF",
+            "#FF33FF",
+            "#FFFF33",
+            "#33FFFF",
+            "#FF3333",
+            "#33FF33",
+            "#3333FF",
+            "#FF6633",
+            "#33FF66",
+            "#6633FF",
+            "#FF33CC",
+            "#33CCFF",
+            "#CC33FF",
+            "#CCFF33",
+        ]
+
+        //const i = Math.floor(Math.random() * colors.length);
+        return colors[i];
+    }
+
     useEffect(() => {
 
         if (!events.length) return;
@@ -42,20 +66,21 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
                   setShowError(true);
                   return;
                 }
-                // tag ID + scientifcName
 
+                // tag ID + scientifcName
                 const labelInstrumentTaxon = events[i].eventTaxon[0].taxonScientificName + " - " + instrumentResponse.instrumentSerialNumber;
+
+                const color = _getColor(i);
 
                 const records: Record[] = result.results;
                 records.slice(0, MAX_RECORD_VALUES).filter(itm => itm.recordValues.latitude && itm.recordValues.longitude)
                     .map(itm => {
                         // for some reason, we can add som extra information oin ONE (not more) field, and an array works to store several info.
-                        const coor: [number, number, string[]] = [+itm.recordValues.latitude, +itm.recordValues.longitude, [itm.recordStart.toString(), labelInstrumentTaxon]];
+                        const coor: [number, number, string[]] = [+itm.recordValues.latitude, +itm.recordValues.longitude, [itm.recordStart.toString(), labelInstrumentTaxon, color]];
                         c.push(coor);
                     })
                 items.push(c);
             }
-
             setData(items);
             setShowError(false);
         };

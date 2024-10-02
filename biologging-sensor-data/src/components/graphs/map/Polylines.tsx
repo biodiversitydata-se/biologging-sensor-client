@@ -3,43 +3,20 @@ import { Coordinates, CoordinatesExtended } from "./MapGraph";
 import { DivIcon } from "leaflet";
 
 export default function Polylines({ coords }: { coords: CoordinatesExtended }) {
-    const color = _getColor();
+    //const color = _getColor();
+    let color:string = "";
 
     // remove the text data to get only the coordinates
     let coordsOnly = new Array();;
     coords.forEach((point, indexD) => {
         coordsOnly[indexD]=[point[0], point[1]];
-
+        color=point[2][2];
     });
 
     const markerIcon = new DivIcon({
         html: '<i class="fas fa-minus"></i>',
         iconSize: [30, 30],
     })
-
-    function _getColor(): string {
-        const colors: string[] = [
-            "#FF5733",
-            "#33FF57",
-            "#3366FF",
-            "#FF33FF",
-            "#FFFF33",
-            "#33FFFF",
-            "#FF3333",
-            "#33FF33",
-            "#3333FF",
-            "#FF6633",
-            "#33FF66",
-            "#6633FF",
-            "#FF33CC",
-            "#33CCFF",
-            "#CC33FF",
-            "#CCFF33",
-        ]
-
-        const i = Math.floor(Math.random() * colors.length);
-        return colors[i];
-    }
 
     function _getRadius(i: number, n: number): number {
         const s = 5;
