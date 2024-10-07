@@ -32,7 +32,7 @@ export default function Home() {
                     <div className="col-md-4">
                         <img className="img-homepage" src={IMG_HOMEPAGE_DATASET_LISTING.src} />
                         <p>
-                            Browse our available datasets<br /><br />
+                            Visualize our available datasets<br /><br />
                             <a className="btn btn-primary" id="dataset_link" href="/datasetOverview" role="button">DATASETS</a>
                         </p>
                     </div>
