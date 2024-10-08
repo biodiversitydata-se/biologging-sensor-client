@@ -1,3 +1,5 @@
+import { Taxon } from "../dataset/dataset";
+
 export interface Organism {
     organismID: string;
     projectID: string;
