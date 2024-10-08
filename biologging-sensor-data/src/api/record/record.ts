@@ -6,6 +6,7 @@ export interface Record{
     recordStart: string;	
     recordEnd: string;
     recordValues: any;
+    organismPublic: boolean;
     dateCreated: string;
     dateUpdated: string;
 }

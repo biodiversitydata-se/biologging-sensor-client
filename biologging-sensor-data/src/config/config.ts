@@ -21,7 +21,7 @@ aData.push(new ActogramConfig('black', '', 61));
 sensorTypes['Acceleration'] = new ConfigItem(['activity'], 'A', new ActogramC(aData));
 sensorTypes['Altimeter'] = new ConfigItem(['altitude'], 'L', new LineGraphC() );
 sensorTypes['Pressure gauge'] = new ConfigItem(['pressure'], 'L', new LineGraphC());
-sensorTypes['Thermometer'] = new ConfigItem(['temperature'], 'L', new LineGraphC());
+sensorTypes['Thermometer'] = new ConfigItem(['air temperature'], 'L', new LineGraphC());
 sensorTypes['Light sensor'] = new ConfigItem(['light level'], 'L', new LineGraphC());
 sensorTypes['Wet/dry'] = new ConfigItem(['contact with water'], 'L', new LineGraphC());
 sensorTypes['Tracking radar'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
@@ -29,7 +29,7 @@ sensorTypes['Wingbeat'] = new ConfigItem([''], 'N', new NoVisC());
 sensorTypes['Geographic spherical coordinate system'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 
 
-// SPECIFIC DATSET
+// SPECIFIC DATASET
 datasetConfig['geolocator_great_snipes_AL'] = {defaultSensors: ['Acceleration', 'Altimeter']};
 datasetConfig['dataset_wram_moose_2003'] = {defaultSensors: ['Geographic spherical coordinate system', 'Thermometer']};
 datasetConfig['LU_trackingradar_Falsterbo_springs_2010-11'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};

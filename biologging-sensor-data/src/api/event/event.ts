@@ -11,11 +11,11 @@ export interface Event{
     eventEnd: string;
     qualityRemarks: string;
     eventRemarks: string;
-    sensorTypes: string[];
+    valuesMeasured: string[];
     eventTaxon: Taxon[];
+    organismPublic: boolean;
     dateCreated: string;
     dateUpdated: string;
-    valuesMeasured: string[];
     numberOfRecords: number;
 
 }

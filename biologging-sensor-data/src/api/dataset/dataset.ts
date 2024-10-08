@@ -13,7 +13,7 @@ export interface Dataset {
     institutionCode: string;
     resourceCitation: string;
     onlineUrl: string;
-    bibliographicCitation: Reference;
+    bibliographicCitation: Reference[];
     sensorType: string[];
     valuesMeasured: string[];
     unitsReported: string[];
@@ -21,6 +21,7 @@ export interface Dataset {
     taxonomicCoverage: Taxon[];
     embargoEndDate: string;
     isPublic: boolean;
+    dataAvailability: string;
     updateFrequency: string;
     geographicalCoverage: GeographicWENS;
     temporalCoverage: RangeDateTime;

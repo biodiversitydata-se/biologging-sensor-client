@@ -1,5 +1,6 @@
 export interface Instrument {
     instrumentID: string;
+    projectID: string;
     instrumentType:	string; //should be enum??
     instrumentModel: string;
     instrumentManufacturer:	string;

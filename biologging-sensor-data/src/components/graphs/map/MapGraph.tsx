@@ -1,6 +1,6 @@
 import { Event } from '@/api/event/event';
 import { filterRecords } from '@/api/record/api';
-import { getInstrument } from '@/api/instrument/api';
+import { getOrganism } from '@/api/organism/api';
 import { Record } from '@/api/record/record';
 import MapComponent from './MapComponent';
 import { useState, useEffect } from 'react';
@@ -61,14 +61,14 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
                     return;
                 }
 
-                const instrumentResponse = await getInstrument(events[i].instrumentID);
-                if (instrumentResponse instanceof AxiosError) {
+                const organismResponse = await getOrganism(events[i].organismID);
+                if (organismResponse instanceof AxiosError) {
                   setShowError(true);
                   return;
                 }
 
                 // tag ID + scientifcName
-                const labelInstrumentTaxon = events[i].eventTaxon[0].taxonScientificName + " - " + instrumentResponse.instrumentSerialNumber;
+                const labelOrganismTaxon = events[i].eventTaxon[0].taxonScientificName + " - " + organismResponse.internalOrganismId;
 
                 const color = _getColor(i);
 
@@ -76,7 +76,7 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
                 records.slice(0, MAX_RECORD_VALUES).filter(itm => itm.recordValues.latitude && itm.recordValues.longitude)
                     .map(itm => {
                         // for some reason, we can add som extra information oin ONE (not more) field, and an array works to store several info.
-                        const coor: [number, number, string[]] = [+itm.recordValues.latitude, +itm.recordValues.longitude, [itm.recordStart.toString(), labelInstrumentTaxon, color]];
+                        const coor: [number, number, string[]] = [+itm.recordValues.latitude, +itm.recordValues.longitude, [itm.recordStart.toString(), labelOrganismTaxon, color]];
                         c.push(coor);
                     })
                 items.push(c);

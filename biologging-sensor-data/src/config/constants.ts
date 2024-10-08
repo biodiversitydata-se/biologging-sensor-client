@@ -6,7 +6,6 @@ export const BASE_API_URL = 'https://biologging-api.biodiversitydata.se/biologgi
 //export const BASE_API_URL = 'http://localhost:8085/biologgingAPI/v1/';
 export const DATASETS_ENDPOINT = 'datasets';
 export const EVENTS_ENPOINT = 'events';
-export const INSTRUMENT_ENPOINT = 'instruments';
 
 // ERROR MSG
 export const ERROR_LOAD_DATA = 'Data cannot be loaded. Please contact us at biologging@biodiversitydata.se';

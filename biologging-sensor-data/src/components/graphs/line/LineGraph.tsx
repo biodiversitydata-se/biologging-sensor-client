@@ -5,6 +5,7 @@ import { Line } from 'react-chartjs-2';
 import { filterRecords } from '@/api/record/api';
 import { Record } from '@/api/record/record';
 import { getInstrument } from '@/api/instrument/api';
+import { getOrganism } from '@/api/organism/api';
 import { getDataset } from '@/api/dataset/api';
 import {
   Chart as ChartJS,
@@ -70,7 +71,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
 
             if (typeof context?.dataset === "object" && context?.dataset !== null && "unit" in context.dataset)
               unit = String(context.dataset?.unit);
-            label = [String(context.dataset.label) , sensor + " : "+context.formattedValue+" "+unit];
+            label = [String(context.dataset.label) , graphTitle + " : "+context.formattedValue+" "+unit];
             return label;
           },
           title: function(context) {
@@ -137,7 +138,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
             ...prevOptions.scales!.y,
             title: {
               display: true,
-              text: `${sensor?.charAt(0).toUpperCase()}${sensor?.slice(1)} (${unitOfMeasure?.charAt(0)}${unitOfMeasure?.slice(1)})`,
+              text: `${valueMeasured?.charAt(0).toUpperCase()}${valueMeasured?.slice(1)} (${unitOfMeasure?.charAt(0)}${unitOfMeasure?.slice(1)})`,
             },
           },
         },
@@ -173,8 +174,15 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
           setShowError(true);
           return;
         }
-        // tag ID + scientifcName
-        const labelInstrumentTaxon = events[i].eventTaxon[0].taxonScientificName + " - " + instrumentResponse.instrumentSerialNumber;
+
+        const organismResponse = await getOrganism(events[i].organismID);
+        if (organismResponse instanceof AxiosError) {
+          setShowError(true);
+          return;
+        }
+
+        // animal ID + scientifcName
+        const labelAnimalTaxon = events[i].eventTaxon[0].taxonScientificName + " - " + organismResponse.internalOrganismId;
 
         // get unit index
         let unit;
@@ -198,7 +206,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
         });
 
 
-        datasets.push({ label: labelInstrumentTaxon, data: values, backgroundColor: colors[i], borderColor: colors[i], unit: unitMeasured });
+        datasets.push({ label: labelAnimalTaxon, data: values, backgroundColor: colors[i], borderColor: colors[i], unit: unitMeasured });
       }
 
       setLineData({ datasets: datasets });
