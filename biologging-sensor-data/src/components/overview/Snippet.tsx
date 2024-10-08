@@ -46,11 +46,13 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                                 <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" size="3x" />
                             </DetailLink>
 
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.isPublic ? (
                             <div className="ml-10">
                                 <VisualisationLink datasetId={data?.datasetID}>
                                     <FontAwesomeIcon icon={faChartLine} className="snippet-icon" size="3x" />
                                 </VisualisationLink>
                             </div>
+                            ) : null}
 
                             {data?.numberOfRecords && data?.numberOfRecords > 0 && data.isPublic ? (
                                 <div className="ml-10">
@@ -78,6 +80,13 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                 <div className="row">
                     <div className="col-md-2 bold">Embargo end date:</div>
                     <div className="col-md-9">{data.embargoEndDate}</div>
+                </div>
+                ) : null}
+
+                {data?.dataAvailability && data.dataAvailability!="" ? (
+                <div className="row">
+                    <div className="col-md-2 bold">Data availability:</div>
+                    <div className="col-md-9">{data.dataAvailability}</div>
                 </div>
                 ) : null}
             </div>

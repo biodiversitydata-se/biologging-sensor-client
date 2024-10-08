@@ -23,7 +23,6 @@ function Detail({ detail }: { detail: Dataset | null }) {
         }
     }, [isCopied]);
 
-
     return (
         <div>
             <div className="container">
@@ -234,14 +233,18 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>
                     <div className="col-md-12">
                         {<div className='col-md-3'><small>License:</small><div>{detail?.license}</div></div>}
-                        {<div className='col-md-3'><small>Embarge end date:</small><div>{detail?.embargoEndDate}</div></div>}
+                        {<div className='col-md-3'><small>Public data:</small><div>{detail?.isPublic ? "Yes" : "no"}</div></div>}
+                        {<div className='col-md-3'><small>Embargo end date:</small><div>{detail?.embargoEndDate}</div></div>}
+                        {<div className='col-md-3'><small>Data availability:</small><div>{detail?.dataAvailability}</div></div>}
+                    </div>
+                    <div className="col-md-12">
                         {<div className='col-md-3'>
                             <small>Last updated | Update frequency:</small>
                             <div>
                                 {detail?.dateUpdated ? detail.dateUpdated.slice(0, 10) + ' | ' + detail?.updateFrequency : 'No date available'}
                             </div>
                         </div>}
-                    </div>
+                    </div>                    
                 </div>
 
                 <div className='row container-wraper pb-3p'>
