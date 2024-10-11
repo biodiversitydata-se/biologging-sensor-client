@@ -1,7 +1,7 @@
 import { A_ERROR_COLOR, A_NO_MEASURED_COLOR } from "@/config/constants";
 import { ActogramC } from "@/config/model";
 
-export function ActogramLegend({ config }: { config: ActogramC }) {
+export function ActogramLegend({ config, labelOrganismTaxon }: { config: ActogramC, labelOrganismTaxon: string }) {
     return (
         <div>
             {config.config.map((itm, index) => (
@@ -19,6 +19,9 @@ export function ActogramLegend({ config }: { config: ActogramC }) {
                 <div className="col-md-2 legend-color" style={{ backgroundColor: config.notMeasuredCase?.color ?? A_NO_MEASURED_COLOR }}></div>
                 <div className="col-md-10 legend-label">Not measured value</div>
             </div>
+
+            <br />
+            <div className="legendGraph">{labelOrganismTaxon}</div>
         </div>
     )
 }

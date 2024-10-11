@@ -227,9 +227,9 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
       {loaded && (showError ? <ErrorComponent /> :
         <div>
           <Line options={options} data={lineData} />
-          <h5>{graphTitle} data for a random selection of {NB_LINES} animals (animal IDs in legend). 
+          <div className="legendGraph">{graphTitle} data for a random selection of {NB_LINES} animals (animal IDs in legend). 
           Each line displays a series of the first {MAX_RECORD_VALUES} measurements, starting at sensor deployment. 
-          Use mouse over a measurement to read {graphTitle} value, animal ID, date/time. </h5>
+          Use mouse over a measurement to read {graphTitle} value, animal ID, date/time. </div>>
         </div>
       )}
     </div>

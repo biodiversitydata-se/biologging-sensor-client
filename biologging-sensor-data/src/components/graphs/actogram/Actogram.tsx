@@ -1,5 +1,6 @@
 import { Event } from "@/api/event/event";
 import { filterRecords } from "@/api/record/api";
+import { getOrganism } from '@/api/organism/api';
 import { Record } from "@/api/record/record";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -22,6 +23,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
     const [loaded, setLoaded] = useState<boolean>(false);
     const [errorValue, setErrorValue] = useState<number>(-1);
     const [notMeasuredValue, setNotMeasuredValue] = useState<number>(-2);
+    const [labelOrganismTaxon, setLabelOrganismTaxon] = useState<string[]>('');
 
     useEffect(() => {
         if (!events.length) return;
@@ -37,7 +39,8 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
             const monthCounts: Map<string, number> = new Map<string, number>();
 
             // take first event
-            const relEvent = events[0];
+            const indexEvent=0;
+            const relEvent = events[indexEvent];
             const ids = [relEvent.eventID];
             const datasetId = [relEvent.datasetID];
 
@@ -126,12 +129,22 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
 
             setDay((prev) => Math.ceil(prev))
 
+
+            const organismResponse = await getOrganism(events[indexEvent].organismID);
+            if (organismResponse instanceof AxiosError) {
+              setShowError(true);
+              return;
+            }
+
+            const labelOrganismTaxon = events[indexEvent].eventTaxon[0].taxonScientificName + " - " + organismResponse.internalOrganismId
+
             setData(items);
             setCounts(monthCounts);
             setShowError(false);
             setLoaded(true);
             setNotMeasuredValue(notMeasuredV);
             setErrorValue(errorV);
+            setLabelOrganismTaxon(labelOrganismTaxon);
         };
 
         dataFetch();
@@ -157,19 +170,19 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
                                     notMeasuredValue={notMeasuredValue} />
                             </div>}
                             {loaded && <div className="col-md-3" style={{ marginTop: T_LABEL_OFFSET }}>
-                                <ActogramLegend config={config} ></ActogramLegend>
+                                <ActogramLegend config={config} labelOrganismTaxon={labelOrganismTaxon} ></ActogramLegend>
                             </div>}
                         </div>
 
                         <br />
 
-                        <h5>Activity data for one randomly selected animal showing the first {MAX_RECORD_VALUES_ACTOGRAM} measurements, 
+                        <div className="legendGraph">Activity data for one randomly selected animal showing the first {MAX_RECORD_VALUES_ACTOGRAM} measurements, 
                         starting at top from the time of sensor deployment. 
                         Each horizontal row shows data from two consecutive days with blocks corresponding to one hour. 
                         The second day is repeated as the first day in the next row to enable better views of night periods between days. 
                         The colour of blocks corresponds to the mean activity level calculated for that hour, ranging from no activity to continuous activity.
                         <br />See Bäckman et al. (2017, DOI: <a href="https://doi.org/10.1111/jav.01068" target="_blank">10.1111/jav.01068</a>) for more details on methodology being the basis for activity measurements and the data displayed in an actogram.
-                        </h5>
+                        </div>
                     </div>
 
             }

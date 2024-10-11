@@ -91,7 +91,7 @@ code {
 /* ACTOGRAM STYLES */
 .legend-color {
   height: 23px;
-
+  border: 1px solid;
 }
 
 .legend-label {
@@ -100,4 +100,9 @@ code {
 
 .ag-icon-filter {
   color: red;
+}
+
+.legendGraph {
+  text-align: left;
+  font-weight: bold;
 }
