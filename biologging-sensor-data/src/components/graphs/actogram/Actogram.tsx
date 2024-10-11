@@ -23,7 +23,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
     const [loaded, setLoaded] = useState<boolean>(false);
     const [errorValue, setErrorValue] = useState<number>(-1);
     const [notMeasuredValue, setNotMeasuredValue] = useState<number>(-2);
-    const [labelOrganismTaxon, setLabelOrganismTaxon] = useState<string[]>('');
+    const [labelOrganismTaxon, setLabelOrganismTaxon] = useState<string>('');
 
     useEffect(() => {
         if (!events.length) return;
