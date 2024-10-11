@@ -11,6 +11,7 @@ export const EVENTS_ENPOINT = 'events';
 export const ERROR_LOAD_DATA = 'Data cannot be loaded. Please contact us at biologging@biodiversitydata.se';
 
 export const MAX_RECORD_VALUES = 50;
+export const MAX_RECORD_VALUES_ACTOGRAM = 1000;
 
 // ACTOGRAM VALUES
 export const A_ERROR_VALUE = -1;

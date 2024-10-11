@@ -6,14 +6,14 @@ export const sensorTypes: {[id: string]: ConfigItem} = {};
 // DEFAULT ACTOGRAM CONFIG
 // TODO: add labels
 const aData: ActogramConfig[] = [];
-aData.push(new ActogramConfig('#FFFFFF', '', 0, 0));
-aData.push(new ActogramConfig('#66FF66', '', 1, 10));
+aData.push(new ActogramConfig('#F8F8FF', 'No activity, resting', 0, 0));
+aData.push(new ActogramConfig('#66FF66', 'Low activity', 1, 10));
 aData.push(new ActogramConfig('#33FF33', '', 11, 20));
-aData.push(new ActogramConfig('#00CC00', '', 21, 30));
+aData.push(new ActogramConfig('#00CC00', 'Medium activity', 21, 30));
 aData.push(new ActogramConfig('#009900', '', 31, 40));
 aData.push(new ActogramConfig('#006600', '', 41, 50));
-aData.push(new ActogramConfig('#660066', '', 51, 60));
-aData.push(new ActogramConfig('black', '', 61));
+aData.push(new ActogramConfig('#660066', 'High activity', 51, 60));
+aData.push(new ActogramConfig('black', 'Continuous activity', 61));
 
 
 

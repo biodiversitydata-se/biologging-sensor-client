@@ -11,7 +11,7 @@ import { ActogramLegend } from "./ActogramLegend";
 import ErrorComponent from "@/components/Error";
 import { AxiosError } from "axios";
 import Loader from "@/components/Loader";
-import { A_ERROR_VALUE, A_NO_MEASURED_VALUE } from "@/config/constants";
+import { A_ERROR_VALUE, A_NO_MEASURED_VALUE, MAX_RECORD_VALUES_ACTOGRAM } from "@/config/constants";
 
 
 export default function Actogram({ events, valueMeasured, config }: { events: Event[], valueMeasured: string, config: ActogramC }) {
@@ -49,6 +49,8 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
             // load data
             const records: Record[] = [];
             let noRecs = relEvent.numberOfRecords;
+            // maximum number of records to be displayed
+            if (noRecs>MAX_RECORD_VALUES_ACTOGRAM) noRecs=MAX_RECORD_VALUES_ACTOGRAM;
             let skip = 0;
             while (noRecs > 0) {
                 const take = noRecs < 1000 ? noRecs : 1000;
@@ -58,7 +60,8 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
                     setShowError(true);
                     return;
                 }
-                records.push(...result.results);
+                // slice to the maximum number of records
+                records.push(...result.results.slice(0,MAX_RECORD_VALUES_ACTOGRAM));
 
                 skip += 1000;
                 noRecs -= 1000;
@@ -157,6 +160,16 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
                                 <ActogramLegend config={config} ></ActogramLegend>
                             </div>}
                         </div>
+
+                        <br />
+
+                        <h5>Activity data for one randomly selected animal showing the first {MAX_RECORD_VALUES_ACTOGRAM} measurements, 
+                        starting at top from the time of sensor deployment. 
+                        Each horizontal row shows data from two consecutive days with blocks corresponding to one hour. 
+                        The second day is repeated as the first day in the next row to enable better views of night periods between days. 
+                        The colour of blocks corresponds to the mean activity level calculated for that hour, ranging from no activity to continuous activity.
+                        <br />See Bäckman et al. (2017, DOI: <a href="https://doi.org/10.1111/jav.01068" target="_blank">10.1111/jav.01068</a>) for more details on methodology being the basis for activity measurements and the data displayed in an actogram.
+                        </h5>
                     </div>
 
             }
