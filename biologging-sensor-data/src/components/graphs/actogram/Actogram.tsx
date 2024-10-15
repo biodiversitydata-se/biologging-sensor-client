@@ -176,7 +176,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
 
                         <br />
 
-                        <div className="legendGraph">Activity data for one randomly selected animal (taxon and animal ID in figur legend) 
+                        <div className="legendGraph">Activity data for one randomly selected animal (taxon and animal ID in figure legend) 
                         showing the first {MAX_RECORD_VALUES_ACTOGRAM} measurements, starting at top from the time of sensor deployment. 
                         Each horizontal row shows data from two consecutive days with blocks corresponding to one hour. 
                         The second day is repeated as the first day in the next row to enable better views of night periods between days. 
