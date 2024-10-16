@@ -12,6 +12,9 @@ code {
     monospace;
 }
 
+.home {
+  font-size: 16px! important;
+}
 
 .main-content {
   padding: 15px 15px;

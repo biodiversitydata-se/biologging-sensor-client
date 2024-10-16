@@ -1,14 +1,14 @@
+import './index.css';
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+//import { Inter } from 'next/font/google'
 import Banner from '../components/Banner'
 import Footer from '../components/Footer'
-import './index.css';
 import "leaflet/dist/leaflet.css";
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 config.autoAddCss = false; /* eslint-disable import/first */
 
-const inter = Inter({ subsets: ['latin'] })
+//const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Biologging Sensor',
@@ -41,7 +41,7 @@ export default function RootLayout({
 
 
       </head>
-      <body className={inter.className}>
+      <body>
         <Banner />
         <div className='main-content'>
           {children}
