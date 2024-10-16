@@ -1,14 +1,22 @@
 import Actogram from "@/components/graphs/actogram/Actogram";
 import LineGraph from "@/components/graphs/line/LineGraph";
-import MapGraph from "@/components/graphs/map/MapGraph";
 import { datasetConfig, sensorTypes } from "@/config/config";
 import { SensorList } from "./interface";
 import { Event } from "@/api/event/event";
+
+// to avoid "window is not defined" when no map
+//import MapGraph from "@/components/graphs/map/MapGraph";
+import dynamic from 'next/dynamic';
+const MapGraph = dynamic(() => import("@/components/graphs/map/MapGraph"), {
+  ssr: false,
+});
+
 
 /**
  * Content of "Visualisation" page
  */
 export default function Visualisation({ events, sensors }: { events: Event[], sensors: SensorList }) {
+
     const SensorTypeDisplay = ({ sensor }: { sensor: string }) => {
         let config;
 

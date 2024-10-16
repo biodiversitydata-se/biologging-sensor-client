@@ -19,7 +19,6 @@ export default function Visualize({ params }: { params: { id: string } }) {
   const [dataset, setDataset] = useState<Dataset>();
   const [selectedSensors, updateSelectedSensors] = useState<SensorList>({});
 
-
   async function _updateEvents(selectedDataset: Dataset) {
     if (!selectedDataset) {
       return;
