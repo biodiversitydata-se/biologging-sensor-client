@@ -32,7 +32,7 @@ export default function Home() {
                     <div className="col-md-4">
                         <img className="img-homepage" src={IMG_HOMEPAGE_DATASET_LISTING.src} />
                         <p>
-                            Visualize our available datasets<br /><br />
+                            Browse our available datasets<br /><br />
                             <a className="btn btn-primary" id="dataset_link" href="/datasetOverview" role="button">DATASETS</a>
                         </p>
                     </div>
@@ -40,7 +40,7 @@ export default function Home() {
                         <img className="img-homepage" src={IMG_HOMEPAGE_VISUALISATION_GRAPH.src} />
                         <p>
                             Explore the data<br /><br />
-                            <a className="btn btn-primary"  id="visualisation_link" href="/visualisation/all" role="button">GRAPHS</a>
+                            <a className="btn btn-primary"  id="visualisation_link" href="/visualisation/all" role="button">VISUALISATIONS</a>
                         </p>
                     </div>
                     <div className="col-md-4">
