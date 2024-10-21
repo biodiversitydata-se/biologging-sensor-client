@@ -199,11 +199,15 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                     </span>
                                 </div>
                             ))}
-                        </span>
+                        </span>                 
 
-                        <small className="col-md-12">Institution: </small>
-                        <span className="col-md-12">{detail?.institutionCode}</span>
                     </div>
+
+
+                    <div className="col-md-12">
+                        {<div className='col-md-3'><small>Institution:</small><div>{detail?.institutionCode}</div></div>}
+                        {<div className='col-md-3'><small>Funder name(s):</small><div>{detail?.funderName}</div></div>}
+                    </div>   
                     <div className="col-md-2">
                         <p className="span copy-msg">{copyMessage}</p>
                     </div>
@@ -233,9 +237,9 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>
                     <div className="col-md-12">
                         {<div className='col-md-3'><small>License:</small><div>{detail?.license}</div></div>}
-                        {<div className='col-md-3'><small>Public data:</small><div>{detail?.isPublic ? "Yes" : "no"}</div></div>}
+                        {<div className='col-md-3'><small>Access rights:</small><div>{detail?.accessRights}</div></div>}
+                        {<div className='col-md-3'><small>Intellectual rights:</small><div>{detail?.intellectualRights}</div></div>}
                         {<div className='col-md-3'><small>Embargo end date:</small><div>{detail?.embargoEndDate}</div></div>}
-                        {<div className='col-md-3'><small>Data availability:</small><div>{detail?.dataAvailability}</div></div>}
                     </div>
                     <div className="col-md-12">
                         {<div className='col-md-3'>
@@ -252,7 +256,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <div className="col-md-12">
                             {detail?.versions.map((keyword, index) => (
                                 <span key={index} className='col-md-2'>Ver: 
-                                    {detail?.isPublic ? (
+                                    {detail?.accessRights != "restricted access" ? (
                                     <a href={`http://canmove-dev.ekol.lu.se/biologgingPublicArchives/${detail.datasetID}/${detail.datasetID}_json_${keyword.number.replace('.', '_')}.zip`} download> {keyword.number}
                                     &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} />
                                     </a>

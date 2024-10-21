@@ -46,7 +46,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                                 <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" size="3x" />
                             </DetailLink>
 
-                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.isPublic ? (
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!="restricted access" ? (
                             <div className="ml-10">
                                 <VisualisationLink datasetId={data?.datasetID}>
                                     <FontAwesomeIcon icon={faChartLine} className="snippet-icon" size="3x" />
@@ -54,7 +54,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                             </div>
                             ) : null}
 
-                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.isPublic ? (
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!="restricted access" ? (
                                 <div className="ml-10">
                                     <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
 

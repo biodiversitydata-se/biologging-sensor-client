@@ -9,6 +9,7 @@ export interface Dataset {
     contact: Contact[];
     curator: Contact[];
     owner: Contact[];
+    funderName: string[];
     license: string;
     institutionCode: string;
     resourceCitation: string;
@@ -20,7 +21,8 @@ export interface Dataset {
     instrumentTypes: string[];
     taxonomicCoverage: Taxon[];
     embargoEndDate: string;
-    isPublic: boolean;
+    accessRights: string;
+    intellectualRights: string;
     dataAvailability: string;
     updateFrequency: string;
     geographicalCoverage: GeographicWENS;
