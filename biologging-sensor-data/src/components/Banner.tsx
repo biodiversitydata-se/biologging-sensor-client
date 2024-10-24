@@ -1,10 +1,53 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HomeLink, DatasetsLink, VisualisationLink } from "./links";
 
 const Banner = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+
+    /* MATOMO statistics, with buildCOmpile ignoring paramaters (ts-ignore => don't remove !!)*/ 
+
+    /*
+    // @ts-ignore
+    var _mtm = window._mtm = window._mtm || [];
+    _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+    (function() {
+      // @ts-ignore
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      // @ts-ignore
+      g.async=true; g.src='https://matomo.biodiversitydata.se/js/container_YZLb7LKK.js'; s.parentNode.insertBefore(g,s);
+    })();
+    */
+
+    // @ts-ignore
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.biodiversitydata.se/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '11']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      // @ts-ignore
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();    
+    /* end of MATOMO plugin */
+  }, []);
+
+  /*
+  var _paq = window._paq = window._paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//matomo.biodiversitydata.se/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '11']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+  */
   return (
     <>
       <header id="masthead" className="site-header header-v1">
