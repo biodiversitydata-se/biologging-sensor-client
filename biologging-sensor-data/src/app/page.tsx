@@ -58,7 +58,7 @@ export default function Home() {
 
                     <div className="row bottom-margin">
                         <h3>About the API</h3>
-                        <p>All the data displayed on this website is obtained via the Biologging Open API <a href={BASE_API_URL}>{BASE_API_URL}</a></p>
+                        <p>All the data displayed on this website is obtained via the Biologging Open API <a href={BASE_API_URL + 'docs'}>{BASE_API_URL}docs</a></p>
                         <p>Its datamodel is following <a href={API_DATAMODEL_URL}>the format described here.</a></p>
                         <p>If you encounter any problem with the API, please contact us !</p>
                     </div>
