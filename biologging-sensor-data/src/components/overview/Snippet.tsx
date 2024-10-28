@@ -3,6 +3,7 @@ import { DetailLink, VisualisationLink } from "../links";
 import './Snippet.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faCircleInfo, faDownload } from "@fortawesome/free-solid-svg-icons";
+import { databaseValues } from "@/config/config";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
     const downloadDataset = () => {
@@ -46,7 +47,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                                 <FontAwesomeIcon icon={faCircleInfo} className="snippet-icon" size="3x" />
                             </DetailLink>
 
-                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!="restricted access" ? (
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!=databaseValues["datasetNoAccess"] ? (
                             <div className="ml-10">
                                 <VisualisationLink datasetId={data?.datasetID}>
                                     <FontAwesomeIcon icon={faChartLine} className="snippet-icon" size="3x" />
@@ -54,7 +55,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                             </div>
                             ) : null}
 
-                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!="restricted access" ? (
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!=databaseValues["datasetNoAccess"] ? (
                                 <div className="ml-10">
                                     <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
 

@@ -2,6 +2,7 @@ import { ActogramC, ActogramConfig, DatasetConfig, LineGraphC, MapC, NoVisC, Con
 
 export const datasetConfig: {[id: string] : DatasetConfig} = {};
 export const sensorTypes: {[id: string]: ConfigItem} = {};
+export const databaseValues: {[id: string]: string} = {};
 
 // DEFAULT ACTOGRAM CONFIG
 // TODO: add labels
@@ -37,3 +38,5 @@ datasetConfig['LU_trackingradar_Falsterbo_autumns_2009-12'] = {defaultSensors: [
 datasetConfig['LU_trackingradar_Lundfixed_2006-13'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
 
 
+// VOCABULARY DATABASE
+databaseValues['datasetNoAccess']="no open access";
