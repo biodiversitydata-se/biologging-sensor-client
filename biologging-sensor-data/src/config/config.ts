@@ -28,10 +28,12 @@ sensorTypes['Wet/dry'] = new ConfigItem(['contact with water'], 'L', new LineGra
 sensorTypes['Tracking radar'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 sensorTypes['Wingbeat'] = new ConfigItem([''], 'N', new NoVisC());
 sensorTypes['Geographic spherical coordinate system'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
+sensorTypes['GPS'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 
 
 // SPECIFIC DATASET
 datasetConfig['geolocator_great_snipes_AL'] = {defaultSensors: ['Acceleration', 'Altimeter']};
+datasetConfig['satellite_tracking_great_snipe_AL'] = {defaultSensors: ['GPS']};
 datasetConfig['dataset_wram_moose_2003'] = {defaultSensors: ['Geographic spherical coordinate system', 'Thermometer']};
 datasetConfig['LU_trackingradar_Falsterbo_springs_2010-11'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
 datasetConfig['LU_trackingradar_Falsterbo_autumns_2009-12'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
