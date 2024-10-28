@@ -51,7 +51,10 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
         const dataFetch = async () => {
             const items = [];
 
-            for (let i = 0; i < NB_LINES; i++) {
+            const lineToDisplay = (events.length< NB_LINES ? events.length : NB_LINES);
+
+            for (let i = 0; i < lineToDisplay; i++) {
+
                 const c: CoordinatesExtended = [];
 
                 const ids = [events[i].eventID];
