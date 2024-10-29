@@ -14,3 +14,7 @@ body {
 .snippet-icon {
     font-size: 70px;
 }
+
+.downloadable-icon {
+    cursor: pointer;
+}

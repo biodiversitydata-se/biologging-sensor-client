@@ -4,12 +4,13 @@ import './Snippet.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine, faCircleInfo, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { databaseValues } from "@/config/config";
+import { URL_DOWNLOADABLE_ARCHIVES } from "@/config/constants";
 
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
     const downloadDataset = () => {
-        const baseUrl = "http://canmove-dev.ekol.lu.se/biologgingPublicArchives/";
+
         const version = data!.versions[0].number.replace(".", "_");
-        const downloadUrl = `${baseUrl}${data?.datasetID}/${data?.datasetID}_json_${version}.zip`;
+        const downloadUrl = `${URL_DOWNLOADABLE_ARCHIVES}${data?.datasetID}/${data?.datasetID}_json_${version}.zip`;
 
         window.open(downloadUrl);
     };
@@ -57,8 +58,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
                             {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!=databaseValues["datasetNoAccess"] ? (
                                 <div className="ml-10">
-                                    <FontAwesomeIcon icon={faDownload} className="snippet-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
-
+                                    <FontAwesomeIcon icon={faDownload} className="snippet-icon downloadable-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
                                 </div>
                             ) : null}
 
