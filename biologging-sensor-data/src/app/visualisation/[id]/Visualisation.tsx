@@ -43,7 +43,7 @@ export default function Visualisation({ events, sensors }: { events: Event[], se
             case 'M':
                 return <MapGraph events={events} sensor={sensor} config={config.mapC} />
             case 'N':
-                return <div>No visualisation available. Download data for analysis</div>
+                return <div>Under development. No visualisation for this sensor type provided yet. Download data for viewing.</div>
             default:
                 return <LineGraph events={events} sensor={sensor} config={config.lineGraphC} />
         }

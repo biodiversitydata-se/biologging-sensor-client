@@ -2,6 +2,7 @@ import { getDatasets } from "@/api/dataset/api";
 import { useEffect, useState } from "react";
 import { Dataset } from "@/api/dataset/dataset";
 import Loader from "@/components/Loader";
+import { databaseValues } from "@/config/config";
 
 
 interface Args {
@@ -63,12 +64,15 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
       }
       <div className="vis-list-items">
         {datasets.map((item, index) => {
-          return <div key={index}
-            style={_isSelected(index) ? { backgroundColor: "lightblue" } : undefined}
-            onClick={() => _selectDataset(index)}
-          >
-            {item.datasetTitle}
-          </div>
+          // display only if data available to display
+          if (item?.accessRights != databaseValues["datasetNoAccess"] ) {
+            return <div key={index}
+              style={_isSelected(index) ? { backgroundColor: "lightblue" } : undefined}
+              onClick={() => _selectDataset(index)}
+            >
+              {item.datasetTitle}
+            </div>
+          }
         })}
       </div>
     </div>
