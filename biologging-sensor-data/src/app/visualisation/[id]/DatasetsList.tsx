@@ -23,6 +23,7 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
   useEffect(() => {
     const fetchDataset = async () => {
       setLoading(true);
+
       const response = await getDatasets();
 
       const sorted: Dataset[] = response.sort((a: Dataset, b: Dataset) =>

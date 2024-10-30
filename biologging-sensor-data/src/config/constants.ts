@@ -1,10 +1,11 @@
 // API 
 export const API_DATAMODEL_URL = 'https://github.com/biodiversitydata-se/biologging-sensor-datamodel';
+export const API_APP_ID = '48de-03dd-05dc-401da2342';
 export const TEST_URL_BASE = '/biologging-client-dev/';
 //export const BASE_API_URL = 'http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/';
-export const BASE_API_URL = 'https://biologging-api.biodiversitydata.se/biologgingAPI/v1/';
+//export const BASE_API_URL = 'https://biologging-api.biodiversitydata.se/biologgingAPI/v1/';
+export const BASE_API_URL = 'http://localhost:8085/biologgingAPI/v1/';
 export const BASE_API_URL_PUBLIC = BASE_API_URL + 'docs';
-//export const BASE_API_URL = 'http://localhost:8085/biologgingAPI/v1/';
 export const DATASETS_ENDPOINT = 'datasets';
 export const EVENTS_ENPOINT = 'events';
 
