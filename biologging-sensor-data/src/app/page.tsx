@@ -4,7 +4,7 @@ import './index.css'
 
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BASE_API_URL } from "@/config/constants";
+import { BASE_API_URL_PUBLIC } from "@/config/constants";
 import { API_DATAMODEL_URL } from "@/config/constants";
 import IMG_HOMEPAGE_API from "@/assets/images/homepage_api.png";
 import IMG_HOMEPAGE_DATASET_LISTING from "@/assets/images/homepage_dataset_listing.png";
@@ -47,7 +47,7 @@ export default function Home() {
                         <img className="img-homepage" src={IMG_HOMEPAGE_API.src} />
                         <p>
                             Use our API to fetch data<br /><br />
-                            <a className="btn btn-primary"  id="api_link" href={BASE_API_URL} target="_blank" role="button">API</a>
+                            <a className="btn btn-primary"  id="api_link" href={BASE_API_URL_PUBLIC} target="_blank" role="button">API</a>
                         </p>
                     </div>
                 </div>
@@ -58,8 +58,8 @@ export default function Home() {
 
                     <div className="row bottom-margin">
                         <h3>About the API</h3>
-                        <p>All the data displayed on this website is obtained via the Biologging Open API <a href={BASE_API_URL + 'docs'}>{BASE_API_URL}docs</a></p>
-                        <p>Its datamodel is following <a href={API_DATAMODEL_URL}>the format described here.</a></p>
+                        <p>All the data displayed on this website is obtained via the Biologging Open API <a href={BASE_API_URL_PUBLIC} target="_blank">{BASE_API_URL_PUBLIC}</a></p>
+                        <p>Its datamodel is following <a href={API_DATAMODEL_URL} target="_blank">the format described here.</a></p>
                         <p>If you encounter any problem with the API, please contact us !</p>
                     </div>
 
