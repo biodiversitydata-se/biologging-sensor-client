@@ -42,7 +42,7 @@ export default function Polylines({ coords }: { coords: CoordinatesExtended }) {
                     radius={_getRadius(i, coords.length)}
                     pathOptions={i === coords.length - 1 ? { color: 'black', fillOpacity: 1, fillColor: color } : { color: color, fillOpacity: 1 }}
                     >
-                    <Tooltip><b>{coords[i][2][0]}</b><br /><span style={{ backgroundColor: color }}>&nbsp;&nbsp;&nbsp;</span> {coords[i][2][1]}<br />Lat : {coords[i][0]} - Long : {coords[i][1]}</Tooltip>
+                    <Tooltip><b>{coords[i][2][0]}</b><br /><span style={{ backgroundColor: color }}>&nbsp;&nbsp;&nbsp;</span> {coords[i][2][1]}<br />Lat : {parseFloat(coords[i][0]).toFixed(5)} - Long : {parseFloat(coords[i][1]).toFixed(5)}</Tooltip>
                 </Circle>
             ))}
 
