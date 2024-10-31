@@ -102,7 +102,7 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
                 </div>}
                 <br />
                 <div className="legendGraph">Movement data for a random selection of {NB_LINES} animals (animal IDs in legend). 
-                Each trajectory displays the first {MAX_RECORD_VALUES} positions derived from tracking radar measurements, starting at black circle (sensor deployment).
+                Each trajectory displays the first {MAX_RECORD_VALUES} positions derived from tracking sensor measurements, starting at black circle (sensor deployment).
                 Use mouse over a position to read GPS coordinates, animal ID, date/time.</div>
         </div >
     )
