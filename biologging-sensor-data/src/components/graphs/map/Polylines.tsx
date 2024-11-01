@@ -18,15 +18,16 @@ export default function Polylines({ coords }: { coords: CoordinatesExtended }) {
         iconSize: [30, 30],
     })
 
+    // get the diameter of the circle
     function _getRadius(i: number, n: number): number {
         const s = 5;
-        const m = 25;
-        const l = 35;
+        const m = 35;
+        const l = 25;
 
         if (i === 0) {
-            return l;
-        } else if (i === n - 1) {
             return m;
+        } else if (i === n - 1) {
+            return l;
         }
 
         return s;
@@ -40,7 +41,7 @@ export default function Polylines({ coords }: { coords: CoordinatesExtended }) {
                     key={i}
                     center={x as unknown as [number, number]}
                     radius={_getRadius(i, coords.length)}
-                    pathOptions={i === coords.length - 1 ? { color: 'black', fillOpacity: 1, fillColor: color } : { color: color, fillOpacity: 1 }}
+                    pathOptions={i === 0 ? { color: 'black', fillOpacity: 1, fillColor: 'black' } : { color: color, fillOpacity: 1 }}
                     >
                     <Tooltip><b>{coords[i][2][0]}</b><br />
                     <span style={{ backgroundColor: color }}>&nbsp;&nbsp;&nbsp;</span> 
