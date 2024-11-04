@@ -78,7 +78,7 @@ export default function MapGraph({ events, sensor, config }: { events: Event[], 
                 const records: Record[] = result.results;
                 records.slice(0, MAX_RECORD_VALUES).filter(itm => itm.recordValues.latitude && itm.recordValues.longitude)
                     .map(itm => {
-                        // for some reason, we can add som extra information oin ONE (not more) field, and an array works to store several info.
+                        // for some reason, we can add som extra information on ONE (not more) field, and an array works to store several info.
                         const coor: [number, number, string[]] = [+itm.recordValues.latitude, +itm.recordValues.longitude, [itm.recordStart.toString(), labelOrganismTaxon, color]];
                         c.push(coor);
                     })

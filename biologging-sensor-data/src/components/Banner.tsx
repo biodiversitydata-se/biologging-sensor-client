@@ -115,7 +115,8 @@ const Banner = () => {
                           <HomeLink>Swedish Biologging Portal</HomeLink>
                         </li>
                         <li>
-                          <DatasetsLink>Dataset Listing</DatasetsLink>
+                          <a href="/datasetOverview" >Dataset Listing</a>
+                          {/* to make sure css is reloaded for table <DatasetsLink>Dataset Listing</DatasetsLink> */}
                         </li>
                         <li>
                           <VisualisationLink datasetId="all">Dataset Visualisation</VisualisationLink>
