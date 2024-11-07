@@ -35,7 +35,7 @@ sensorTypes['ARGOS Doppler shift'] = new ConfigItem(['latitude', 'longitude'], '
 // SPECIFIC DATASET
 datasetConfig['geolocator_great_snipes_AL'] = {defaultSensors: ['Acceleration', 'Altimeter']};
 datasetConfig['satellite_tracking_great_snipe_AL'] = {defaultSensors: ['ARGOS Doppler shift']};
-datasetConfig['dataset_wram_moose_2003'] = {defaultSensors: ['Geographic spherical coordinate system', 'Thermometer']};
+datasetConfig['dataset_wram_moose_2003'] = {defaultSensors: ['GPS receiver', 'Thermometer']};
 datasetConfig['LU_trackingradar_Falsterbo_springs_2010-11'] = {defaultSensors: ['Tracking radar']};
 datasetConfig['LU_trackingradar_Falsterbo_autumns_2009-12'] = {defaultSensors: ['Tracking radar']};
 datasetConfig['LU_trackingradar_Lundfixed_2006-13'] = {defaultSensors: ['Tracking radar']};
