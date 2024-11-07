@@ -9,7 +9,7 @@ export interface Dataset {
     contact: Contact[];
     curator: Contact[];
     owner: Contact[];
-    funderName: string[];
+    funders: Funder[];
     license: string;
     institutionCode: string;
     resourceCitation: string;
@@ -79,4 +79,9 @@ export interface Version {
     date: string;
     log: string;
     number: string;
+}
+
+export interface Funder {
+    name: string;
+    url: string;
 }
