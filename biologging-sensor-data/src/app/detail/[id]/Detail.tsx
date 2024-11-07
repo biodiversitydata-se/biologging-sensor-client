@@ -137,13 +137,13 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                     </span>
 
                                     {person.ORCID ? (
-                                        <div className='col-md-5'>
+                                        <div className='col-md-4'>
                                             <img src={orcidLogo} alt="logo" width={18} height={18} />
                                             <a href={`https://orcid.org/${person.ORCID}`}>{`https://orcid.org/${person.ORCID}`}</a>
                                         </div>
                                     ) : null}
 
-                                    <span className='col-md-5'>
+                                    <span className='col-md-4'>
                                         {person.email ? person.email : null}
                                         <FontAwesomeIcon icon={faCopy} className='copyIcon' onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }} />
                                     </span>
@@ -208,7 +208,11 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                     <div className="col-md-12">
                         {<div className='col-md-3'><small>Institution:</small><div>{detail?.institutionCode}</div></div>}
-                        {<div className='col-md-3'><small>Funder name(s):</small><div>{detail?.funderName}</div></div>}
+                        <div className='col-md-3'><small>Funder name(s):</small><div>
+                            {detail?.funderName.map((funder, index) => (
+                                <div key={index}>{funder}</div>
+                            ))}
+                        </div></div>
                     </div>   
                     <div className="col-md-2">
                         <p className="span copy-msg">{copyMessage}</p>

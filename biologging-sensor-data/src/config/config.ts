@@ -28,7 +28,7 @@ sensorTypes['Wet/dry'] = new ConfigItem(['contact with water'], 'L', new LineGra
 sensorTypes['Tracking radar'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 sensorTypes['Wingbeat'] = new ConfigItem([''], 'N', new NoVisC());
 sensorTypes['Geographic spherical coordinate system'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
-sensorTypes['GPS'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
+sensorTypes['GPS receiver'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 sensorTypes['ARGOS Doppler shift'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 
 
