@@ -209,11 +209,11 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     <div className="col-md-12">
                         {<div className='col-md-3'><small>Institution:</small><div>{detail?.institutionCode}</div></div>}
                         <div className='col-md-3'><small>Funder(s):</small><div>
-                            {detail?.funders.map((funder, index) => (
+                            {detail?.funders ? detail?.funders?.map((funder, index) => (
                                 <div key={index}>
                                     {funder.url ? <a href={`${funder.url}`}>funder.name</a> : funder.name}                               
                                 </div>
-                            ))}
+                            )) : null}
                         </div></div>
                     </div>   
                     <div className="col-md-2">
