@@ -29,15 +29,16 @@ sensorTypes['Tracking radar'] = new ConfigItem(['latitude', 'longitude'], 'M', n
 sensorTypes['Wingbeat'] = new ConfigItem([''], 'N', new NoVisC());
 sensorTypes['Geographic spherical coordinate system'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 sensorTypes['GPS'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
+sensorTypes['ARGOS Doppler shift'] = new ConfigItem(['latitude', 'longitude'], 'M', new MapC());
 
 
 // SPECIFIC DATASET
 datasetConfig['geolocator_great_snipes_AL'] = {defaultSensors: ['Acceleration', 'Altimeter']};
-datasetConfig['satellite_tracking_great_snipe_AL'] = {defaultSensors: ['GPS']};
+datasetConfig['satellite_tracking_great_snipe_AL'] = {defaultSensors: ['ARGOS Doppler shift']};
 datasetConfig['dataset_wram_moose_2003'] = {defaultSensors: ['Geographic spherical coordinate system', 'Thermometer']};
-datasetConfig['LU_trackingradar_Falsterbo_springs_2010-11'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
-datasetConfig['LU_trackingradar_Falsterbo_autumns_2009-12'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
-datasetConfig['LU_trackingradar_Lundfixed_2006-13'] = {defaultSensors: ['Tracking radar', 'Wingbeat']};
+datasetConfig['LU_trackingradar_Falsterbo_springs_2010-11'] = {defaultSensors: ['Tracking radar']};
+datasetConfig['LU_trackingradar_Falsterbo_autumns_2009-12'] = {defaultSensors: ['Tracking radar']};
+datasetConfig['LU_trackingradar_Lundfixed_2006-13'] = {defaultSensors: ['Tracking radar']};
 
 
 // VOCABULARY DATABASE
