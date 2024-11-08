@@ -211,7 +211,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <div className='col-md-3'><small>Funder(s):</small><div>
                             {detail?.funders ? detail?.funders?.map((funder, index) => (
                                 <div key={index}>
-                                    {funder.url ? <a href={`${funder.url}`}>funder.name</a> : funder.name}                               
+                                    {funder.url ? <a href={`${funder.url}`}>funder.funderName</a> : funder.funderName}                               
                                 </div>
                             )) : null}
                         </div></div>

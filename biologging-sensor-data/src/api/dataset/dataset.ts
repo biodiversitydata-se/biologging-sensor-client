@@ -82,6 +82,6 @@ export interface Version {
 }
 
 export interface Funder {
-    name: string;
+    funderName: string;
     url: string;
 }
