@@ -264,7 +264,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <div className="col-md-12">
                             {detail?.versions.map((keyword, index) => (
                                 <span key={index} className='col-md-2'>Ver: 
-                                    {detail?.accessRights != databaseValues["datasetNoAccess"] ? (
+                                    {detail?.numberOfRecords && detail?.numberOfRecords > 0 && detail?.accessRights != databaseValues["datasetNoAccess"] ? (
                                     <a href={`${URL_DOWNLOADABLE_ARCHIVES}${detail.datasetID}/${detail.datasetID}_json_${keyword.number.replace('.', '_')}.zip`} download> {keyword.number}
                                     &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} />
                                     </a>
