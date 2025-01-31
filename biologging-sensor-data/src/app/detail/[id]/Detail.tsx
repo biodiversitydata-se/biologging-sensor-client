@@ -224,7 +224,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                 <div className='row container-wraper'>
                     <div className="col-md-12">
                         <small className="col-md-12">Geographical coverage: </small>
-                        <div className="col-md-12">
+                        <div className="col-md-12 pb-3p">
                             {detail?.geographicalCoverage?.geographicalDescription && <div>{detail?.geographicalCoverage.geographicalDescription}</div>}
                         </div>
                         <div>
@@ -237,11 +237,20 @@ function Detail({ detail }: { detail: Dataset | null }) {
                 </div>
 
                 <div className='row container-wraper'>
-                    <div className="col-md-12 pb-3p">
-                        {detail?.samplingDescription && <div className='col-md-3'><small>Sampling description:</small><div>{detail?.samplingDescription}</div></div>}
-                        {detail?.qualityControl && <div className='col-md-3'><small>Quality control:</small><div>{detail?.qualityControl}</div></div>}
-                        {detail?.relatedIdentifier && <div className='col-md-3'><small>Related identifier:</small><div>{detail?.relatedIdentifier}</div></div>}
-                        {detail?.relationType && <div className='col-md-3'><small>Relation type:</small><div>{detail?.relationType}</div></div>}
+
+                    <div className="col-md-12">
+                        <div>
+                            <small className="col-md-12">Sampling description: </small>
+                            <span className="col-md-12 pb-3p">{detail?.samplingDescription}</span>
+                        </div>
+                        <div>
+                            <small className="col-md-12">Quality control: </small>
+                            <span className="col-md-12 pb-3p">{detail?.qualityControl}</span>
+                        </div>
+                        <div>
+                            {detail?.relatedIdentifier && <div className='col-md-9 pb-3p'><small>Related identifier:</small><div>{detail?.relatedIdentifier}</div></div>}
+                            {detail?.relationType && <div className='col-md-3 pb-3p'><small>Relation type:</small><div>{detail?.relationType}</div></div>}
+                        </div>
                     </div>
                     <div className="col-md-12">
                         {<div className='col-md-3'><small>License:</small><div>{detail?.license}</div></div>}
