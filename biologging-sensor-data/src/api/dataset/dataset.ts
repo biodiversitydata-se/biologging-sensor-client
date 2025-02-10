@@ -29,8 +29,7 @@ export interface Dataset {
     temporalCoverage: RangeDateTime;
     samplingDescription: string;
     qualityControl: string;
-    relatedIdentifier: string;
-    relationType: string;
+    relatedIdentifiers: RelatedIdentifier[];
     versions: Version[];
     sensitiveData: boolean;
     isFinalized: boolean;
@@ -73,6 +72,13 @@ export interface RangeDateTime {
 export interface Reference {
     DOI: string;
     title: string;	
+}
+
+export interface RelatedIdentifier {
+    providerCode: string;
+    relationType: string;
+    identifier: string;
+    resourceUrl: string;
 }
 
 export interface Version {

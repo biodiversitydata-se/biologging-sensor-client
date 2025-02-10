@@ -44,8 +44,8 @@ export default function OverviewTable({ data, onSelect }: { data: Dataset[], onS
     return (
       <div>
         {date.startDatetime?.slice(0, 10)}
-        {date.endDateTime ?
-          <div> to {date.endDateTime.slice(0, 10)} </div>
+        {date.endDatetime ?
+          <div> to {date.endDatetime.slice(0, 10)} </div>
           : null
         }
       </div>

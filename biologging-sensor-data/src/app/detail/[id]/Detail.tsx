@@ -89,9 +89,9 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                 </div>
                             </div>
                             <div className='col-md-9'>
-                                <small>End date: </small>
+                                <small>End date:</small>
                                 <div>
-                                    {detail?.temporalCoverage?.endDateTime && detail.isFinalized ? detail.temporalCoverage.endDateTime.slice(0, 10) : "ongoing"}
+                                    {detail?.temporalCoverage?.endDatetime && detail.isFinalized ? detail.temporalCoverage.endDatetime.slice(0, 10) : "ongoing"}
                                 </div>
                             </div>
                         </div>
@@ -247,17 +247,31 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             <small className="col-md-12">Quality control: </small>
                             <span className="col-md-12 pb-3p">{detail?.qualityControl}</span>
                         </div>
-                        <div>
-                            {detail?.relatedIdentifier && <div className='col-md-9 pb-3p'><small>Related identifier:</small><div>{detail?.relatedIdentifier}</div></div>}
-                            {detail?.relationType && <div className='col-md-3 pb-3p'><small>Relation type:</small><div>{detail?.relationType}</div></div>}
-                        </div>
                     </div>
+
+                    {detail?.relatedIdentifiers ? (
+                        
+                        <div className="col-md-12">
+                            <small className="col-md-12">Related identifier(s): </small>
+                        </div>
+
+                    ) : null}
+
+                    {detail?.relatedIdentifiers.map((keyword, index) => (
+                        <div key={index} className='col-md-12'>
+                        {<div className='col-md-3'><small>Provider:</small><div>{keyword?.providerCode}</div></div>}
+                        {<div className='col-md-3'><small>Relation type:</small><div>{keyword?.relationType}</div></div>}
+                        {<div className='col-md-3 pb-3p'><small>Identifier:</small><div><a href={keyword?.resourceUrl}>{keyword?.identifier}</a></div></div>}
+                        </div>
+                    ))}
+
                     <div className="col-md-12">
                         {<div className='col-md-3'><small>License:</small><div>{detail?.license}</div></div>}
                         {<div className='col-md-3'><small>Access rights:</small><div>{detail?.accessRights}</div></div>}
                         {<div className='col-md-3'><small>Intellectual rights:</small><div>{detail?.intellectualRights}</div></div>}
                         {<div className='col-md-3'><small>Embargo end date:</small><div>{detail?.embargoEndDate}</div></div>}
                     </div>
+
                     <div className="col-md-12">
                         {<div className='col-md-3'>
                             <small>Last updated | Update frequency:</small>
