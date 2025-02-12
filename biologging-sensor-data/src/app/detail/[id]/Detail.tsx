@@ -97,7 +97,8 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
                     </div>
                     <div className="col-md-4">
-                        <img className="col-md-12" src={detail?.pictureUrl ?? ""} alt="" width={350} />
+                        <img className="col-md-12" src={detail?.picture?.pictureUrl ?? ""} alt="" width={350} />
+                        <i><center>{detail?.picture?.pictureOwner ? "Photo by: "+detail?.picture?.pictureOwner : ""}</center></i>
                     </div>
                 </div>
 
@@ -211,7 +212,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <div className='col-md-3'><small>Funder(s):</small><div>
                             {detail?.funders ? detail?.funders?.map((funder, index) => (
                                 <div key={index}>
-                                    {funder.url ? <a href={`${funder.url}`}>funder.funderName</a> : funder.funderName}                               
+                                    {funder.funderUrl ? <a href={`${funder.funderUrl}`}>funder.funderName</a> : funder.funderName}                               
                                 </div>
                             )) : null}
                         </div></div>
@@ -259,9 +260,9 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                     {detail?.relatedIdentifiers.map((keyword, index) => (
                         <div key={index} className='col-md-12'>
-                        {<div className='col-md-3'><small>Provider:</small><div>{keyword?.providerCode}</div></div>}
                         {<div className='col-md-3'><small>Relation type:</small><div>{keyword?.relationType}</div></div>}
                         {<div className='col-md-3 pb-3p'><small>Identifier:</small><div><a href={keyword?.resourceUrl}>{keyword?.identifier}</a></div></div>}
+                        {<div className='col-md-3'><small>Provider:</small><div>{keyword?.providerCode}</div></div>}
                         </div>
                     ))}
 

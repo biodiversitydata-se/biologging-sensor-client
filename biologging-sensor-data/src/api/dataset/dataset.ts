@@ -33,7 +33,7 @@ export interface Dataset {
     versions: Version[];
     sensitiveData: boolean;
     isFinalized: boolean;
-    pictureUrl: string;
+    picture: Picture;
     dateCreated: string;
     dateUpdated: string;
     numberOfRecords: number;
@@ -89,5 +89,11 @@ export interface Version {
 
 export interface Funder {
     funderName: string;
-    url: string;
+    funderUrl: string;
+}
+
+
+export interface Picture {
+    pictureUrl: string;
+    pictureOwner: string;
 }
