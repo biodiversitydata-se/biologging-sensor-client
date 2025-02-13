@@ -85,6 +85,7 @@ export interface Version {
     date: string;
     log: string;
     number: string;
+    file: string;
 }
 
 export interface Funder {

@@ -9,8 +9,10 @@ import { URL_DOWNLOADABLE_ARCHIVES } from "@/config/constants";
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
     const downloadDataset = () => {
 
-        const version = data!.versions[0].number.replace(".", "_");
-        const downloadUrl = `${URL_DOWNLOADABLE_ARCHIVES}${data?.datasetID}/${data?.datasetID}_json_${version}.zip`;
+        const lastVersion = data.versions.length-1;
+        const filenameLastVersion = data.versions[lastVersion].file;
+        //const version = data!.versions[0].number.replace(".", "_");
+        const downloadUrl = `${URL_DOWNLOADABLE_ARCHIVES}${data?.datasetID}/${filenameLastVersion}`;
 
         window.open(downloadUrl);
     };
@@ -56,7 +58,7 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                             </div>
                             ) : null}
 
-                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!=databaseValues["datasetNoAccess"] ? (
+                            {data?.numberOfRecords && data?.numberOfRecords > 0 && data.accessRights!=databaseValues["datasetNoAccess"] && data?.versions[data?.versions.length-1]?.file && data?.versions[data.versions.length-1]?.file!="" ? (
                                 <div className="ml-10">
                                     <FontAwesomeIcon icon={faDownload} className="snippet-icon downloadable-icon" onClick={() => downloadDataset()} size="3x" style={{ color: "#1E4B75" }} />
                                 </div>
@@ -65,7 +67,6 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                         </div>
                     </div>
                 </div>
-
 
                 <div className="row">
                     <div className="col-md-2 bold">Instruments:</div>
