@@ -9,8 +9,8 @@ import { URL_DOWNLOADABLE_ARCHIVES } from "@/config/constants";
 export default function OverviewSnippet({ data }: { data: Dataset | null }) {
     const downloadDataset = () => {
 
-        const lastVersion = data.versions.length-1;
-        const filenameLastVersion = data.versions[lastVersion].file;
+        const lastVersion = data!.versions.length-1;
+        const filenameLastVersion = data!.versions[lastVersion].file;
         //const version = data!.versions[0].number.replace(".", "_");
         const downloadUrl = `${URL_DOWNLOADABLE_ARCHIVES}${data?.datasetID}/${filenameLastVersion}`;
 
