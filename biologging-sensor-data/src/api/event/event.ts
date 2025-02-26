@@ -16,6 +16,6 @@ export interface Event{
     organismPublic: boolean;
     dateCreated: string;
     dateUpdated: string;
-    numberOfRecords: number;
+    numberOfRecordsDatabase: number;
 
 }

@@ -51,7 +51,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
 
             // load data
             const records: Record[] = [];
-            let noRecs = relEvent.numberOfRecords;
+            let noRecs = relEvent.numberOfRecordsDatabase;
             // maximum number of records to be displayed
             if (noRecs>MAX_RECORD_VALUES_ACTOGRAM) noRecs=MAX_RECORD_VALUES_ACTOGRAM;
             let skip = 0;

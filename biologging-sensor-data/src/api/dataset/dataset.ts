@@ -37,6 +37,7 @@ export interface Dataset {
     dateCreated: string;
     dateUpdated: string;
     numberOfRecords: number;
+    recordsStatistics: RecordsStatistics;
 }
 
 export interface Contact {
@@ -64,10 +65,21 @@ export interface GeographicWENS {
     geographicalDescription: string;
 }
 
-export interface RangeDateTime {
-    startDatetime: string;
-    endDatetime: string;
-    }
+export interface RecordsStatistics {
+    numberOfPublicRecordsDatabase: number;
+    customStatistics: CustomStatistic[];
+}
+
+export interface CustomStatistic {
+    nameStat: string;
+    valueStat: number;
+    dateStat: string;
+}
+
+export interface Reference {
+    DOI: string;
+    title: string;  
+}
 
 export interface Reference {
     DOI: string;
