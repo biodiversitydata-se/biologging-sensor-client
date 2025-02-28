@@ -18,14 +18,19 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
     };
 
     var listSensors = "";
-    if (typeof data.valuesMeasured !== 'undefined') {
+    if (typeof data?.valuesMeasured !== 'undefined') {
         Object.keys(data.valuesMeasured).forEach(function (key){
             if (listSensors != "") listSensors = listSensors + ", ";
 
-            listSensors = listSensors + data.valuesMeasured[key];
+            // need to parse in int the key, because tsx requires an integer for the arrays
+            listSensors = listSensors + data.valuesMeasured[parseInt(key)];
 
-            if (typeof data?.recordsStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
-                listSensors = listSensors + " (" + data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"].toLocaleString('en-US').replace(/,/g, ' ') + ")";
+            //if (typeof data?.recordsStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
+            if (typeof data?.recordsStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics !== 'undefined' && Object.keys(data?.recordsStatistics.customStatistics).indexOf(data.valuesMeasured[parseInt(key)]+"_PUBLIC") != -1) {    
+                // in tsx you cannot use an object as an array like customStatistics["latitude_PUBLIC"], it requires a number for the index
+                var indexArray = Object.keys(data?.recordsStatistics.customStatistics).indexOf(data.valuesMeasured[parseInt(key)]+"_PUBLIC");
+                // access the first element (where the value is, the key is in 0)
+                listSensors = listSensors + " (" + Object.entries(data?.recordsStatistics.customStatistics)[indexArray][1].toLocaleString().replace(/,/g, ' ') + ")";
             }
         })
     }

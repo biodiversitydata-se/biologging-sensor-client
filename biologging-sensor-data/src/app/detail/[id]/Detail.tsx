@@ -17,7 +17,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
     const [isCopied, setIsCopied] = useState(false);
 
 
-    var nbRecDataPublic = 0;
+    var nbRecDataPublic = "0";
     if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && typeof detail?.recordsStatistics["numberOfPublicRecordsDatabase"] !== "undefined") {
         nbRecDataPublic=detail?.recordsStatistics["numberOfPublicRecordsDatabase"].toLocaleString('en-US').replace(/,/g, ' ');
     }
@@ -27,10 +27,11 @@ function Detail({ detail }: { detail: Dataset | null }) {
         Object.keys(detail.valuesMeasured).forEach(function (key){
             if (listSensors != "") listSensors = listSensors + ", ";
 
-            listSensors = listSensors + detail.valuesMeasured[key];
-
-            if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics[detail.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
-                listSensors = listSensors + " (" + detail?.recordsStatistics.customStatistics[detail.valuesMeasured[key]+"_PUBLIC"].toLocaleString('en-US').replace(/,/g, ' ') + ")";
+            listSensors = listSensors + detail.valuesMeasured[parseInt(key)];
+            if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && Object.keys(detail?.recordsStatistics.customStatistics).indexOf(detail.valuesMeasured[parseInt(key)]+"_PUBLIC") != -1) {    
+                // in tsx you cannot use an object as an array like customStatistics["latitude_PUBLIC"], it requires a number for the index
+                var indexArray = Object.keys(detail?.recordsStatistics.customStatistics).indexOf(detail.valuesMeasured[parseInt(key)]+"_PUBLIC");
+                listSensors = listSensors + " (" + Object.entries(detail?.recordsStatistics.customStatistics)[indexArray][1].toLocaleString().replace(/,/g, ' ') + ")";
             }
         })
     }

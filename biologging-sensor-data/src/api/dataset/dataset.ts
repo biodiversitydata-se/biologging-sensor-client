@@ -48,6 +48,11 @@ export interface Contact {
     ORCID: string;
 }
 
+export interface RangeDateTime {
+    startDatetime: string;
+    endDatetime: string;
+}
+    
 export interface Taxon {
     taxonListSourceUrl: string,
     taxonListSourceName: string,
