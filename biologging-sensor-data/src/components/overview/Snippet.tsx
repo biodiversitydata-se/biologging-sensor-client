@@ -24,8 +24,8 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
 
             listSensors = listSensors + data.valuesMeasured[key];
 
-            if (typeof data?.recordsStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics !== 'undefined' && data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
-                listSensors = listSensors + " (" + data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"] + ")";
+            if (typeof data?.recordsStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
+                listSensors = listSensors + " (" + data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"].toLocaleString('en-US').replace(/,/g, ' ') + ")";
             }
         })
     }

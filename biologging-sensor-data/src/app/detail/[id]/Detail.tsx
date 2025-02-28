@@ -18,8 +18,8 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
 
     var nbRecDataPublic = 0;
-    if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && detail?.recordsStatistics["numberOfPublicRecordsDatabase"] !== "undefined") {
-        nbRecDataPublic=detail?.recordsStatistics["numberOfPublicRecordsDatabase"];
+    if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && typeof detail?.recordsStatistics["numberOfPublicRecordsDatabase"] !== "undefined") {
+        nbRecDataPublic=detail?.recordsStatistics["numberOfPublicRecordsDatabase"].toLocaleString('en-US').replace(/,/g, ' ');
     }
 
     var listSensors = "";
@@ -29,8 +29,8 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
             listSensors = listSensors + detail.valuesMeasured[key];
 
-            if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && detail?.recordsStatistics.customStatistics[detail.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
-                listSensors = listSensors + " (" + detail?.recordsStatistics.customStatistics[detail.valuesMeasured[key]+"_PUBLIC"] + ")";
+            if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics[detail.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
+                listSensors = listSensors + " (" + detail?.recordsStatistics.customStatistics[detail.valuesMeasured[key]+"_PUBLIC"].toLocaleString('en-US').replace(/,/g, ' ') + ")";
             }
         })
     }
