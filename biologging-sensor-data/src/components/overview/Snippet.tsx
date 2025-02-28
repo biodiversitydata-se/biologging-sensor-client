@@ -17,6 +17,18 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
         window.open(downloadUrl);
     };
 
+    var listSensors = "";
+    if (typeof data.valuesMeasured !== 'undefined') {
+        Object.keys(data.valuesMeasured).forEach(function (key){
+            if (listSensors != "") listSensors = listSensors + ", ";
+
+            listSensors = listSensors + data.valuesMeasured[key];
+
+            if (typeof data?.recordsStatistics !== 'undefined' && typeof data?.recordsStatistics.customStatistics !== 'undefined' && data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
+                listSensors = listSensors + " (" + data?.recordsStatistics.customStatistics[data.valuesMeasured[key]+"_PUBLIC"] + ")";
+            }
+        })
+    }
 
     return (
         <div>
@@ -74,8 +86,8 @@ export default function OverviewSnippet({ data }: { data: Dataset | null }) {
                 </div>
 
                 <div className="row">
-                    <div className="col-md-2 bold">Sensors:</div>
-                    <div className="col-md-9">{data?.valuesMeasured?.join(", ")}</div>
+                    <div className="col-md-2 bold">Sensors (nb records):</div>
+                    <div className="col-md-9">{listSensors}</div>
                 </div>
 
                 {data?.embargoEndDate ? ( 

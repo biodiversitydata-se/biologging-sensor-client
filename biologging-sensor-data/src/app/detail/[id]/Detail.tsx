@@ -16,6 +16,25 @@ function Detail({ detail }: { detail: Dataset | null }) {
     const [copyMessage, setCopyMessage] = useState('');
     const [isCopied, setIsCopied] = useState(false);
 
+
+    var nbRecDataPublic = 0;
+    if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && detail?.recordsStatistics["numberOfPublicRecordsDatabase"] !== "undefined") {
+        nbRecDataPublic=detail?.recordsStatistics["numberOfPublicRecordsDatabase"];
+    }
+
+    var listSensors = "";
+    if (typeof detail?.valuesMeasured !== 'undefined') {
+        Object.keys(detail.valuesMeasured).forEach(function (key){
+            if (listSensors != "") listSensors = listSensors + ", ";
+
+            listSensors = listSensors + detail.valuesMeasured[key];
+
+            if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && detail?.recordsStatistics.customStatistics[detail.valuesMeasured[key]+"_PUBLIC"] !== "undefined") {    
+                listSensors = listSensors + " (" + detail?.recordsStatistics.customStatistics[detail.valuesMeasured[key]+"_PUBLIC"] + ")";
+            }
+        })
+    }
+
     useEffect(() => {
         if (isCopied) {
             setTimeout(() => {
@@ -66,12 +85,20 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             </div>
                         </div>
                         <div>
-                            <small className="col-md-12">Sensor type:  </small>
-                            <span className="col-md-12 capitalize pb-3p">{detail?.valuesMeasured?.join(', ')}</span>
+                            <small className="col-md-12">Sensor type (nb of records):  </small>
+                            <span className="col-md-12 capitalize pb-3p">{listSensors}</span>
                         </div>
                         <div>
                             <small className="col-md-12">No. of animals: </small>
                             <span className="col-md-12 pb-3p" >{detail?.animalCount}</span>
+                        </div>
+
+
+                        <div>
+                            <small className="col-md-12">Total downloadable records: </small>
+                            <div className="col-md-12 pb-3p">
+                                <span>{nbRecDataPublic}</span>
+                            </div>
                         </div>
 
                         <div>
