@@ -53,6 +53,33 @@ export default function MapComponent({ data }: { data: CoordinatesExtended[] }) 
 
             legend.addTo(map);
 
+            // add the layers
+            var token = "8e55e105-71ff-3816-98eb-86f7979c3650",
+            osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+              id: "mapbox.streets"
+            }),
+            topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+              attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+            }),
+            esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+              attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            }),
+            lantmateriet = L.tileLayer('https://api.lantmateriet.se/open/topowebb-ccby/v1/wmts/token/'+ token +'/?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=topowebb&STYLE=default&TILEMATRIXSET=3857&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng', 
+            {
+              attribution: '&copy; <a href="https://www.lantmateriet.se/en/">Lantmäteriet</a> Topografisk Webbkarta Visning, CCB'
+            });
+
+            var baseMaps = {
+                "OpenStreetMap": osm,
+                "Open Topo": topo,
+                "ESRI satellite Imagery": esriSat,
+                "Lantmäteriet Topo": lantmateriet
+            }
+
+            L.control.layers(baseMaps).addTo(map);
 
         }
     }, [data])
