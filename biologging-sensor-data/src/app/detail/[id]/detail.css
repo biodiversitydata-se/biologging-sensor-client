@@ -46,3 +46,15 @@ small {
 Image {
     margin-right: 5px;
 }
+
+.iconLeftright {
+  /*display: flex;
+  justify-content: flex-end;  
+*/
+    float: right;
+    margin-top: -70px;
+    transform: translateY(-10px);
+}
+.iconLeftright .snippet-icon{
+    font-size: 30px;
+}

@@ -1,13 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import './detail.css';
 import orcidLogo from "@/assets/images/orcid.logo.icon.svg";
 import copy from 'copy-to-clipboard';
-import { faCopy, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faDownload, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dataset, Taxon } from '@/api/dataset/dataset';
 import { databaseValues } from "@/config/config";
 import { URL_DOWNLOADABLE_ARCHIVES } from "@/config/constants";
+import { DatasetEditLink } from "@/components/links";
 
 /**
  * Main content of detail page
@@ -15,7 +18,8 @@ import { URL_DOWNLOADABLE_ARCHIVES } from "@/config/constants";
 function Detail({ detail }: { detail: Dataset | null }) {
     const [copyMessage, setCopyMessage] = useState('');
     const [isCopied, setIsCopied] = useState(false);
-
+    //let userIsCuratorOrAdmin = false;
+    const [userIsCuratorOrAdmin, setUserIsCuratorOrAdmin] = useState<boolean | null>(null);
 
     var nbRecDataPublic = "0";
     if (typeof detail?.recordsStatistics !== 'undefined' && typeof detail?.recordsStatistics.customStatistics !== 'undefined' && typeof detail?.recordsStatistics["numberOfPublicRecordsDatabase"] !== "undefined") {
@@ -36,7 +40,54 @@ function Detail({ detail }: { detail: Dataset | null }) {
         })
     }
 
+
     useEffect(() => {
+
+
+        const tokenString = localStorage.getItem('token');
+        let userSbdiId: number | null = null;
+        let userAdmin: boolean | null = null;
+        if (tokenString) {
+            try {
+                const token = JSON.parse(tokenString);
+                console.log(token);
+                userSbdiId = token.sbdiId ?? null;
+                console.log("sbdiId du user connected"+userSbdiId);
+                userAdmin = token.isAdmin ?? null;
+                console.log("isAdmin du user connected"+userAdmin);
+
+                if (userAdmin) {
+                    console.log('✅ This user is an admin');
+                    //userIsCuratorOrAdmin=true;
+                    setUserIsCuratorOrAdmin(true);
+                }
+                else {
+                    if (Array.isArray(detail.curator)) {
+                        console.log(detail.curator);
+                        const matchingCurator = detail.curator.find(
+                            (curator) => curator.sbdiId === userSbdiId
+                        );
+
+                        if (matchingCurator) {
+                            console.log('✅ This user is a curator:', matchingCurator);
+                            //userIsCuratorOrAdmin=true;
+                            setUserIsCuratorOrAdmin(true);
+                        } else {
+                            console.log('❌ User is not listed as curator');
+                            setUserIsCuratorOrAdmin(false);
+                        }
+                    } else {
+                        console.log('No curator list found in detaildata.');
+                        setUserIsCuratorOrAdmin(false);
+                    }
+                }
+
+            } catch {
+                console.warn('Invalid token in localStorage');
+                setUserIsCuratorOrAdmin(false);
+            }
+        }
+
         if (isCopied) {
             setTimeout(() => {
                 setCopyMessage('');
@@ -52,6 +103,13 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     <h2 className="col-md-12">{detail?.datasetTitle}</h2>
                 </div>
 
+                {userIsCuratorOrAdmin ? ( // admin/curator edit button
+                    <div className="iconLeftright">
+                        <DatasetEditLink datasetId={detail?.datasetID}>
+                            <FontAwesomeIcon icon={faPenToSquare} className="snippet-icon" />
+                        </DatasetEditLink>
+                    </div>
+                ) : null}
                 <div className='row container-wraper margin-top'>
                     <div className="col-md-8">
                         <small className="col-md-12">Description: </small>

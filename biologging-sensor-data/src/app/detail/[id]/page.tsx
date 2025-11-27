@@ -16,6 +16,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

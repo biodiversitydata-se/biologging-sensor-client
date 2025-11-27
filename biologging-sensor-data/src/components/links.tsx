@@ -1,8 +1,9 @@
-import { TEST_URL_BASE } from "@/config/constants";
+import { TEST_URL_BASE, CLIENT_LOGIN_URL } from "@/config/constants";
 import Link from "next/link";
 import { ReactNode } from "react";
 
 const baseUrl = process.env.NEXT_PUBLIC_NODE_ENV === 'test' ? TEST_URL_BASE : '/';
+const loginUrl = CLIENT_LOGIN_URL;
 
 interface LinkProps {
     datasetId?: string;
@@ -62,4 +63,32 @@ export function HomeLink({ children }: LinkProps) {
         </Link>
     )
 
+}
+
+export function LoginLink({ children }: LinkProps) {
+    return (
+        <Link href={{
+            pathname: `/`,
+        }}
+            as={`${baseUrl}${loginUrl}`}
+        >
+            {children}
+        </Link>
+    )
+
+}
+
+export function DatasetEditLink({ datasetId, children }: LinkProps) {
+    return (
+        <Link href={{
+            pathname: `/datasetEdit/[id]`,
+            query: {
+                id: datasetId
+            },
+        }}
+            as={`${baseUrl}datasetEdit/${datasetId}`}
+        >
+            {children}
+        </Link>
+    )
 }

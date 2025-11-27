@@ -1,0 +1,274 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from 'axios';
+import './datasetEdit.css';
+import { AxiosError } from 'axios';
+import { getDataset, updateDataset } from '@/api/dataset/api';
+import { useParams, useRouter } from 'next/navigation';
+import useToken from '@/app/login/useToken';
+
+export default function EditDatasetPage() {
+  const { id } = useParams();
+  const router = useRouter();
+  const { token } = useToken();
+
+  // Which dataset fields can be edited
+  //const EDITABLE_FIELDS = ['datasetTitle', 'description', 'publisher', 'contactEmail'];
+
+  // Which fields should be visible but read-only
+  const READONLY_FIELDS = ['datasetID', 'projectID', 'sensorType', 'valuesMeasured', 'unitReported', 'dateCreated', 'dateUpdated'];
+
+  // (optional) Which fields to hide completely
+  const HIDDEN_FIELDS = ['_id', 'recordsStatistics', 'versions'];
+
+  const [dataset, setDataset] = useState<Record<string, any> | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // --- Fetch dataset ---
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchDataset = async () => {
+      /*
+      try {
+        const res = await axios.get(`/api/dataset/${id}`);
+        setDataset(res.data);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to load dataset');
+      } finally {
+        setLoading(false);
+      }
+      */
+      setLoading(true);
+      const response = await getDataset(id);
+      if (response instanceof AxiosError) {
+        setLoading(false);
+        setError(true);
+        return;
+      }
+
+      setError(false);
+      setDataset(response);
+      setLoading(false);
+    };
+
+    fetchDataset();
+  }, [id]);
+
+  // --- Access control ---
+  if (!token) {
+    return <div className="text-red-600">⚠️ You must be logged in to edit datasets.</div>;
+  }
+
+  if (!token.isAdmin) {
+    return <div className="text-red-600">🚫 You do not have admin rights to edit datasets.</div>;
+  }
+
+  if (loading) return <p>Loading dataset...</p>;
+  if (error) return <p className="text-red-600">{error}</p>;
+  if (!dataset) return <p>No dataset found.</p>;
+
+  function extractEditableFields(dataset: any) {
+    const output: any = {};
+
+    Object.entries(dataset).forEach(([key, value]) => {
+      if (!READONLY_FIELDS.includes(key) && !HIDDEN_FIELDS.includes(key)) {
+        output[key] = value;
+      }
+    });
+
+    return output;
+  }
+
+
+  function updateNestedValue(obj, path, value) {
+    const keys = path.split(".");
+    const last = keys.pop();
+
+    const newObj = { ...obj };
+    let current = newObj;
+
+    for (const key of keys) {
+      // If numeric index → convert to number
+      const index = isNaN(Number(key)) ? key : Number(key);
+      current[index] = Array.isArray(current[index])
+        ? [...current[index]]
+        : { ...current[index] };
+
+      current = current[index];
+    }
+
+    current[last] = value;
+    return newObj;
+  }
+
+  // --- Update field value dynamically ---
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    /*console.log("handlechange"+e.target.name);
+    const { name, value } = e.target;
+    setDataset((prev) => ({ ...prev, [name]: value }));*/
+
+    const path = e.target.name;     // e.g. "contacts.0.email"
+    const value = e.target.value;
+
+    setDataset(prev => updateNestedValue(prev, path, value));
+  };
+
+  // --- Save changes ---
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+console.log("attention les yeux handlesave");
+console.log(dataset);
+      const editableData = extractEditableFields(dataset);
+console.log("apres editabledata");
+console.log(editableData);
+
+      //await axios.put(`/api/dataset/${id}`, dataset, {
+      //await updateDataset(id, dataset, {
+      await updateDataset(id, editableData, {
+        headers: {
+          Authorization: `Bearer ${token.username}`, // replace with real auth if available
+        },
+      });
+      alert('✅ Dataset saved successfully!');
+      router.push(`/detail/${id}`); // navigate back to detail view
+    } catch (err) {
+      console.error(err);
+      alert('❌ Failed to save dataset.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Recursive renderer
+  function renderField(key: string, value: any, path: string[] = []) {
+    const fullPath = [...path, key].join('.');
+    //console.log(fullPath);
+    // Skip hidden fields
+    if (HIDDEN_FIELDS.includes(fullPath) || HIDDEN_FIELDS.includes(key)) {
+      //console.log("hidden");
+      return null;
+    }
+    //const isEditable = EDITABLE_FIELDS.includes(fullPath) || EDITABLE_FIELDS.includes(key);
+    const isReadonly = READONLY_FIELDS.includes(fullPath) || READONLY_FIELDS.includes(key);
+
+    // 🔹 CASE 1: Null/undefined
+    if (value == null) {
+      return (
+        <div key={fullPath} className="mb-4">
+          <label className="block font-semibold mb-1 capitalize">{key}</label>
+          <input
+            name={fullPath}
+            value=""
+            onChange={handleChange}
+            readOnly={isReadonly}
+            className={`border p-2 rounded w-full ${isReadonly ? 'input-readonly' : ''}`}
+          />
+        </div>
+      );
+    }
+
+    // 🔹 CASE 2: Primitive (string / number / boolean)
+    if (typeof value !== 'object') {
+      const isLongText = typeof value === 'string' && value.length > 100;
+
+      return (
+        <div key={fullPath} className="mb-4">
+          <label className="block font-semibold mb-1 capitalize">{key}</label>
+
+          {isLongText ? (
+            <textarea
+              name={fullPath}
+              value={value ?? ''}
+              onChange={handleChange}
+              className={`border p-2 rounded w-full min-h-[100px] ${isReadonly ? 'input-readonly' : ''}`}
+              readOnly={isReadonly}
+            />
+          ) : (
+            <input
+              type="text"
+              name={fullPath}
+              value={value ?? ''}
+              onChange={handleChange}
+              readOnly={isReadonly}
+              className={`border p-2 rounded w-full ${isReadonly ? 'input-readonly' : ''}`}
+            />
+          )}
+        </div>
+      );
+    }
+
+    // 🔹 CASE 3: Array
+    if (Array.isArray(value)) {
+      return (
+        <div key={fullPath} className="mb-6 border rounded-lg p-4 bg-gray-50">
+          <h4 className="font-semibold mb-3 text-lg capitalize border-b pb-1">{key}</h4>
+
+          {value.map((item, index) => (
+            <div
+              key={`${fullPath}.${index}`}
+              className="ml-4 mb-4 border-l-4 border-blue-200 pl-3 bg-white rounded-md shadow-sm"
+            >
+              <h5 className="text-sm font-semibold text-blue-700 mb-2">
+                <FontAwesomeIcon icon={faArrowRight} className="snippet-icon" />&nbsp;&nbsp;Item #{index + 1}
+              </h5>
+
+              {renderField(``, item, [...path, key])}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // 🔹 CASE 4: Plain object
+    return (
+      <div key={fullPath} className="mb-4 border p-3 rounded">
+        <h4 className="font-semibold mb-2 capitalize">{key}</h4>
+        {Object.entries(value).map(([subKey, subValue]) =>
+          renderField(subKey, subValue, [...path, key])
+        )}
+      </div>
+    );
+  }
+
+  // --- Render dynamic form ---
+  return (
+    <div className="container mx-auto max-w-4xl p-6">
+      <h1 className="text-3xl font-bold mb-6">Edit Dataset #{id}</h1>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSave();
+        }}
+      >
+      {Object.entries(dataset).map(([key, value]) => renderField(key, value))}
+
+        <div className="flex gap-3 mt-6">
+          <button
+            type="submit"
+            disabled={saving}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+          >
+            {saving ? 'Saving...' : '💾 Save Changes'}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.push(`/datasets/${id}`)}
+            className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}

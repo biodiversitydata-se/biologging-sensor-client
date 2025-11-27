@@ -1,12 +1,63 @@
 "use client";
 import { useEffect, useState } from "react";
 import { HomeLink, DatasetsLink, VisualisationLink } from "./links";
+import { CLIENT_URL } from "@/config/constants";
 
-const Banner = () => {
+import useToken from '../app/login/useToken';
+
+
+//const Banner = () => {
+export default function Banner() {
+  /*
+  //const currentUrl = typeof window !== "undefined" ? window.location.href : CLIENT_URL;  
+  const loginAuthUrl = "https://auth.biodiversitydata.se/cas/login?service=" + CLIENT_URL + "%2Flogin";
+  //const loginAuthUrl = "https://auth.biodiversitydata.se/cas/login?service=" + encodeURIComponent(currentUrl);
+  //const [loginAuthUrl, setLoginAuthUrl] = useState("");
+  */
+  const logoutAuthUrl = "https://auth.biodiversitydata.se/cas/logout";
+
+  const [loginAuthUrl, setLoginAuthUrl] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+
+  const { token, setToken } = useToken();
+
+  const handleLogout = () => {
+    console.log("logout => clean token et redirect");
+    // 1️⃣ Remove token from localStorage and state
+    localStorage.removeItem('token');
+    setToken(null);
+
+    // 2️⃣ Redirect to CAS logout endpoint
+    // Many CAS servers allow a "service" query param to redirect back to your site.
+    const redirectAfterLogout = window.location.origin;
+    const logoutUrl = `${logoutAuthUrl}?service=${encodeURIComponent(redirectAfterLogout)}`;
+
+    window.location.href = logoutUrl;
+  };
 
   useEffect(() => {
 
+    if (typeof window !== "undefined") {
+      const returnUrl = window.location.href;
+      const casService = `${CLIENT_URL}/login?returnUrl=${encodeURIComponent(returnUrl)}`;
+
+      const finalUrl =
+        "https://auth.biodiversitydata.se/cas/login?service=" +
+        encodeURIComponent(casService);
+
+      setLoginAuthUrl(finalUrl);
+    }    
+    /*
+    if (typeof window !== "undefined") {
+      const currentUrl = window.location.href;
+      const casUrl =
+        "https://auth.biodiversitydata.se/cas/login?service=" +
+        encodeURIComponent(currentUrl);
+
+      setLoginAuthUrl(casUrl);
+    }*/
+
+    console.log("banneruseeffect");
     /* MATOMO statistics, with buildCOmpile ignoring paramaters (ts-ignore => don't remove !!)*/ 
 
     /*
@@ -121,6 +172,26 @@ const Banner = () => {
                         <li>
                           <VisualisationLink datasetId="all">Dataset Visualisation</VisualisationLink>
                         </li>
+                        
+                        {token ? (
+                          
+                          <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children">
+                            <a href="/myDatasets" ><span
+                                className="link-before">User pages<span className="nav-icon-angle">&nbsp;</span></span></a>
+                            <ul className="sub-menu sub-lv-0">
+                              {/*<li>
+                                <a href="/myDatasets" >My datasets</a>
+                              </li>*/}
+                              <li className="menu-item menu-item-type-custom"><a onClick={handleLogout}><span className="link-before">Logout</span></a></li>
+                              
+                            </ul>
+                          </li>
+                        ) : (
+                          <li>
+                            <a href={loginAuthUrl}>Login</a>
+                          </li>
+                        )}
+
                       </ul>
                     </nav>
                   </div>
@@ -159,6 +230,15 @@ const Banner = () => {
                 <li>
                   <VisualisationLink datasetId="all">Dataset Visualisation</VisualisationLink>
                 </li>
+                {token ? (
+                  <li>
+                    <button onClick={handleLogout}>Logout</button>
+                  </li>
+                ) : (
+                  <li>
+                    <a href={loginAuthUrl}>Login</a>
+                  </li>
+                )}
               </ul>
             </div>
           )}
@@ -166,6 +246,5 @@ const Banner = () => {
       </nav>
     </>
   )
-}
+};
 
-export default Banner;
