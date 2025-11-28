@@ -69,6 +69,7 @@ export default function LoginPage() {
               
 
             // ✅ store in the format expected by useToken
+            if (!username) throw new Error("Username is missing!");
             setToken({ username, sbdiId, isAdmin });
 
             // Clean up URL after login
@@ -90,8 +91,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>✅ Logged in as {token?.username} Super bien connnecté avec les liens qui vont bien</h1>
+    <div className="alert alert-success">
+      ✅ Logged in as {token?.username}
     </div>
   );
 

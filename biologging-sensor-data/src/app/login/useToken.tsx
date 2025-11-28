@@ -13,8 +13,8 @@ export type TokenData = {
 export default function useToken() {
   console.log("usetoken");
   
-  const [token, setTokenState] = useState<TokenData>(null);
-
+  const [token, setTokenState] = useState<TokenData | null>(null);
+  const [loading, setLoading] = useState(true); // new
 
   useEffect(() => {
 
@@ -26,14 +26,16 @@ export default function useToken() {
       } catch (e) {
         // If token stored as a plain string (backwards compatibility),
         // treat it as username
-        setTokenState({ username: tokenString, sbdiId: null, isAdmin: false });
+        setTokenState({ username: tokenString!, sbdiId: null, isAdmin: false });
       }
     } else {
       setTokenState(null);
     }
+    setLoading(false); // done loading
   }, []);
 
-  const setToken = (userToken: string) => {
+
+  const setToken = (userToken: TokenData | null) => {
     if (userToken) {
       localStorage.setItem('token', JSON.stringify(userToken));
       setTokenState(userToken);
@@ -43,5 +45,5 @@ export default function useToken() {
     }
   };
 
-  return { token, setToken };  
+  return { token, setToken, loading };  
 }

@@ -6,12 +6,17 @@ import { getDatasets } from "@/api/dataset/api";
 import { AxiosError } from "axios";
 import { Dataset } from "@/api/dataset/dataset";
 */
+import { TokenData } from "@/app/login/useToken"; // adjust the import
+
+type LoginProps = {
+  setToken: (userToken: TokenData) => void;
+};
 
 /**
  * Login page, checking the ticket sent by CAS server and authenticated user
  * @returns 
  */
-export default function Login() {
+export default function Login({ setToken }: LoginProps) {
 
 
 

@@ -53,22 +53,26 @@ export default function DatasetEditPage() {
   const rawId = params?.id; // could be string | string[] | undefined
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
 
-  const { token } = useToken();
+  const { token, loading } = useToken();
   const [accessDenied, setAccessDenied] = useState(false);
 
   // Effect 1: Check authentication first
   useEffect(() => {
-      if (token === null) {
-          setAccessDenied(true);
+    console.log("on attend");
+    // Don't do anything while token is loading
+    if (loading) return;
 
-          setTimeout(() => {
-            window.location.href = `/detail/${id}`;
-          }, 1500);
-      }
-  }, [token, id]);
+    if (token === null) {
+      setAccessDenied(true);
+console.log("le token est naze");
+      setTimeout(() => {
+        window.location.href = `/detail/${id}`;
+      }, 1500);
+    }
+  }, [token, loading, id]);
 
 
-  const [loading, setLoading] = useState(false);
+  const [datasetLoading, setDatasetLoading] = useState(false);
   const [error, setError] = useState(false);
   const [dataset, setDataset] = useState<any>(null);
 
@@ -87,10 +91,10 @@ export default function DatasetEditPage() {
     if (accessDenied) return; // do not fetch if not allowed
 
     const fetchDataset = async () => {
-      setLoading(true);
+      setDatasetLoading(true);
       const response = await getDataset(id);
       if (response instanceof AxiosError) {
-        setLoading(false);
+        setDatasetLoading(false);
         setError(true);
         return;
       }
@@ -98,12 +102,12 @@ export default function DatasetEditPage() {
       setError(false);
       setDataset(response);
       reset(response); // populate form including arrays
-      setLoading(false);
+      setDatasetLoading(false);
     };
 
     fetchDataset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, token, accessDenied]);
+  }, [id, token, accessDenied, reset]);
 
 
   // If user has no access, show message and DO NOT run the fetch effect
@@ -157,6 +161,7 @@ export default function DatasetEditPage() {
   };
 
   if (loading) return <p>Loading...</p>;
+  if (datasetLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading dataset.</p>;
   if (!dataset) return null;
 
