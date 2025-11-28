@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 export type TokenData = {
   username: string;
-  sbdiId: string;
+  sbdiId: string | null;
   //roles?: string[];      // optional
   isAdmin?: boolean;     // optional
 };
@@ -13,7 +13,7 @@ export type TokenData = {
 export default function useToken() {
   console.log("usetoken");
   
-  const [token, setTokenState] = useState<Token>(null);
+  const [token, setTokenState] = useState<TokenData>(null);
 
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function useToken() {
       } catch (e) {
         // If token stored as a plain string (backwards compatibility),
         // treat it as username
-        setTokenState({ username: tokenString });
+        setTokenState({ username: tokenString, sbdiId: null, isAdmin: false });
       }
     } else {
       setTokenState(null);

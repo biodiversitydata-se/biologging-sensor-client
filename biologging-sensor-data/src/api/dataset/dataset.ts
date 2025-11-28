@@ -46,6 +46,7 @@ export interface Contact {
     email: string;
     webpage: string;
     ORCID: string;
+    SBDIid: string;
 }
 
 export interface RangeDateTime {

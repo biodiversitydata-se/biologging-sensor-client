@@ -62,10 +62,10 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     setUserIsCuratorOrAdmin(true);
                 }
                 else {
-                    if (Array.isArray(detail.curator)) {
+                    if (Array.isArray(detail?.curator)) {
                         console.log(detail.curator);
                         const matchingCurator = detail.curator.find(
-                            (curator) => curator.sbdiId === userSbdiId
+                            (curator) => curator.SBDIid === String(userSbdiId)
                         );
 
                         if (matchingCurator) {

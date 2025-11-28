@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import useToken from '@/app/login/useToken';
 import { useForm, useFieldArray } from "react-hook-form";
 import { useParams } from "next/navigation";
 import { getDataset, updateDataset } from "@/api/dataset/api";
@@ -47,7 +48,26 @@ function removeNestedIds(obj: any): any {
 
 
 export default function DatasetEditPage() {
-  const { id } = useParams();
+  //const { id } = useParams();
+  const params = useParams();
+  const rawId = params?.id; // could be string | string[] | undefined
+  const id = Array.isArray(rawId) ? rawId[0] : rawId;
+
+  const { token } = useToken();
+  const [accessDenied, setAccessDenied] = useState(false);
+
+  // Effect 1: Check authentication first
+  useEffect(() => {
+      if (token === null) {
+          setAccessDenied(true);
+
+          setTimeout(() => {
+            window.location.href = `/detail/${id}`;
+          }, 1500);
+      }
+  }, [token, id]);
+
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [dataset, setDataset] = useState<any>(null);
@@ -63,6 +83,8 @@ export default function DatasetEditPage() {
   // Fetch dataset and populate form
   useEffect(() => {
     if (!id) return;
+    if (!token) return; //  prevents fetching while token is loading
+    if (accessDenied) return; // do not fetch if not allowed
 
     const fetchDataset = async () => {
       setLoading(true);
@@ -81,8 +103,17 @@ export default function DatasetEditPage() {
 
     fetchDataset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, token, accessDenied]);
 
+
+  // If user has no access, show message and DO NOT run the fetch effect
+  if (accessDenied) {
+      return (
+          <div className="alert alert-danger mt-5 text-center">
+              You must be logged in to edit this dataset. Redirecting…
+          </div>
+      );
+  }
 
 
   const onSubmit = async (data: any) => {
@@ -161,7 +192,7 @@ export default function DatasetEditPage() {
                   <small className="d-block text-uppercase">{subKey}</small>
                   <input
                     {...register(`${name}.${index}.${subKey}`)}
-                    defaultValue={field[subKey] ?? ""}
+                    defaultValue={(field as Record<string, any>)[subKey] ?? ""}
                     className="form-control mt-2"
                   />
                 </div>
