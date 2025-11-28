@@ -59,7 +59,7 @@ const Banner = () => {
             </a>
             <p>Swedish Biodiversity Data Infrastructure</p>
             <a className="hidden-xs" href="https://biodiversitydata.se/explore-data/">
-              <i className="fas fa-arrow-circle-right"></i>&nbsp;SBDI portals and tools
+              <i className="fas fa-arrow-circle-right"></i>&nbsp;All SBDI tools
             </a>
           </div>
         </div>
@@ -88,7 +88,7 @@ const Banner = () => {
                   <VisualisationLink datasetId="all">Dataset Visualisation</VisualisationLink>
                 </li>
                 <li className="visible-xs-inline">
-                  <a href="https://biodiversitydata.se/explore-data/">SBDI portals and tools</a>
+                  <a href="https://biodiversitydata.se/explore-data/">All SBDI tools</a>
                 </li>
               </ul>
             </div>
