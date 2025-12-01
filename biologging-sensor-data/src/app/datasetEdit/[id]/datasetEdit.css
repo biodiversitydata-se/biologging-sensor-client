@@ -1,0 +1,7 @@
+.input-readonly {
+  background-color: #f3f4f6; /* light gray */
+  color: #6b7280;            /* gray-500 */
+  border-color: #d1d5db;     /* gray-300 */
+  cursor: not-allowed;
+}
+

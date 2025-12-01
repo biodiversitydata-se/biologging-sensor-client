@@ -33,3 +33,21 @@ export const post = async <T>(endpoint: string, body: any, params?: any): Promis
         return error as AxiosError;
     }
 }
+
+export const patch = async <T>( endpoint: string, data: any ): Promise<ApiResponse<T>> => {
+    try {
+        const response: AxiosResponse<T> = await axios.patch<T>(
+            `${BASE_API_URL}${endpoint}`,
+            data,
+            {
+                headers: {
+                    'X-APP-ID': API_APP_ID,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        return error as AxiosError;
+    }
+};
