@@ -2,11 +2,17 @@
 export const API_DATAMODEL_URL = 'https://github.com/biodiversitydata-se/biologging-sensor-datamodel';
 export const API_APP_ID = '48de-03dd-05dc-401da2342';
 export const TEST_URL_BASE = '/biologging-client-dev/';
+
 //export const BASE_API_URL = 'http://canmove-dev.ekol.lu.se:8080/biologgingAPI/v1/';
-export const BASE_API_URL = 'https://biologging-api.biodiversitydata.se/biologgingAPI/v1/';
+//export const BASE_API_URL = 'https://biologging-api.biodiversitydata.se/biologgingAPI/v1/';
 //export const BASE_API_URL = 'http://localhost:8085/biologgingAPI/v1/';
-export const CLIENT_URL = 'https://biologging.biodiversitydata.se';
+//export const CLIENT_URL = 'https://biologging.biodiversitydata.se';
 //export const CLIENT_URL = 'http://localhost:3000';
+// get the urls from the .env files
+export const CLIENT_URL = process.env.NEXT_PUBLIC_CLIENT_URL!;
+export const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL!;
+
+
 export const CLIENT_LOGIN_URL = 'login';
 export const CLIENT_LOGIN_FULL_URL = CLIENT_URL + '/' + CLIENT_LOGIN_URL;
 export const BASE_API_URL_PUBLIC = BASE_API_URL + 'docs';
