@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { HomeLink, DatasetsLink, VisualisationLink } from "./links";
+import { HomeLink, VisualisationLink } from "./links";
 import { CLIENT_URL } from "@/config/constants";
 
 import useToken from '../app/login/useToken';
@@ -17,8 +17,7 @@ export default function Banner() {
   const logoutAuthUrl = "https://auth.biodiversitydata.se/cas/logout";
 
   const [loginAuthUrl, setLoginAuthUrl] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-
+  
   const { token, setToken } = useToken();
 
   const handleLogout = () => {
@@ -144,7 +143,7 @@ export default function Banner() {
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User pages <span className="caret"></span></a>
                     <ul className="dropdown-menu">
                       <li><a href="/myDatasets">My datasets</a></li>
-                      <li><a onClick={handleLogout}>Logout</a></li>
+                      <li><a style={{cursor: 'pointer'}} onClick={handleLogout}>Logout</a></li>
                     </ul>
                   </li>
                 ) : (
