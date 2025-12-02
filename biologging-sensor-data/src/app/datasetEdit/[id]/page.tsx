@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import './datasetEdit.css';
 import useToken from '@/app/login/useToken';
 import { useForm, useFieldArray } from "react-hook-form";
 import { useParams } from "next/navigation";
@@ -83,7 +84,6 @@ export default function DatasetEditPage() {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [statusType, setStatusType] = useState<"success" | "error" | null>(null);
 
-
   // Fetch dataset and populate form
   useEffect(() => {
     if (!id) return;
@@ -118,7 +118,6 @@ export default function DatasetEditPage() {
           </div>
       );
   }
-
 
   const onSubmit = async (data: any) => {
     // Reset status block
@@ -199,6 +198,9 @@ export default function DatasetEditPage() {
                     {...register(`${name}.${index}.${subKey}`)}
                     defaultValue={(field as Record<string, any>)[subKey] ?? ""}
                     className="form-control mt-2"
+                    onInput={(e) => {
+                      e.currentTarget.classList.add("input-modified");
+                    }}
                   />
                 </div>
               );
@@ -306,6 +308,9 @@ export default function DatasetEditPage() {
                     defaultValue={val ?? ""}
                     readOnly={isReadonly}
                     className={`form-control mt-2 ${isReadonly ? "bg-gray-100" : ""}`}
+                    onInput={(e) => {
+                      e.currentTarget.classList.add("input-modified");
+                    }}
                   />
                 )}
               </div>
