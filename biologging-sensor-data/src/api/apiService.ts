@@ -8,7 +8,7 @@ export const get = async <T>(endpoint: string): Promise<ApiResponse<T>> => {
     try {
       const response: AxiosResponse<T> = await axios.get<T>(`${BASE_API_URL}${endpoint}`, {
             headers: {
-                'X-APP-ID': API_APP_ID
+                'x-app-id': API_APP_ID
               },
         });
       return response.data;
@@ -22,7 +22,7 @@ export const post = async <T>(endpoint: string, body: any, params?: any): Promis
         const response: AxiosResponse<T> = await axios.post<T>(`${BASE_API_URL}${endpoint}`, body, {
             headers: {
                 'Content-Type': 'application/json',
-                'X-APP-ID': API_APP_ID
+                'x-app-id': API_APP_ID
               },
               params: params ?? {
                 take: MAX_RECORD_VALUES,
@@ -34,18 +34,23 @@ export const post = async <T>(endpoint: string, body: any, params?: any): Promis
     }
 }
 
-export const patch = async <T>( endpoint: string, data: any ): Promise<ApiResponse<T>> => {
+export const patch = async <T>( endpoint: string, data: any , includeApiKey = false): Promise<ApiResponse<T>> => {
     try {
+        // Build headers dynamically
+        const headers: Record<string, string> = {
+            'x-app-id': API_APP_ID,
+            'Content-Type': 'application/json',
+            };
+        if (includeApiKey) {
+          headers['x-api-key'] = process.env.NEXT_PUBLIC_API_KEY!; // your API key from .env
+        }
+
         const response: AxiosResponse<T> = await axios.patch<T>(
-            `${BASE_API_URL}${endpoint}`,
-            data,
-            {
-                headers: {
-                    'X-APP-ID': API_APP_ID,
-                    'Content-Type': 'application/json',
-                },
-            }
+          `${BASE_API_URL}${endpoint}`,
+          data,
+          { headers }
         );
+
         return response.data;
     } catch (error) {
         return error as AxiosError;
