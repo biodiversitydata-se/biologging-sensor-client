@@ -58,13 +58,13 @@ export default function DatasetEditPage() {
 
   // Effect 1: Check authentication first
   useEffect(() => {
-    console.log("on attend");
+
     // Don't do anything while token is loading
     if (loading) return;
 
     if (token === null) {
       setAccessDenied(true);
-console.log("le token est naze");
+
       setTimeout(() => {
         window.location.href = `/detail/${id}`;
       }, 1500);

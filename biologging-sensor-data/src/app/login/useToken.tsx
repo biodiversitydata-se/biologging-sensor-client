@@ -11,7 +11,7 @@ export type TokenData = {
 };
 
 export default function useToken() {
-  console.log("usetoken");
+  //console.log("usetoken");
   
   const [token, setTokenState] = useState<TokenData | null>(null);
   const [loading, setLoading] = useState(true); // new
