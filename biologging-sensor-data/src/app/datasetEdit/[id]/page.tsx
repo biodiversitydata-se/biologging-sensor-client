@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import './datasetEdit.css';
 import useToken from '@/app/login/useToken';
 import { useForm, useFieldArray } from "react-hook-form";
 import { useParams } from "next/navigation";
@@ -58,13 +59,13 @@ export default function DatasetEditPage() {
 
   // Effect 1: Check authentication first
   useEffect(() => {
-    console.log("on attend");
+
     // Don't do anything while token is loading
     if (loading) return;
 
     if (token === null) {
       setAccessDenied(true);
-console.log("le token est naze");
+
       setTimeout(() => {
         window.location.href = `/detail/${id}`;
       }, 1500);
@@ -82,7 +83,6 @@ console.log("le token est naze");
 
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [statusType, setStatusType] = useState<"success" | "error" | null>(null);
-
 
   // Fetch dataset and populate form
   useEffect(() => {
@@ -118,7 +118,6 @@ console.log("le token est naze");
           </div>
       );
   }
-
 
   const onSubmit = async (data: any) => {
     // Reset status block
@@ -199,6 +198,9 @@ console.log("le token est naze");
                     {...register(`${name}.${index}.${subKey}`)}
                     defaultValue={(field as Record<string, any>)[subKey] ?? ""}
                     className="form-control mt-2"
+                    onInput={(e) => {
+                      e.currentTarget.classList.add("input-modified");
+                    }}
                   />
                 </div>
               );
@@ -306,6 +308,9 @@ console.log("le token est naze");
                     defaultValue={val ?? ""}
                     readOnly={isReadonly}
                     className={`form-control mt-2 ${isReadonly ? "bg-gray-100" : ""}`}
+                    onInput={(e) => {
+                      e.currentTarget.classList.add("input-modified");
+                    }}
                   />
                 )}
               </div>

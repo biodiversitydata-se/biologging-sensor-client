@@ -8,12 +8,7 @@ import useToken from '../app/login/useToken';
 
 //const Banner = () => {
 export default function Banner() {
-  /*
-  //const currentUrl = typeof window !== "undefined" ? window.location.href : CLIENT_URL;  
-  const loginAuthUrl = "https://auth.biodiversitydata.se/cas/login?service=" + CLIENT_URL + "%2Flogin";
-  //const loginAuthUrl = "https://auth.biodiversitydata.se/cas/login?service=" + encodeURIComponent(currentUrl);
-  //const [loginAuthUrl, setLoginAuthUrl] = useState("");
-  */
+
   const logoutAuthUrl = "https://auth.biodiversitydata.se/cas/logout";
 
   const [loginAuthUrl, setLoginAuthUrl] = useState("");
@@ -45,31 +40,9 @@ export default function Banner() {
         encodeURIComponent(casService);
 
       setLoginAuthUrl(finalUrl);
-    }    
-    /*
-    if (typeof window !== "undefined") {
-      const currentUrl = window.location.href;
-      const casUrl =
-        "https://auth.biodiversitydata.se/cas/login?service=" +
-        encodeURIComponent(currentUrl);
+    }  
 
-      setLoginAuthUrl(casUrl);
-    }*/
-
-    console.log("banneruseeffect");
     /* MATOMO statistics, with buildCOmpile ignoring paramaters (ts-ignore => don't remove !!)*/ 
-
-    /*
-    // @ts-ignore
-    var _mtm = window._mtm = window._mtm || [];
-    _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-    (function() {
-      // @ts-ignore
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      // @ts-ignore
-      g.async=true; g.src='https://matomo.biodiversitydata.se/js/container_YZLb7LKK.js'; s.parentNode.insertBefore(g,s);
-    })();
-    */
 
     // @ts-ignore
     var _paq = window._paq = window._paq || [];
@@ -86,18 +59,6 @@ export default function Banner() {
     /* end of MATOMO plugin */
   }, []);
 
-  /*
-  var _paq = window._paq = window._paq || [];
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//matomo.biodiversitydata.se/";
-    _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '11']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-  })();
-  */
   return (
     <>
       <header>

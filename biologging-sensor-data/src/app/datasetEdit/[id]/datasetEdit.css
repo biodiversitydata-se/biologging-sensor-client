@@ -5,3 +5,8 @@
   cursor: not-allowed;
 }
 
+
+.input-modified {
+  border: 2px solid orange !important;  
+  background-color: #fff8d6 !important; 
+}

@@ -50,11 +50,11 @@ function Detail({ detail }: { detail: Dataset | null }) {
         if (tokenString) {
             try {
                 const token = JSON.parse(tokenString);
-                console.log(token);
+                //console.log(token);
                 userSbdiId = token.sbdiId ?? null;
-                console.log("sbdiId du user connected"+userSbdiId);
+                //console.log("sbdiId du user connected"+userSbdiId);
                 userAdmin = token.isAdmin ?? null;
-                console.log("isAdmin du user connected"+userAdmin);
+                //console.log("isAdmin du user connected"+userAdmin);
 
                 if (userAdmin) {
                     console.log('✅ This user is an admin');
