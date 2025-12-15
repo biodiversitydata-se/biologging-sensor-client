@@ -33,7 +33,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
     };
 
     fetchData();
-  }, []);
+  }, [params.id]);
 
   return (
     <div>

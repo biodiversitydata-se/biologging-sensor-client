@@ -43,7 +43,7 @@ export default function SensorsList({ dataset, onSelect }: Args) {
         onSelect(sensors);
         setLoading(false);
 
-    }, [dataset])
+    }, [dataset, onSelect])
 
     function _selectSensor(sensor: string) {
         const s = { ...selected };

@@ -1,5 +1,6 @@
 import './index.css';
 import type { Metadata } from 'next'
+import Script from 'next/script';
 //import { Inter } from 'next/font/google'
 import Banner from '../components/Banner'
 import Footer from '../components/Footer'
@@ -41,9 +42,14 @@ export default function RootLayout({
         <link rel="manifest" href="https://bioatlas.biodiversitydata.se/site.webmanifest" />
 
         {/* LA base-branding dependencies */}
-        <script src="https://bioatlas.biodiversitydata.se/js/jquery.min.js" />
-        <script src="https://bioatlas.biodiversitydata.se/js/bootstrap.js" />
-
+        <Script
+          src="https://bioatlas.biodiversitydata.se/js/jquery.min.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          src="https://bioatlas.biodiversitydata.se/js/bootstrap.js"
+          strategy="beforeInteractive"
+        />
       </head>
       <body>
         <Banner />

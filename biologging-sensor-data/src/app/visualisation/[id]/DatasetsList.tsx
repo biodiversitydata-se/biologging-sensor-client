@@ -45,7 +45,7 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
       setSelected(dataset)
       onSelect(dataset);
     }
-  }, [datasets])
+  }, [initDataset, datasets])
 
   function _selectDataset(i: number) {
     const dataset = datasets[i];

@@ -94,7 +94,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                 setIsCopied(false);
             }, 2000);
         }
-    }, [isCopied]);
+    }, [isCopied, detail?.curator]);
 
     return (
         <div>
@@ -183,7 +183,13 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         </div>
                     </div>
                     <div className="col-md-4">
-                        <img className="col-md-12" src={detail?.picture?.pictureUrl ?? ""} alt="" width={350} />
+                        <Image
+                          className="col-md-12"
+                          src={detail?.picture?.pictureUrl || ""}
+                          alt=""
+                          width={350}
+                          height={240} // REQUIRED
+                        />
                         <i><center>{detail?.picture?.pictureOwner ? "Photo by: "+detail?.picture?.pictureOwner : ""}</center></i>
                     </div>
                 </div>
