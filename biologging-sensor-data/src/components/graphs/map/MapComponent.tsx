@@ -83,7 +83,7 @@ export default function MapComponent({ data }: { data: CoordinatesExtended[] }) 
             L.control.layers(baseMaps).addTo(map);
 
         }
-    }, [data])
+    }, [data, map])
 
 
     return (

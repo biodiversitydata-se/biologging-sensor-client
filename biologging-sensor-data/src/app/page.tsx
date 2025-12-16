@@ -31,21 +31,21 @@ export default function Home() {
             <div className="container">
                 <div className="col-md-offset-1 col-md-10">
                     <div className="col-md-4">
-                        <img className="img-homepage" src={IMG_HOMEPAGE_DATASET_LISTING.src} />
+                        <img className="img-homepage" src={IMG_HOMEPAGE_DATASET_LISTING.src} alt="dataset-listing-img"/>
                         <p>
                             Browse our available datasets<br /><br />
                             <a className="btn btn-primary" id="dataset_link" href="/datasetOverview" role="button">DATASETS</a>
                         </p>
                     </div>
                     <div className="col-md-4">
-                        <img className="img-homepage" src={IMG_HOMEPAGE_VISUALISATION_GRAPH.src} />
+                        <img className="img-homepage" src={IMG_HOMEPAGE_VISUALISATION_GRAPH.src} alt="visulation-grap-img"/>
                         <p>
                             Explore the data<br /><br />
                             <a className="btn btn-primary"  id="visualisation_link" href="/visualisation/all" role="button">VISUALISATIONS</a>
                         </p>
                     </div>
                     <div className="col-md-4">
-                        <img className="img-homepage" src={IMG_HOMEPAGE_API.src} />
+                        <img className="img-homepage" src={IMG_HOMEPAGE_API.src} alt="homepage-api"/>
                         <p>
                             Use our API to fetch data<br /><br />
                             <a className="btn btn-primary"  id="api_link" href={BASE_API_URL_PUBLIC} target="_blank" role="button">API</a>

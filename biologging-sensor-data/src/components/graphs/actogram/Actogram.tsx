@@ -148,7 +148,7 @@ export default function Actogram({ events, valueMeasured, config }: { events: Ev
         };
 
         dataFetch();
-    }, [events])
+    }, [events, config.errorCase?.value, config.notMeasuredCase?.value, valueMeasured])
 
     return (
         <div>

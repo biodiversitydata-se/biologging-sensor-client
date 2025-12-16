@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { ActogramProps } from "./interface";
 import { A_WIDTH, DAY_NUMBER_X, DEF_STROKE_STYLE, D_LINE_OFFSET, FONT_SIZE, MONTH_LABEL_OFFSET, M_LABEL_OFFSET, M_LINE_OFFSET, RIGHT_SIDE_OFFSET, S, T_LABEL_OFFSET } from "./const";
 import { A_ERROR_COLOR, A_NO_MEASURED_COLOR } from "@/config/constants";
@@ -7,25 +7,32 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
-    useEffect(() => {
-        // needs to be setup when component is initiated
-        const canvas = canvasRef.current;
-        const context = canvas?.getContext('2d');
-        if (context) setCtx(context);
-    }, []);
+    const getColor = useCallback((score: number): string => {
+    //function getColor(score: number): string {
+        if (!config) return '';
 
-    useEffect(() => {
-        if (!ctx) return;
+        if (score === errorValue) {
+            return config.errorCase?.color ?? A_ERROR_COLOR;
+        }
 
-        _drawLeftSide();
-        _drawRightSide();
-        _drawMonthLabels();
-        _drawBorderLines();
-        _drawTimeLabels();
-    }, [data]);
+        if (score === notMeasuredValue) {
+            return config.notMeasuredCase?.color ?? A_NO_MEASURED_COLOR;
+        }
 
-    function _drawLeftSide() {
-        if (!ctx) return;
+        for (let item of config.config) {
+            if (!item.to && item.from >= score) {
+                return item.color;
+            }
+
+            if (item.from <= score && item.to! >= score) {
+                return item.color;
+            }
+        }
+        return '';
+    }, [config, errorValue, notMeasuredValue] );
+    
+    const _drawLeftSide = useCallback(() => {
+      if (!ctx) return;
         data?.forEach((square) => {
             ctx.fillStyle = getColor(square.value);
             ctx.strokeStyle = DEF_STROKE_STYLE;
@@ -33,9 +40,9 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
             const y = square.y + T_LABEL_OFFSET;
             ctx.fillRect(x, y, S, S);
         });
-    }
+    }, [ctx, data, getColor]);
 
-    function _drawRightSide() {
+    const _drawRightSide = useCallback(() => {
         if (!ctx) return;
         const sliced_data = data?.slice(24, data.length); // remove first day to shift it
         sliced_data?.forEach((square) => {
@@ -45,10 +52,22 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
             const y = square.y + T_LABEL_OFFSET - S;
             ctx.fillRect(x, Math.floor(y), S, S);
         });
+    }, [ctx, data, getColor]);
 
-    }
 
-    function _drawMonthLabels() {
+    const _drawLine = useCallback((x1: number, x2: number, y1: number, y2: number) => {
+    //function _drawLine(x1: number, x2: number, y1: number, y2: number) {
+        if (!ctx) return;
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = DEF_STROKE_STYLE;
+        ctx.stroke();
+
+    }, [ctx]);
+
+    const _drawMonthLabels = useCallback(() => {
         if (!ctx) return;
 
         let y = T_LABEL_OFFSET;
@@ -81,10 +100,11 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
             // set new y
             y = end;
         })
-    }
+    }, [ctx, _drawLine, mCounts]);
 
 
-    function _drawTimeLabels() {
+
+    const _drawTimeLabels = useCallback(() => {
         if (!ctx) return;
         const y = T_LABEL_OFFSET - S;
         let x = M_LABEL_OFFSET;
@@ -95,9 +115,10 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
             _drawLine(x, x, y, y + S);
             x += 12 * S;
         }
-    }
+    }, [ctx, _drawLine]);
 
-    function _drawBorderLines() {
+
+    const _drawBorderLines = useCallback(() => {
         if (!ctx) return;
         // left
         let x = M_LABEL_OFFSET;
@@ -110,41 +131,28 @@ export default function ActogramGraph({ data, mCounts, days, config, errorValue,
         y1 = T_LABEL_OFFSET;
         y2 = T_LABEL_OFFSET + (days * S) + S;
         _drawLine(x, x, y1, y2);
-    }
+    }, [ctx, days, _drawLine]);
 
-    function _drawLine(x1: number, x2: number, y1: number, y2: number) {
+
+
+
+    useEffect(() => {
+        // needs to be setup when component is initiated
+        const canvas = canvasRef.current;
+        const context = canvas?.getContext('2d');
+        if (context) setCtx(context);
+    }, []);
+
+    useEffect(() => {
         if (!ctx) return;
 
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.strokeStyle = DEF_STROKE_STYLE;
-        ctx.stroke();
+        _drawLeftSide();
+        _drawRightSide();
+        _drawMonthLabels();
+        _drawBorderLines();
+        _drawTimeLabels();
+    }, [data, ctx, _drawBorderLines, _drawLeftSide, _drawMonthLabels, _drawRightSide, _drawTimeLabels]);
 
-    }
-
-    function getColor(score: number): string {
-        if (!config) return '';
-
-        if (score === errorValue) {
-            return config.errorCase?.color ?? A_ERROR_COLOR;
-        }
-
-        if (score === notMeasuredValue) {
-            return config.notMeasuredCase?.color ?? A_NO_MEASURED_COLOR;
-        }
-
-        for (let item of config.config) {
-            if (!item.to && item.from >= score) {
-                return item.color;
-            }
-
-            if (item.from <= score && item.to! >= score) {
-                return item.color;
-            }
-        }
-        return '';
-    }
 
     return (
         <div>

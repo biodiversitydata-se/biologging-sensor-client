@@ -216,7 +216,7 @@ export default function LineGraph({ events, sensor, config }: { events: Event[],
 
     setUnitsOfMeasurement();
     dataFetch();
-  }, [events]);
+  }, [events, sensor]);
 
   return (
     <div>
