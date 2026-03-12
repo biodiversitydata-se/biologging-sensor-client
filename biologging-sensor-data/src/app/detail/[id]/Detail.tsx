@@ -182,16 +182,24 @@ function Detail({ detail }: { detail: Dataset | null }) {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    {detail?.picture && (
+                      <div className="col-md-4">
                         <Image
                           className="col-md-12"
-                          src={detail?.picture?.pictureUrl || ""}
+                          src={detail.picture.pictureUrl}
                           alt=""
                           width={350}
-                          height={240} // REQUIRED
+                          height={240}
                         />
-                        <i><center>{detail?.picture?.pictureOwner ? "Photo by: "+detail?.picture?.pictureOwner : ""}</center></i>
-                    </div>
+                        <i>
+                          <center>
+                            {detail.picture.pictureOwner
+                              ? "Photo by: " + detail.picture.pictureOwner
+                              : ""}
+                          </center>
+                        </i>
+                      </div>
+                    )}
                 </div>
 
                 <div className='row container-wraper'>

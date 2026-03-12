@@ -238,6 +238,10 @@ export default function DatasetEditPage() {
     ([key, value]) => !Array.isArray(value) || value.length === 0 || typeof value[0] !== "object"
   );
 
+  const handleInputModified = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    e.currentTarget.classList.add("input-modified");
+  };
+
   return (
     <div className="container mx-auto max-w-4xl p-6">
       <h1 className="text-3xl font-bold mb-6">Edit Dataset #{id}</h1>
@@ -301,6 +305,7 @@ export default function DatasetEditPage() {
                     className={`border p-2 rounded w-full min-h-[100px] ${
                       isReadonly ? "bg-gray-100" : ""
                     }`}
+                    onInput={handleInputModified}
                   />
                 ) : (
                   <input
@@ -308,9 +313,7 @@ export default function DatasetEditPage() {
                     defaultValue={val ?? ""}
                     readOnly={isReadonly}
                     className={`form-control mt-2 ${isReadonly ? "bg-gray-100" : ""}`}
-                    onInput={(e) => {
-                      e.currentTarget.classList.add("input-modified");
-                    }}
+                    onInput={handleInputModified}
                   />
                 )}
               </div>
