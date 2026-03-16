@@ -7,6 +7,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useParams } from "next/navigation";
 import { getDataset, updateDataset } from "@/api/dataset/api";
 import { AxiosError } from "axios";
+import { DetailLink } from "@/components/links";
 
 // Hidden and readonly fields
 const HIDDEN_FIELDS = ['id', '_id', 'recordsStatistics', 'versions'];
@@ -244,6 +245,11 @@ export default function DatasetEditPage() {
 
   return (
     <div className="container mx-auto max-w-4xl p-6">
+
+      <div>
+        <DetailLink datasetId={id}>Back</DetailLink>
+      </div>
+
       <h1 className="text-3xl font-bold mb-6">Edit Dataset #{id}</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -330,14 +336,21 @@ export default function DatasetEditPage() {
           <ArrayEditor key={key} name={key} />
         ))}
 
+        <DetailLink datasetId={id}>
+          <button className="btn btn-primary" style={{ marginTop: '20px' }}>
+            Cancel 
+          </button>
+        </DetailLink>
+
         <button
           type="submit"
           disabled={isSubmitting}
           className="btn btn-primary"
-          style={{ marginTop: '20px' }}  // adjust px as needed
+          style={{ marginTop: '20px', marginLeft: '20px' }}  // adjust px as needed
         >
           Save Changes
         </button>
+
 
         {statusMessage && (
           <div className={`mt-4 p-3 rounded ${statusType === "success" ? "alert alert-success" : "alert alert-danger"}`}>
