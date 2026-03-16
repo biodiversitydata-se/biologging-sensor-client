@@ -222,7 +222,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <small className="col-md-12">Curator owner: </small>
                         <div>
                             {detail?.curator && detail.curator.map((person, index) => (
-                                <span key={index}>
+                                <div key={index} className="row mb-2">
                                     <span className='col-md-2 pb-3p'>
                                         {person.webpage ? (
                                             <a href={person.webpage}>
@@ -239,8 +239,8 @@ function Detail({ detail }: { detail: Dataset | null }) {
 
                                     {person.ORCID ? (
                                         <div className='col-md-4'>
-                                            <img src={orcidLogo} alt="logo" width={18} height={18} />
-                                            <a href={`https://orcid.org/${person.ORCID}`}>{`https://orcid.org/${person.ORCID}`}</a>
+                                            <img src={orcidLogo.src} alt="logo" width={18} height={18} />
+                                            <a href={`https://orcid.org/${person.ORCID}`}> {`https://orcid.org/${person.ORCID}`}</a>
                                         </div>
                                     ) : null}
 
@@ -248,14 +248,14 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                         {person.email ? person.email : null}
                                         <FontAwesomeIcon icon={faCopy} className='copyIcon' onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }} />
                                     </span>
-                                </span>
+                                </div>
                             ))}
                         </div>
 
                         <small className="col-md-12">Creator: </small>
                         <div>
                             {detail?.creator.map((person, index) => (
-                                <span key={index}>
+                                <div key={index} className="row mb-2">
                                     <span className="col-md-2 pb-3p">
                                         {person.webpage ? (
                                             <a href={person.webpage}>
@@ -269,19 +269,19 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                             </>
                                         )}
                                     </span>
-                                    {person.ORCID ? <a href={`https://orcid.org/${person.ORCID}`} className="col-md-5"><img src={orcidLogo} alt="logo" width={18} height={18} />{`https://orcid.org/${person.ORCID}`}</a> : null}
+                                    {person.ORCID ? <a href={`https://orcid.org/${person.ORCID}`} className="col-md-5"><img src={orcidLogo.src} alt="logo" width={18} height={18} /> {`https://orcid.org/${person.ORCID}`}</a> : null}
                                     <span className="col-md-4">
                                         {person.email ? person.email : null}
                                         <FontAwesomeIcon icon={faCopy} className='copyIcon' onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }} />
                                     </span>
-                                </span>
+                                </div>
                             ))}
                         </div>
 
                         <small className="col-md-12">Contact for questions:</small>
                         <span>
                             {detail?.contact.map((person, index) => (
-                                <div key={index}>
+                                <div key={index} className="row mb-2">
                                     <span className="col-md-2 pb-3p">
                                         {person.webpage ? (
                                             <a href={person.webpage}>
@@ -295,7 +295,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                             </>
                                         )}
                                     </span>
-                                    {person.ORCID ? <a href={`https://orcid.org/${person.ORCID}`} className="col-md-5"><img src={orcidLogo} alt="logo" width={18} height={18} />{`https://orcid.org/${person.ORCID}`}</a> : null}
+                                    {person.ORCID ? <a href={`https://orcid.org/${person.ORCID}`} className="col-md-5"><img src={orcidLogo.src} alt="logo" width={18} height={18} /> {`https://orcid.org/${person.ORCID}`}</a> : null}
                                     <span className="col-md-4">
                                         {person.email ? person.email : null}
                                         <FontAwesomeIcon icon={faCopy} className='copyIcon' onClick={() => { copy(person.email); setCopyMessage('Email copied!'); setIsCopied(true); }} />
