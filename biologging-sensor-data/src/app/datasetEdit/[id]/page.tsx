@@ -329,10 +329,9 @@ export default function DatasetEditPage() {
     // Case 1: e is a string → treat as fieldName
     if (typeof e === "string") {
       const el = document.querySelector<HTMLInputElement | HTMLTextAreaElement>(
-        `[name="${e}"]`
+        `[id="${e}"]`
       );
       if (el) {
-            console.log("ok ajout");
         el.classList.add("input-modified");
       }
       return;
@@ -408,7 +407,7 @@ export default function DatasetEditPage() {
                 <small className="d-block text-uppercase">{displayLabel}</small>
 
                 {isDateTime ? (
-                  <div name={fieldName}>
+                  <div id={fieldName}>
                     <Controller
                       name={fieldName}
                       control={control}
@@ -430,7 +429,6 @@ export default function DatasetEditPage() {
                               //handleInputModified(dateInputRef.current);
                               handleInputModified(fieldName);
                             }}
-                            onChangeRaw={handleInputModified}
                             showTimeSelect
                             timeFormat="HH:mm"
                             timeIntervals={15} // choose step interval
