@@ -9,6 +9,11 @@ import { getDataset, updateDataset } from "@/api/dataset/api";
 import { AxiosError } from "axios";
 import { DetailLink } from "@/components/links";
 
+import { Controller } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { parseISO, formatISO } from "date-fns";
+
 // Hidden and readonly fields
 const HIDDEN_FIELDS = ['id', '_id', 'recordsStatistics', 'versions'];
 const READONLY_FIELDS = ['datasetID', 'projectID', 'sensorType', 'valuesMeasured', 'unitReported', 'dateCreated', 'dateUpdated'];
@@ -78,12 +83,43 @@ export default function DatasetEditPage() {
   const [error, setError] = useState(false);
   const [dataset, setDataset] = useState<any>(null);
 
-  const { control, register, handleSubmit, reset, watch, formState: { isSubmitting } } = useForm<any>({
+  const { control, register, handleSubmit, reset, watch, setValue, formState: { isSubmitting } } = useForm<any>({
     defaultValues: {},
   });
 
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [statusType, setStatusType] = useState<"success" | "error" | null>(null);
+
+
+  // transform a dateformat with timezone to the last 16 characters like "2009-07-01T12:00"
+  const formatForInput = (value: string | null | undefined) => {
+    if (!value) return "";
+
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const date = new Date(value);
+    const newDate=date.getFullYear() +
+    "-" + pad(date.getMonth() + 1) +
+    "-" + pad(date.getDate()) +
+    "T" + pad(date.getHours()) +
+    ":" + pad(date.getMinutes());
+
+    return newDate; // "2009-07-01T12:00"
+  };
+
+
+  function setDatetimeFields(obj: any, path = "") {
+    Object.entries(obj).forEach(([key, value]) => {
+      const fullPath = path ? `${path}.${key}` : key;
+
+      if (value && typeof value === "string" && fullPath.includes("Datetime")) {
+        // Convert to "YYYY-MM-DDTHH:MM" format for datetime-local
+        setValue(fullPath, formatForInput(value));
+      } else if (value && typeof value === "object") {
+        // recurse for nested objects
+        setDatetimeFields(value, fullPath);
+      }
+    });
+  }
 
   // Fetch dataset and populate form
   useEffect(() => {
@@ -103,12 +139,17 @@ export default function DatasetEditPage() {
       setError(false);
       setDataset(response);
       reset(response); // populate form including arrays
+
+      // Automatically set all datetime fields (top-level and nested)
+      setDatetimeFields(response);
+
+
       setDatasetLoading(false);
     };
 
     fetchDataset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, token, accessDenied, reset]);
+  }, [id, token, accessDenied, reset, setValue]);
 
 
   // If user has no access, show message and DO NOT run the fetch effect
@@ -119,6 +160,46 @@ export default function DatasetEditPage() {
           </div>
       );
   }
+
+
+  const formatToISO = (value: string): string => {
+    const date = new Date(value);
+
+    // Guard against invalid dates
+    if (isNaN(date.getTime())) {
+      console.warn("Invalid date:", value);
+      return value;
+    }
+
+    return date.toISOString();
+  };
+
+  const filterObjects = (key: string, value: any): any => {
+    // 1️⃣ Handle arrays
+    if (Array.isArray(value)) {
+      return value.map((item, index) => filterObjects(key, item));
+    }
+
+    // 2️⃣ Handle objects
+    if (value !== null && typeof value === "object") {
+      const result: any = {}; // start as object
+
+      Object.entries(value).forEach(([key2, value2]) => {
+        result[key2] = filterObjects(key2, value2);
+      });
+
+      return result;
+    }
+
+    // 3️⃣ Handle datetime strings
+    if (typeof value === "string" && key.includes("Datetime")) {
+      return formatToISO(value);
+    }
+
+    // 4️⃣ Default case (primitive)
+    return value;
+  };
+
 
   const onSubmit = async (data: any) => {
     // Reset status block
@@ -131,9 +212,11 @@ export default function DatasetEditPage() {
     try {
       const filtered: any = {};
       Object.entries(cleanedNoIds).forEach(([key, value]) => {
+
         if (!HIDDEN_FIELDS.includes(key) && !READONLY_FIELDS.includes(key)) {
-          filtered[key] = value;
+          filtered[key]=filterObjects(key, value);
         }
+        //filtered[key] = value;
       });
 
       const result = await updateDataset(id, filtered);
@@ -239,7 +322,27 @@ export default function DatasetEditPage() {
     ([key, value]) => !Array.isArray(value) || value.length === 0 || typeof value[0] !== "object"
   );
 
-  const handleInputModified = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // add the class modified to the field edited by the user
+  const handleInputModified = (
+    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement> | string
+  ) => {
+    // Case 1: e is a string → treat as fieldName
+    if (typeof e === "string") {
+      const el = document.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+        `[name="${e}"]`
+      );
+      if (el) {
+            console.log("ok ajout");
+        el.classList.add("input-modified");
+      }
+      return;
+    }
+
+    // Case 2: e.currentTarget is null/undefined → do nothing
+    if (!e.currentTarget) return;
+
+    // Case 3: default behavior
+    console.log("normal");
     e.currentTarget.classList.add("input-modified");
   };
 
@@ -262,6 +365,7 @@ export default function DatasetEditPage() {
           const renderField = (val: any, path: string[]) => {
             const fieldName = path.join(".");
             const displayLabel = path[path.length - 1];
+            const isDateTime = typeof val === "string" && val.includes("T") && val.endsWith("Z");
 
             // Nested object
             if (val && typeof val === "object" && !Array.isArray(val)) {
@@ -303,7 +407,42 @@ export default function DatasetEditPage() {
               <div key={fieldName} className="mb-4">
                 <small className="d-block text-uppercase">{displayLabel}</small>
 
-                {typeof val === "string" && val.length > 100 ? (
+                {isDateTime ? (
+                  <div name={fieldName}>
+                    <Controller
+                      name={fieldName}
+                      control={control}
+                      defaultValue={val ?? ""}
+                      render={({ field }) => {
+                        const dateValue = field.value ? parseISO(field.value) : null;
+
+                        return (
+                          <DatePicker
+                            selected={dateValue}
+                            onChange={(date: Date | null) => {
+                              if (!date) return;
+
+                              // Convert back to ISO string for form submission
+                              const isoString = formatISO(date, { representation: "complete" });
+                              field.onChange(isoString);
+
+                              // Mark field as modified
+                              //handleInputModified(dateInputRef.current);
+                              handleInputModified(fieldName);
+                            }}
+                            onChangeRaw={handleInputModified}
+                            showTimeSelect
+                            timeFormat="HH:mm"
+                            timeIntervals={15} // choose step interval
+                            dateFormat="yyyy-MM-dd HH:mm" // display format
+                            className={`form-control mt-2 ${isReadonly ? "bg-gray-100" : ""}`}
+                            disabled={isReadonly}
+                          />
+                        );
+                      }}
+                    />
+                  </div>
+                ) : typeof val === "string" && val.length > 100 ? (
                   <textarea
                     {...register(fieldName)}
                     defaultValue={val ?? ""}

@@ -147,3 +147,7 @@ not working on port 3000 to get a proper url. try with htaccess and apache2 with
 - [SDBI Header Footer](https://github.com/biodiversitydata-se/biologging-sensor-client/blob/%23JIRA120_Additional_documentation/design-docs/sdbi_header_footer.md)
 
 
+
+
+npm install react-datepicker
+npm install date-fns

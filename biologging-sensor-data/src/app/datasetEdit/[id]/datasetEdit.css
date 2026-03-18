@@ -10,3 +10,11 @@
   border: 2px solid orange !important;  
   background-color: #fff8d6 !important; 
 }
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
