@@ -17,7 +17,7 @@ export default function MyDatasets() {
       const token = JSON.parse(localStorage.getItem("token") || "{}");
 
       const result = await filterDatasets({
-        curator: token.sbdiId
+        curator: String(token.sbdiId)
       });
 
       if (result instanceof AxiosError) return;
@@ -33,7 +33,7 @@ export default function MyDatasets() {
       <div className="container">
         <div className="col-md-offset-1 col-md-10">
           <div className="row bottom-margin">
-            <h3>My Datasets</h3>
+            <h3>My Datasets (my SBDI Id is referenced as curator)</h3>
 
             {/* 👇 simple rendering */}
             {data.length === 0 ? (
