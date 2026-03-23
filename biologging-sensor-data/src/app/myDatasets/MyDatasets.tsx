@@ -17,8 +17,7 @@ export default function MyDatasets() {
       const token = JSON.parse(localStorage.getItem("token") || "{}");
 
       const result = await filterDatasets({
-        //curator: token.sbdiId
-        curator: "14"
+        curator: token.sbdiId
       });
 
       if (result instanceof AxiosError) return;
