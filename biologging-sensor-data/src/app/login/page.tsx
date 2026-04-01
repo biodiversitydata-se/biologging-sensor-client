@@ -14,7 +14,71 @@ export default function LoginPage() {
 
   const { token, setToken } = useToken();
 
+  const CAS_BASE_URL = "https://auth.biodiversitydata.se/cas";
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ticket = params.get("ticket");
+    const returnUrl = params.get("returnUrl") || "/";
+
+    // Must match exactly the service URL used elsewhere
+    const service = `${CLIENT_URL}/login?returnUrl=${encodeURIComponent(returnUrl)}`;
+
+    // Step 1: No ticket → redirect to CAS login
+    if (!ticket) {
+      const loginUrl = `${CAS_BASE_URL}/login?service=${encodeURIComponent(service)}`;
+      //console.log("Redirecting to CAS login:", loginUrl);
+      window.location.href = loginUrl;
+      return;
+    }
+
+    // Step 2: Ticket present → validate ticket
+    const validateTicket = async () => {
+      try {
+        const validateUrl = `${CAS_BASE_URL}/serviceValidate?service=${encodeURIComponent(
+          service
+        )}&ticket=${ticket}`;
+
+        //console.log("Validating CAS ticket:", validateUrl);
+
+        const response = await axios.get(validateUrl, { withCredentials: true });
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(response.data, "application/xml");
+
+        const userNode = doc.getElementsByTagName("cas:user")[0];
+        if (!userNode) throw new Error("No CAS user found in response");
+
+        const username = userNode.textContent;
+
+        const sbdiIdNode = doc.getElementsByTagName("cas:id")[0];
+        const sbdiId = sbdiIdNode?.textContent ?? null;
+
+        const authorityNode = doc.getElementsByTagName("cas:authority")[0];
+        const roles = authorityNode?.textContent
+          .split(",")
+          .map((r) => r.trim())
+          .filter(Boolean) ?? [];
+        const isAdmin = roles.includes("BIOLOGGING_ADMIN");
+
+        //console.log("CAS user:", username, "ID:", sbdiId, "Roles:", roles);
+
+        setToken({ username, sbdiId, isAdmin });
+
+        // Clean URL after login
+        window.location.href = returnUrl;
+      } catch (err) {
+        console.error("CAS validation failed:", err);
+        // Optional: force re-login if validation fails
+        //const loginUrl = `${CAS_BASE_URL}/login?service=${encodeURIComponent(service)}`;
+        //window.location.href = loginUrl;
+      }
+    };
+
+    validateTicket();
+  }, [setToken]);
+
+/*
 
   useEffect(() => {
 
@@ -84,7 +148,7 @@ export default function LoginPage() {
         });
     }
   }, [setToken]);
-
+*/
 
   if(!token) {
     return <Login setToken={setToken} />
