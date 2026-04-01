@@ -47,15 +47,19 @@ export default function LoginPage() {
         const doc = parser.parseFromString(response.data, "application/xml");
 
         const userNode = doc.getElementsByTagName("cas:user")[0];
-        if (!userNode) throw new Error("No CAS user found in response");
-
-        const username = userNode.textContent;
+        if (!userNode?.textContent) {
+          throw new Error("CAS user missing in response");
+        }
+        const username: string = userNode.textContent;
 
         const sbdiIdNode = doc.getElementsByTagName("cas:id")[0];
-        const sbdiId = sbdiIdNode?.textContent ?? null;
+        if (!sbdiIdNode?.textContent) {
+          throw new Error("CAS id missing in response");
+        }
+        const sbdiId = sbdiIdNode.textContent;
 
         const authorityNode = doc.getElementsByTagName("cas:authority")[0];
-        const roles = authorityNode?.textContent
+        const roles = (authorityNode?.textContent ?? "")
           .split(",")
           .map((r) => r.trim())
           .filter(Boolean) ?? [];
