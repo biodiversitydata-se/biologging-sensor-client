@@ -6,6 +6,7 @@ const nextConfig = {
     images: {
         domains: [
             'canmove-app.ekol.lu.se',
+            'biologging.biodiversitydata.se'
         ],
     },    
     assetPrefix: isTest ? 'http://canmove-dev.ekol.lu.se/biologging-client-dev/' : undefined, // ensures css assets are fetched with correct URL
