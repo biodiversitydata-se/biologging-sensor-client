@@ -34,6 +34,7 @@ export interface Dataset {
     sensitiveData: boolean;
     isFinalized: boolean;
     picture: Picture;
+    additionalDocuments: Document[];
     dateCreated: string;
     dateUpdated: string;
     numberOfRecords: number;
@@ -49,18 +50,23 @@ export interface Contact {
     SBDIid: string;
 }
 
-export interface RangeDateTime {
-    startDatetime: string;
-    endDatetime: string;
+export interface CustomStatistic {
+    nameStat: string;
+    valueStat: number;
+    dateStat: string;
 }
-    
-export interface Taxon {
-    taxonListSourceUrl: string,
-    taxonListSourceName: string,
-    taxonGuid: string,
-    taxonScientificName: string,
-    taxonCommonName: string,
-    dyntaxaId: number,
+
+export interface Document {
+    documentTitle: string;
+    documentDescription: string;
+    documentFilename: string;
+    documentFiletype: string;
+    documentUploadDate: string;
+}
+
+export interface Funder {
+    funderName: string;
+    funderUrl: string;
 }
 
 export interface GeographicWENS {
@@ -71,25 +77,19 @@ export interface GeographicWENS {
     geographicalDescription: string;
 }
 
+export interface RangeDateTime {
+    startDatetime: string;
+    endDatetime: string;
+}
+
 export interface RecordsStatistics {
     numberOfPublicRecordsDatabase: number;
     customStatistics: CustomStatistic[];
 }
 
-export interface CustomStatistic {
-    nameStat: string;
-    valueStat: number;
-    dateStat: string;
-}
-
 export interface Reference {
     DOI: string;
     title: string;  
-}
-
-export interface Reference {
-    DOI: string;
-    title: string;	
 }
 
 export interface RelatedIdentifier {
@@ -99,20 +99,24 @@ export interface RelatedIdentifier {
     resourceUrl: string;
 }
 
+export interface Picture {
+    pictureUrl: string;
+    pictureOwner: string;
+}
+
+    
+export interface Taxon {
+    taxonListSourceUrl: string,
+    taxonListSourceName: string,
+    taxonGuid: string,
+    taxonScientificName: string,
+    taxonCommonName: string,
+    dyntaxaId: number,
+}
+
 export interface Version {
     date: string;
     log: string;
     number: string;
     file: string;
-}
-
-export interface Funder {
-    funderName: string;
-    funderUrl: string;
-}
-
-
-export interface Picture {
-    pictureUrl: string;
-    pictureOwner: string;
 }

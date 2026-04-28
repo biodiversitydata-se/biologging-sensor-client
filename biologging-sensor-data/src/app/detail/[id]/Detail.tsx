@@ -9,7 +9,7 @@ import { faCopy, faDownload, faPenToSquare } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dataset, Taxon } from '@/api/dataset/dataset';
 import { databaseValues } from "@/config/config";
-import { URL_DOWNLOADABLE_ARCHIVES } from "@/config/constants";
+import { URL_DOWNLOADABLE_ARCHIVES, URL_DOWNLOADABLE_DOCUMENTS } from "@/config/constants";
 import { DatasetEditLink } from "@/components/links";
 
 /**
@@ -39,7 +39,6 @@ function Detail({ detail }: { detail: Dataset | null }) {
             }
         })
     }
-
 
     useEffect(() => {
 
@@ -413,15 +412,26 @@ function Detail({ detail }: { detail: Dataset | null }) {
                 <div className='row container-wraper pb-3p'>
                     <div className="col-md-12">
                         <div className="col-md-12">
-                            {detail?.versions.map((keyword, index) => (
-                                <span key={index} className='col-md-2'>Ver: <span> {keyword.number} </span>
-                                    {detail?.numberOfRecords && detail?.numberOfRecords > 0 && detail?.accessRights != databaseValues["datasetNoAccess"] && keyword?.file && keyword?.file!="" ? (
-                                    <a href={`${URL_DOWNLOADABLE_ARCHIVES}${detail.datasetID}/${keyword.file}`} download>
-                                    &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} />
-                                    </a>
-                                    ) : null }
-                                </span>
-                            ))}
+                            <div className="pb-3p">
+                                {detail?.versions.map((keyword, index) => (
+                                    <span key={index} className='col-md-2'>Ver: <span> {keyword.number} </span>
+                                        {detail?.numberOfRecords && detail?.numberOfRecords > 0 && detail?.accessRights != databaseValues["datasetNoAccess"] && keyword?.file && keyword?.file!="" ? (
+                                        <a href={`${URL_DOWNLOADABLE_ARCHIVES}${detail.datasetID}/${keyword.file}`} download>
+                                        &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} />
+                                        </a>
+                                        ) : null }
+                                    </span>
+                                ))}
+                            </div>
+                            <div className="col-md-12 pb-3p">
+                                {detail?.additionalDocuments.map((doc, index) => (
+                                    <div className='pb-3p' key={index}>
+                                        <div className='span'>Title: {doc.documentTitle}<a href={`${URL_DOWNLOADABLE_DOCUMENTS}${detail.datasetID}/${doc.documentFilename}`} download>
+                                        &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} /></a></div>
+                                        <div className='span'>{doc.documentDescription}gdlkjgpodix hoidgj hkxgfh nflcn</div>
+                                    </div>
+                                ))}
+                            </div>                            
                         </div>
                     </div>
                 </div>

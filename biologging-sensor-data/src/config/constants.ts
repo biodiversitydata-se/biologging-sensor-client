@@ -21,6 +21,8 @@ export const EVENTS_ENPOINT = 'events';
 
 // ARCHIVES
 export const URL_DOWNLOADABLE_ARCHIVES="https://biologging.biodiversitydata.se/publicArchives/";
+// DOCUMENTS
+export const URL_DOWNLOADABLE_DOCUMENTS="https://biologging.biodiversitydata.se/publicDocuments/";
 
 // ERROR MSG
 export const ERROR_LOAD_DATA = 'Data cannot be loaded. Please contact us at biologging@biodiversitydata.se';

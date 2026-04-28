@@ -82,6 +82,25 @@ export default function LoginPage() {
     validateTicket();
   }, [setToken]);
 
+
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+
+  return (
+    <div className="alert alert-success">
+      ✅ Logged in as {token?.username}
+    </div>
+  );
+
+
+}
+
+
+
+
+
+
 /*
 
   useEffect(() => {
@@ -153,16 +172,3 @@ export default function LoginPage() {
     }
   }, [setToken]);
 */
-
-  if(!token) {
-    return <Login setToken={setToken} />
-  }
-
-  return (
-    <div className="alert alert-success">
-      ✅ Logged in as {token?.username}
-    </div>
-  );
-
-
-}
