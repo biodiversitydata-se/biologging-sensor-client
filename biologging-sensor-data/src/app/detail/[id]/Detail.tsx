@@ -428,7 +428,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                     <div className='pb-3p' key={index}>
                                         <div className='span'>Title: {doc.documentTitle}<a href={`${URL_DOWNLOADABLE_DOCUMENTS}${detail.datasetID}/${doc.documentFilename}`} download>
                                         &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} /></a></div>
-                                        <div className='span'>{doc.documentDescription}gdlkjgpodix hoidgj hkxgfh nflcn</div>
+                                        <div className='span'>{doc.documentDescription}</div>
                                     </div>
                                 ))}
                             </div>                            
