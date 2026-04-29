@@ -417,7 +417,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                     <small>Additional document(s):</small>
                                 </div>
                                 <div>
-                                    {detail.additionalDocuments.map((doc, index) => (
+                                    {detail?.additionalDocuments?.map((doc, index) => (
                                         <div className='pb-3p' key={index}>
                                             <div className='span'>
                                                 Title: {doc.documentTitle}
