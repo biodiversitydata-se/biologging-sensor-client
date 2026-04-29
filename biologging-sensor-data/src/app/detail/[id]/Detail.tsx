@@ -409,7 +409,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>                    
                 </div>
 
-                {detail?.additionalDocuments?.length > 0 && (
+                {(detail?.additionalDocuments?.length ?? 0) > 0 && (
                     <div className='row container-wraper pb-3p'>
                         <div className="col-md-12">
                             <div className="col-md-12">
