@@ -222,7 +222,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <small className="col-md-12">Creator: </small>
                         <div>
                             {detail?.creator.map((person, index) => (
-                                <div key={index} className="row mb-2">
+                                <div key={index}>
                                     <span className="col-md-2 pb-3p">
                                         {person.webpage ? (
                                             <a href={person.webpage}>
@@ -248,7 +248,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <small className="col-md-12">Contact for questions:</small>
                         <span>
                             {detail?.contact.map((person, index) => (
-                                <div key={index} className="row mb-2">
+                                <div key={index}>
                                     <span className="col-md-2 pb-3p">
                                         {person.webpage ? (
                                             <a href={person.webpage}>
@@ -274,7 +274,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <small className="col-md-12">Curator: </small>
                         <div>
                             {detail?.curator && detail.curator.map((person, index) => (
-                                <div key={index} className="row mb-2">
+                                <div key={index}>
                                     <span className='col-md-2 pb-3p'>
                                         {person.webpage ? (
                                             <a href={person.webpage}>
@@ -307,7 +307,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                         <small className="col-md-12">Owner: </small>
                         <div>
                             {detail?.owner.map((person, index) => (
-                                <div key={index} className="row mb-2">
+                                <div key={index}>
                                     <span className="col-md-2 pb-3p">
                                         {person.webpage ? (
                                             <a href={person.webpage}>
@@ -409,29 +409,56 @@ function Detail({ detail }: { detail: Dataset | null }) {
                     </div>                    
                 </div>
 
+                {detail?.additionalDocuments?.length > 0 && (
+                    <div className='row container-wraper pb-3p'>
+                        <div className="col-md-12">
+                            <div className="col-md-12">
+                                <div className='pb-3p'>
+                                    <small>Additional document(s):</small>
+                                </div>
+                                <div>
+                                    {detail.additionalDocuments.map((doc, index) => (
+                                        <div className='pb-3p' key={index}>
+                                            <div className='span'>
+                                                Title: {doc.documentTitle}
+                                                <a
+                                                    href={`${URL_DOWNLOADABLE_DOCUMENTS}${detail.datasetID}/${doc.documentFilename}`}
+                                                    download
+                                                >
+                                                    &nbsp;
+                                                    <FontAwesomeIcon
+                                                        icon={faDownload}
+                                                        className="snippet-icon"
+                                                        size="1x"
+                                                        style={{ color: "#1E4B75" }}
+                                                    />
+                                                </a>
+                                            </div>
+                                            <div className='span'>{doc.documentDescription}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+
                 <div className='row container-wraper pb-3p'>
                     <div className="col-md-12">
-                        <div className="col-md-12">
-                            <div className="pb-3p">
-                                {detail?.versions?.map((keyword, index) => (
-                                    <span key={index} className='col-md-2'>Ver: <span> {keyword.number} </span>
-                                        {detail?.numberOfRecords && detail?.numberOfRecords > 0 && detail?.accessRights != databaseValues["datasetNoAccess"] && keyword?.file && keyword?.file!="" ? (
-                                        <a href={`${URL_DOWNLOADABLE_ARCHIVES}${detail.datasetID}/${keyword.file}`} download>
-                                        &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} />
-                                        </a>
-                                        ) : null }
-                                    </span>
-                                ))}
+                        <div className="col-md-12"> 
+                            <div className='pb-3p'>
+                                <small>Json data version(s):</small>
                             </div>
-                            <div className="col-md-12 pb-3p">
-                                {detail?.additionalDocuments?.map((doc, index) => (
-                                    <div className='pb-3p' key={index}>
-                                        <div className='span'>Title: {doc.documentTitle}<a href={`${URL_DOWNLOADABLE_DOCUMENTS}${detail.datasetID}/${doc.documentFilename}`} download>
-                                        &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} /></a></div>
-                                        <div className='span'>{doc.documentDescription}</div>
-                                    </div>
-                                ))}
-                            </div>                            
+                            {detail?.versions?.map((keyword, index) => (
+                                <span key={index}>Ver: <span> {keyword.number} </span>
+                                    {detail?.numberOfRecords && detail?.numberOfRecords > 0 && detail?.accessRights != databaseValues["datasetNoAccess"] && keyword?.file && keyword?.file!="" ? (
+                                    <a href={`${URL_DOWNLOADABLE_ARCHIVES}${detail.datasetID}/${keyword.file}`} download>
+                                    &nbsp;<FontAwesomeIcon icon={faDownload} className="snippet-icon" size="1x" style={{ color: "#1E4B75" }} />
+                                    </a>
+                                    ) : null }
+                                </span>
+                            ))}
                         </div>
                     </div>
                 </div>
