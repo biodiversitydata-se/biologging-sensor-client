@@ -35,3 +35,12 @@ export const filterDatasets = async (data?: any): Promise<any> => {
 export const updateDataset = async (id: string, dataset: any): Promise<any> => {
   return await patch<any>(`dataset/${id}`, dataset, true);
 };
+
+/**
+ * Get specific dataset
+ * @param id - dataset identifier
+ * @returns 
+ */
+export const getDocumentsByDataset = async (id: string): Promise<any> => {
+    return await get<any>(`documents/${id}`);
+}

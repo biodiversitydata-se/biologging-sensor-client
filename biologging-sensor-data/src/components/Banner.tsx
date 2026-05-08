@@ -104,6 +104,7 @@ export default function Banner() {
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User pages <span className="caret"></span></a>
                     <ul className="dropdown-menu">
                       <li><a href="/myDatasets">My datasets</a></li>
+                      <li><a href="/myDocuments">My documents</a></li>
                       <li><a style={{cursor: 'pointer'}} onClick={handleLogout}>Logout</a></li>
                     </ul>
                   </li>

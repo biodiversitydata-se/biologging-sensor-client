@@ -8,7 +8,7 @@ import { DetailLink } from "@/components/links";
  * MyDatasets page, providing list of datasets editable by the user
  */
 export default function MyDatasets() {
-  const [data, setData] = useState<Dataset[]>([]);
+  const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [selected, setSelected] = useState<Dataset>();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function MyDatasets() {
 
       if (result instanceof AxiosError) return;
 
-      setData(result.results);
+      setDatasets(result.results);
     };
 
     dataFetch();
@@ -36,11 +36,11 @@ export default function MyDatasets() {
             <h3>My Datasets (my SBDI Id is referenced as curator)</h3>
 
             {/* 👇 simple rendering */}
-            {data.length === 0 ? (
+            {datasets?.length === 0 ? (
               <p>No datasets found</p>
             ) : (
               <ul>
-                {data.map((dataset) => (
+                {datasets?.map((dataset) => (
                   <li key={dataset.datasetID}>
                     <DetailLink datasetId={dataset.datasetID}>
                       {dataset.datasetTitle || dataset.datasetID}
