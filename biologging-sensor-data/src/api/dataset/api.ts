@@ -33,7 +33,7 @@ export const filterDatasets = async (data?: any): Promise<any> => {
  * @returns 
  */
 export const updateDataset = async (id: string, dataset: any): Promise<any> => {
-  return await patch<any>(`dataset/${id}`, dataset, true);
+  return await patch<any>(`dataset/${id}`, dataset, true); // includeApiKey sets to true
 };
 
 /**
@@ -42,5 +42,5 @@ export const updateDataset = async (id: string, dataset: any): Promise<any> => {
  * @returns 
  */
 export const getDocumentsByDataset = async (id: string): Promise<any> => {
-    return await get<any>(`documents/${id}`);
+    return await get<any>(`documents/${id}`, true); // includeApiKey sets to true
 }

@@ -4,13 +4,30 @@ import {  } from "@/config/constants";
 
 type ApiResponse<T> = T | AxiosError;
 
-export const get = async <T>(endpoint: string): Promise<ApiResponse<T>> => {
+export const get = async <T>(endpoint: string , includeApiKey = false): Promise<ApiResponse<T>> => {
     try {
+
+      // Build headers dynamically
+      const headers: Record<string, string> = {
+          'x-app-id': API_APP_ID,
+          'Content-Type': 'application/json',
+          };
+      if (includeApiKey) {
+        headers['x-api-key'] = process.env.NEXT_PUBLIC_API_KEY!; // your API key from .env
+      }
+
+      const response: AxiosResponse<T> = await axios.get<T>(
+        `${BASE_API_URL}${endpoint}`,
+        { headers }
+      );
+
+      /*
       const response: AxiosResponse<T> = await axios.get<T>(`${BASE_API_URL}${endpoint}`, {
             headers: {
                 'x-app-id': API_APP_ID
               },
         });
+      */
       return response.data;
     } catch (error) {
       return error as AxiosError; 

@@ -111,24 +111,35 @@ export default function MyDocuments() {
                   <p>No documents found in this dataset</p>
                 ) : (
                   <ul>
-                    {documents.map((document: any) => (
+                    {documents.map((document: any, index: number) => (
                       <li
-                        key={
-                          document.documentID ||
-                          document.id ||
-                          document.filename
-                        }
+                        key={`${document.documentFilename}-${document.documentTitle}-${index}`}
                       >
-                        {/* Adjust fields depending on your API */}
-                        {document.title ||
-                          document.filename ||
-                          document.documentID}
+                        <strong>{document.documentTitle}</strong>
 
-                        {/* Optional dataset detail link */}
-                        {" - "}
-                        <DetailLink datasetId={selectedDatasetId}>
-                          View Dataset
-                        </DetailLink>
+                        {document.documentDescription && (
+                          <>
+                            <br />
+                            {document.documentDescription}
+                          </>
+                        )}
+
+                        <br />
+                        File: {document.documentFilename}
+
+                        {document.documentFileformat && (
+                          <> ({document.documentFileformat})</>
+                        )}
+
+                        {document.documentUploadDate && (
+                          <>
+                            <br />
+                            Uploaded:{" "}
+                            {new Date(document.documentUploadDate).toLocaleDateString()}
+                          </>
+                        )}
+
+                        <br />
                       </li>
                     ))}
                   </ul>
