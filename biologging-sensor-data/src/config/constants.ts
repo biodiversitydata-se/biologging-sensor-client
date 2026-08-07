@@ -11,6 +11,7 @@ export const TEST_URL_BASE = '/biologging-client-dev/';
 // get the urls from the .env files
 export const CLIENT_URL = process.env.NEXT_PUBLIC_CLIENT_URL!;
 export const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL!;
+export const PUBLIC_API_KEY = process.env.NEXT_PUBLIC_API_KEY!;
 
 
 export const CLIENT_LOGIN_URL = 'login';

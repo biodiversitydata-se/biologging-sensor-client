@@ -1,5 +1,6 @@
-import { DATASETS_ENDPOINT } from "@/config/constants";
+import { BASE_API_URL, API_APP_ID, PUBLIC_API_KEY, DATASETS_ENDPOINT } from "@/config/constants";
 import { patch, get, post } from "../apiService";
+import axios from "axios";
 
 /**
  * Get all datasets
@@ -44,3 +45,44 @@ export const updateDataset = async (id: string, dataset: any): Promise<any> => {
 export const getDocumentsByDataset = async (id: string): Promise<any> => {
     return await get<any>(`documents/${id}`, true); // includeApiKey sets to true
 }
+
+
+/**
+ * Upload a document for a dataset
+ * @param id - dataset identifier
+ * @param file - file to upload
+ * @returns 
+ */
+
+export const uploadDocument = async (
+  id: string,
+  file: File,
+  documentType?: string
+): Promise<any> => {
+  const formData = new FormData();
+
+  formData.append("file", file);
+
+  if (documentType) {
+    formData.append("documentType", documentType);
+  }
+
+  try {
+
+    const response = await axios.post(
+      `${BASE_API_URL}documents/${id}/upload`,
+      formData,
+      {
+        headers: {
+          "x-app-id": API_APP_ID,
+          "x-api-key": PUBLIC_API_KEY
+        }
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log("error"+error);
+    return error;
+  }
+};
