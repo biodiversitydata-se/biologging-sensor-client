@@ -57,6 +57,7 @@ export interface CustomStatistic {
 }
 
 export interface Document {
+    documentID: string;
     documentTitle: string;
     documentDescription: string;
     documentFilename: string;
