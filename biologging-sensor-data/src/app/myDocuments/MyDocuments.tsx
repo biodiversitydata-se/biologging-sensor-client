@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 
-import { filterDatasets, getDocumentsByDataset, uploadDocument } from "@/api/dataset/api";
+import {
+  filterDatasets,
+  getDocumentsByDataset,
+  uploadDocument,
+  deleteDocument,
+} from "@/api/dataset/api";
 import { Dataset } from "@/api/dataset/dataset";
 
 export default function MyDocuments() {
@@ -122,6 +127,37 @@ export default function MyDocuments() {
     }
   };
 
+  /**
+   * Delete document
+   */
+  const handleDeleteDocument = async (document: any) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the document?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await deleteDocument(document.documentID);
+
+      setStatusMessage("Document deleted successfully!");
+      setStatusType("success");
+
+      const docsResult = await getDocumentsByDataset(
+        selectedDatasetId
+      );
+
+      if (!(docsResult instanceof AxiosError)) {
+        setDocuments(docsResult.results || docsResult);
+      }
+    } catch (error) {
+      setStatusMessage("Error deleting the document. "+error);
+      setStatusType("error");
+    }
+  };
+
   return (
     <section className="home about">
       <div className="container">
@@ -179,6 +215,25 @@ export default function MyDocuments() {
                           <strong>
                             {document.documentTitle}
                           </strong>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleDeleteDocument(document)
+                            }
+                            title="Delete document"
+                            aria-label={`Delete ${document.documentTitle}`}
+                            style={{
+                              marginLeft: "10px",
+                              border: "none",
+                              background: "transparent",
+                              color: "#dc3545",
+                              cursor: "pointer",
+                              fontSize: "18px",
+                            }}
+                          >
+                            🗑️
+                          </button>
 
                           {document.documentDescription && (
                             <>

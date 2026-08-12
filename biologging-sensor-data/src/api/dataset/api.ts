@@ -86,3 +86,30 @@ export const uploadDocument = async (
     throw error;
   }
 };
+
+
+/**
+* Delete a document
+* @param documentId - document identifier
+* @returns
+  */
+export const deleteDocument = async (
+  documentId: string
+  ): Promise<any> => {
+  try {
+    const response = await axios.delete(
+      `${BASE_API_URL}documents/${documentId}/delete`,
+      {
+        headers: {
+          "x-app-id": API_APP_ID,
+          "x-api-key": PUBLIC_API_KEY
+        }
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log("error : " + error);
+    throw error;
+  }
+};
