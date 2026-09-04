@@ -39,13 +39,19 @@ export default function DatasetsList({ initDataset, onSelect }: Args) {
   }, []);
 
   useEffect(() => {
-    if (initDataset) {
-      const i = datasets.findIndex(itm => itm.datasetID === initDataset);
-      const dataset = datasets[i];
-      setSelected(dataset)
-      onSelect(dataset);
+    if (!initDataset || datasets.length === 0) {
+      return;
     }
-  }, [initDataset, datasets, onSelect])
+
+    const dataset = datasets.find(itm => itm.datasetID === initDataset);
+
+    if (!dataset) {
+      return;
+    }
+
+    setSelected(dataset);
+    onSelect(dataset);
+  }, [initDataset, datasets]);
 
   function _selectDataset(i: number) {
     const dataset = datasets[i];
