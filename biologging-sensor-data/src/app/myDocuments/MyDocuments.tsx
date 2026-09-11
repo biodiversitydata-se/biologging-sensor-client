@@ -236,6 +236,7 @@ export default function MyDocuments() {
                           {document.documentDescription && (
                             <>
                               <br />
+                              Description:{" "}
                               {document.documentDescription}
                             </>
                           )}
