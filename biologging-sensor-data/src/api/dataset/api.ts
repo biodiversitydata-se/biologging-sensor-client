@@ -57,11 +57,16 @@ export const getDocumentsByDataset = async (id: string): Promise<any> => {
 export const uploadDocument = async (
   id: string,
   file: File,
+  documentDescription?: string,
   documentType?: string
 ): Promise<any> => {
   const formData = new FormData();
 
   formData.append("file", file);
+
+  if (documentDescription) { 
+    formData.append( "documentDescription", documentDescription ); 
+  }
 
   if (documentType) {
     formData.append("documentType", documentType);

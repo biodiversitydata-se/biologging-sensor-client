@@ -17,6 +17,7 @@ export default function MyDocuments() {
   const [loadingDocuments, setLoadingDocuments] = useState(false);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [documentDescription, setDocumentDescription] = useState("");
   const [uploading, setUploading] = useState(false);
   //const [uploadResponse, setUploadResponse] = useState<any>(null);
   const [statusMessage, setStatusMessage] = useState("");
@@ -97,16 +98,12 @@ export default function MyDocuments() {
     setStatusType("");
 
     try {
-      /*const response = await uploadDocument(
-        selectedDatasetId,
-        selectedFile
-      );
-      setUploadResponse(response);*/
+
       await uploadDocument(
         selectedDatasetId,
-        selectedFile
+        selectedFile,
+        documentDescription
       );
-
       setStatusMessage("File uploaded successfully!");
       setStatusType("success");
       
@@ -119,6 +116,7 @@ export default function MyDocuments() {
       }
 
       setSelectedFile(null);
+      setDocumentDescription("");
     } catch (error) {
       setStatusMessage("Error uploading the file.");
       setStatusType("error");
@@ -326,6 +324,40 @@ export default function MyDocuments() {
                     {" MB)"}
                   </p>
                 )}
+
+
+                <div
+                  style={{
+                    marginTop: "15px",
+                    marginBottom: "15px",
+                  }}
+                >
+                  <label
+                    htmlFor="documentDescription"
+                    style={{
+                      display: "block",
+                      marginBottom: "5px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Description
+                  </label>
+
+                  <textarea
+                    id="documentDescription"
+                    value={documentDescription}
+                    onChange={(e) =>
+                      setDocumentDescription(e.target.value)
+                    }
+                    placeholder="Enter a short description for this document"
+                    rows={3}
+                    style={{
+                      width: "100%",
+                      maxWidth: "600px",
+                      padding: "8px",
+                    }}
+                  />
+                </div>
 
                 <button
                   className="btn btn-primary"

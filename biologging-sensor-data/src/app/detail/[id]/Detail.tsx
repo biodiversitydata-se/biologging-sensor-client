@@ -420,7 +420,7 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                     {detail?.additionalDocuments?.map((doc, index) => (
                                         <div className='pb-3p' key={index}>
                                             <div className='span'>
-                                                Title: {doc.documentTitle}
+                                                <small>Title:</small> {doc.documentTitle}
                                                 <a
                                                     href={`${URL_DOWNLOADABLE_DOCUMENTS}${detail.datasetID}/${doc.documentFilename}`}
                                                     download
@@ -434,7 +434,9 @@ function Detail({ detail }: { detail: Dataset | null }) {
                                                     />
                                                 </a>
                                             </div>
-                                            <div className='span'>{doc.documentDescription}</div>
+                                            {doc.documentDescription?.trim() && ( 
+                                                <div className='span'> <small>Description:</small> {doc.documentDescription} </div> 
+                                            )}
                                         </div>
                                     ))}
                                 </div>
